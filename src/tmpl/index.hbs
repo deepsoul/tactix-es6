@@ -1,0 +1,28 @@
+---
+layout: "layouts/default"
+---
+{{#mixin "common/content" body}}
+  {{#content "main"}}
+
+    {{{mixin "elements/text" textbox-1}}}
+
+    {{{mixin "elements/picture"}}}
+
+    {{{mixin "elements/text" textbox-2}}}
+
+    {{#mixin "components/parallax-container" parallaxContainer1}}
+      {{#content "elements"}}
+        {{{mixin "components/animation" animation}}}
+      {{/content}}
+    {{/mixin}}
+
+    {{{mixin "components/parallax-container" parallaxContainer2}}}
+
+    {{{mixin "elements/text" textbox-3}}}
+
+    {{{mixin "elements/picture"}}}
+
+    {{{mixin "elements/text" textbox-4}}}
+
+  {{/content}}
+{{/mixin}}

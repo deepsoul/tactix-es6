@@ -1,0 +1,20 @@
+---
+id: #string
+class: #string
+url: "#"
+title: "Link"
+target: "_self"
+rel: "next"
+---
+<a href="{{{this.url}}}"
+    {{#if id}}
+        id="{{{id}}}"
+    {{/if}}
+    class="partial{{#if class}} {{class}}{{/if}}"
+    title="{{{this.title}}}"
+    rel="{{{rel}}}"
+    {{#block "attributes"}}
+        target="{{{target}}}"
+        data-partial="elements/link"
+    {{/block}}
+>{{#block "status"}}{{{status}}}{{/block}}{{#block "title"}}{{{title}}}{{/block}}</a>

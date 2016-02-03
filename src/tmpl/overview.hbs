@@ -1,0 +1,16 @@
+---
+layout: "layouts/default"
+---
+<h2>Components</h2>
+<ul>
+{{#glob "src/tmpl/partials/components/**/*.hbs"}}
+  <li>{{{extend "elements/link" url=(replace this "src/tmpl/" "") title=(replace this "src/tmpl/" "")}}}</li>
+{{/glob}}
+</ul>
+
+<h2>Elements</h2>
+<ul>
+{{#glob "src/tmpl/partials/elements/**/*.hbs"}}
+  <li>{{{extend "elements/link" url=(replace this "src/tmpl/" "") title=(replace this "src/tmpl/" "")}}}</li>
+{{/glob}}
+</ul>
