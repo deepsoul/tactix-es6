@@ -43,47 +43,50 @@
 
         },
         "webpack": {
-            "plugins": [
-                {"script": "agency-environment/lib/webpack/plugins/provide", "config": {
-                    "$": "jquery",
-                    "jQuery": "jquery",
-                    "window.jQuery": "jquery",
-                    "root.jQuery": "jquery"
-                }},
-                {"script": "agency-environment/lib/webpack/plugins/polyfills"},
-                {"script": "agency-environment/lib/webpack/plugins/dedupe"},
-                {"script": "agency-environment/lib/webpack/plugins/hotReplacement"}
-            ],
-            "module": {
-                "preLoaders": [{
-                    "test": ".js$",
-                    "exclude": "node_modules",
-                    "loader": "jshint-loader"
-                }],
-                "loaders": [
-                    {"test": ".hbs$", "loader": "handlebars-loader", "query": {
-                        "exclude": "node_modules",
-                        "knownHelpers": ["block", "content"],
-                        "helperDirs": [
-                          "<%= root %>/src/tmpl/partials"
-                        ],
-                        "debug": false
-                    } },
-                    {"test": ".css$", "loader": "style-loader!css-loader"},
-                    {"test": ".(png|jpg|gif|svg|ttf|woff|eot)$", "loader": "url-loader?limit=100000"},
-                    {"test": ".modernizrrc$", "loader": "modernizr"}
-                ]
-            },
-            "resolve": {
-              "alias": {
-                "modernizr$": "<%= root %>/.modernizrrc"
-              }
-            },
-            "files": {
-                "src": "./src/js/main.js",
-                "dest": "js/app.js"
-            },
-            "port": 8051
+          "entry": {
+              "app": "./src/js/main"
+          },
+          "plugins": [
+              {"script": "agency-environment/lib/webpack/plugins/provide", "config": {
+                  "$": "jquery",
+                  "jQuery": "jquery",
+                  "window.jQuery": "jquery",
+                  "root.jQuery": "jquery"
+              }},
+              {"script": "agency-environment/lib/webpack/plugins/polyfills"},
+              {"script": "agency-environment/lib/webpack/plugins/dedupe"},
+              {"script": "agency-environment/lib/webpack/plugins/hotReplacement"}
+          ],
+          "module": {
+              "preLoaders": [{
+                  "test": ".js$",
+                  "exclude": "node_modules",
+                  "loader": "jshint-loader"
+              }],
+              "loaders": [
+                  {"test": ".hbs$", "loader": "handlebars-loader", "query": {
+                      "exclude": "node_modules",
+                      "knownHelpers": ["block", "content"],
+                      "helperDirs": [
+                        "<%= root %>/src/tmpl/partials"
+                      ],
+                      "debug": false
+                  } },
+                  {"test": ".css$", "loader": "style-loader!css-loader"},
+                  {"test": ".(png|jpg|gif|svg|ttf|woff|eot)$", "loader": "url-loader?limit=100000"},
+                  {"test": ".modernizrrc$", "loader": "modernizr"}
+              ]
+          },
+          "resolve": {
+            "alias": {
+              "modernizr$": "<%= root %>/.modernizrrc"
+            }
+          },
+          "files": {
+            "dest": "js/[name].js",
+            "library": ["[name]"]
+          },
+          "port": 8051
         },
         "weinre": {
             "port": 8052

@@ -145,6 +145,9 @@
     "subtasks": [{
       "name": "app",
       "hotReplacement": true,
+      "entry": {
+        "app": "./src/js/main"
+      },
       "plugins": [{
         "script": "agency-environment/lib/webpack/plugins/provide",
         "config": {
@@ -194,7 +197,8 @@
       },
       "files": {
         "src": ["./src/js/main.js"],
-        "dest": "<%= destination %>/js/app.js"
+        "dest": "<%= destination %>/js/[name].js",
+        "library": ["[name]"]
       }
     }, {
       "name": "embed",
