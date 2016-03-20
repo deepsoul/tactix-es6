@@ -31,8 +31,28 @@
   },
   "handlebars": {
     "assets": "<%= destination %>/assets/",
-    "layouts": "./src/tmpl/partials/layouts/**/*.hbs",
-    "partials": ["./src/tmpl/partials/**/*.hbs"],
+    "layouts": {
+      "files": {
+        "src": "./src/tmpl/partials/layouts/**/*.hbs"
+      },
+      "options": {
+        "base": "./src/tmpl/partials"
+      }
+    },
+    "partials": {
+      "files": {
+        "src": ["./src/tmpl/partials/**/*.hbs"]
+      },
+      "options": {
+        "base": "./src/tmpl/partials"
+      }
+    },
+    "globals": {
+      "files": {
+        "cwd": "./src/data/",
+        "src": ["./globals/**/*.{json,yaml}"]
+      }
+    },
     "scripts": {
       "js": {
         "main": "<%= destination %>/js/app.js",
@@ -76,7 +96,7 @@
       },
       "data": {
         "cwd": "./src/data/",
-        "src": "./**/*.{json,yaml}"
+        "src": ["./**/*.{json,yaml}", "!./globals/**/*.{json,yaml}"]
       }
     }, {
       "name": "docs",
