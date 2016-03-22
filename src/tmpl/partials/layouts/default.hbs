@@ -26,12 +26,13 @@
 
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-  <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+  <meta name="viewport" content="{{{globals.head.meta.viewport}}}">
 
-  <meta name="apple-mobile-web-app-capable" content="{{default.meta.webAppCapable}}" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="{{default.meta.statusBarStyle}}">
+  <meta name="apple-mobile-web-app-capable" content="{{{globals.head.meta.webAppCapable}}}" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="{{{globals.head.meta.statusBarStyle}}}">
+  <meta name="format-detection" content="{{{globals.head.meta.formatDetection}}}">
 
-  <meta name="author" content="{{default.meta.author}}">
+  <meta name="author" content="{{globals.head.meta.author}}">
   <meta name="description" content="{{description}}">
   <meta name="keywords" content="{{keywords}}">
 
@@ -47,14 +48,14 @@
 
   <title>{{title}}</title>
 
-  <link rel="shortcut icon" type="image/x-icon" href="{{relativeToRoot}}/assets/favicon/favicon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="{{relativeToRoot}}/{{{globals.head.meta.favicon}}}">
 
   <style type="text/css">
       {{{raw options.scripts.css.critical}}}
   </style>
 
   <style type="text/css">
-    {{#each options.fonts}}
+    {{#each globals.fonts}}
       @font-face {
         font-family: '{{name}}';
         src: url('{{../relativeToRoot}}/{{{this.path}}}.eot');
@@ -68,7 +69,7 @@
   </style>
   <script type="text/javascript">
     window.customFonts = [
-      {{#each options.fonts}}
+      {{#each globals.fonts}}
         {
           name: '{{name}}',
           props: {
