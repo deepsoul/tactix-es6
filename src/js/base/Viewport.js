@@ -3,8 +3,8 @@
 var AmpersandState = require('ampersand-state');
 var dataTypeDefinition = require('./dataTypeDefinition');
 var Enum = require('enum');
-var remove = require('lodash/array/remove');
-var throttle = require('lodash/function/throttle');
+var remove = require('lodash/remove');
+var throttle = require('lodash/throttle');
 
 module.exports = AmpersandState.extend(dataTypeDefinition, {
     EVENT_TYPES: new Enum(['RESIZE', 'SCROLL', 'INIT']),
@@ -145,7 +145,7 @@ function triggerUpdate(eventType) {
     }
 }
 
-function updateOffset(offset, content) {    
+function updateOffset(offset, content) {
     offset.setX(content.offsetLeft).setY(content.offsetTop);
 }
 
