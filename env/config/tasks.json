@@ -136,6 +136,7 @@
       "md": "screen and (min-width: 62em)",
       "lg": "screen and (min-width: 75em)"
     },
+    "columns": 12,
     "files": {
       "dest": "./generated/pcss/"
     }
@@ -170,7 +171,12 @@
       }, {
         "script": "agency-environment/lib/webpack/plugins/dedupe"
       }, {
-        "script": "agency-environment/lib/webpack/plugins/uglify"
+        "script": "agency-environment/lib/webpack/plugins/uglify",
+        "config": {
+          "compress":{
+
+          }
+        }
       }],
       "module": {
         "preLoaders": [{
