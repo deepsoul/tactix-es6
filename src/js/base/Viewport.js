@@ -88,15 +88,25 @@ module.exports = AmpersandState.extend(dataTypeDefinition, {
             global.attachEvent('scroll', onScroll.bind(this));
         }
 
-        updateOffset(this.offset, this.content);
-        updateDimension(this.dimension, this.frame);
-        updateScroll(this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
-        update(onInit.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
+        global.animationFrame.add(function() {
+            updateOffset(this);
+            updateDimension(this.dimension, this.frame);
+            updateScroll(this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
+            update(onInit.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
+        }.bind(this));
+
+    },
+
+    update: function() {
+        onResize.bind(this)();
     },
 
     register: function(fn, scope) {
-        this.callbacks.push({id: scope.cid, fn: fn});
-        if(this.init) {
+        this.callbacks.push({
+            id: scope.cid,
+            fn: fn
+        });
+        if (this.init) {
             (fn.INIT || function() {})(this.bounds, this.scrollDirection);
         }
     },
@@ -109,13 +119,13 @@ module.exports = AmpersandState.extend(dataTypeDefinition, {
 });
 
 function onInit() {
-    this.scrollDirection.resetValues(0,0,0);
+    this.scrollDirection.resetValues(0, 0, 0);
     triggerUpdate.bind(this, this.EVENT_TYPES.INIT)();
     this.init = true;
 }
 
 function onResize() {
-    updateOffset(this.offset, this.content);
+    updateOffset(this);
     updateDimension(this.dimension, this.frame);
     this.scrollDirection.reset(this.scrollPosition);
     updateScroll(this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
@@ -140,13 +150,21 @@ function triggerUpdate(eventType) {
     var bounds = this.bounds;
     var scrollDirection = this.scrollDirection;
 
-    for(var i = 0, l = callbacks.length; i < l; i++) {
+    for (var i = 0, l = callbacks.length; i < l; i++) {
         (callbacks[i].fn[eventType] || function() {})(bounds, scrollDirection);
     }
 }
 
-function updateOffset(offset, content) {
-    offset.setX(content.offsetLeft).setY(content.offsetTop);
+function updateOffset(scope) {
+    var box = scope.content.getBoundingClientRect();
+
+    var body = document.body;
+    var docElem = document.documentElement;
+
+    var top = Math.max(box.top + (docElem.clientTop || body.clientTop || 0),0);
+    var left = Math.max(box.left + (docElem.clientLeft || body.clientLeft || 0),0);
+
+    scope.offset.setX(left).setY(top);
 }
 
 function updateBounds(bounds, position, offset, dimension) {
@@ -183,5 +201,5 @@ function updateScrollRange(range, scrollDimension, viewportDimension) {
 }
 
 function updateScrollPosition(content, position) {
-    position.resetValues(content.pageXOffset || content.scrollLeft, content.pageYOffset || content.scrollTop, 0);
+    position.resetValues(content.pageXOffset || content.scrollLeft, content.parentElement.scrollTop || content.pageYOffset || content.scrollTop || 0, 0);
 }
