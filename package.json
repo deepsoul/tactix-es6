@@ -10,7 +10,8 @@
     "dev-ip": "node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --env=development --server=agency-server --ip=true",
     "prod": "node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --env=production --server=agency-server",
     "server": "node node_modules/gulp/bin/gulp default --serverConfig=./env/config/local.json --env=development --server=agency-server",
-    "test": "npm run build"
+    "test": "npm run build",
+    "template": "yo agency-boilerplate:hbs-template"
   },
   "repository": {
     "type": "git",
