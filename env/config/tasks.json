@@ -130,7 +130,6 @@
     }]
   },
   "purecss": {
-    "nodePath" : "node_modules",
     "prefix" : "grid",
     "columnHasPrefix" : false,
     "columnPrefix": "col",
@@ -143,7 +142,7 @@
     "columns": 12,
     "files": {
       "dest": "./generated/pcss/",
-      "src" : ["base-min", "grids-core-min"]
+      "src" : ["base", "grids-core"]
     }
   },
   "sitemap": {
