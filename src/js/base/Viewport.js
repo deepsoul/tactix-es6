@@ -21,6 +21,17 @@ var Viewport = function(frame, content) {
         this.dimensionKeyName.height = 'clientHeight';
     }
 
+    if('scrollX' in this.frame) {
+        this.scrollKeyName.x = 'scrollX';
+        this.scrollKeyName.y = 'scrollY';
+    } else if('pageXOffset' in this.frame) {
+        this.scrollKeyName.x = 'pageXOffset';
+        this.scrollKeyName.y = 'pageYOffset';
+    } else {
+        this.scrollKeyName.x = 'scrollLeft';
+        this.scrollKeyName.y = 'scrollTop';
+    }
+
     if (global.addEventListener) {
         global.addEventListener('resize', animationFrame.throttle('viewport-resize', onResize.bind(this), onMeasure.bind(this)), false);
         global.addEventListener('scroll', animationFrame.throttle('viewport-scroll',onScroll.bind(this), onMeasure.bind(this)), true);
@@ -41,6 +52,7 @@ Viewport.prototype.init = false;
 Viewport.prototype.frame = global;
 Viewport.prototype.content = (document.documentElement || document.body.parentNode || document.body);
 Viewport.prototype.dimensionKeyName = {width: null, height: null};
+Viewport.prototype.scrollKeyName = {x: null, y: null};
 Viewport.prototype.scrollX = 0;
 Viewport.prototype.scrollY = 0;
 
@@ -81,7 +93,7 @@ function onInit() {
     updateScroll(this.scrollX, this.scrollY, this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
     this.scrollDirection.resetValues(0, 0, 0);
     update(triggerUpdate.bind(this, this.EVENT_TYPES.INIT), this.bounds, this.scrollPosition, this.offset, this.dimension);
-    this.init = true;    
+    this.init = true;
 }
 
 function onResize() {
@@ -101,8 +113,8 @@ function onScroll() {
 }
 
 function onMeasure() {
-    this.scrollX = this.frame.scrollX;
-    this.scrollY = this.frame.scrollY;
+    this.scrollX = this.frame[this.scrollKeyName.x];
+    this.scrollY = this.frame[this.scrollKeyName.y];
 }
 
 function update(fn, bounds, scrollPosition, offset, dimension) {
