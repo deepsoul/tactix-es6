@@ -35,6 +35,7 @@ module.exports = Controller.extend({
         this.bounds = new Bounds();
         this.position = new Vector();
         this.dimension = new Vector();
+        this.offset = new Vector();
 
         if(this.model.extendedRange) {
             this.operation = 'addLocal';
@@ -61,7 +62,7 @@ module.exports = Controller.extend({
     }
 });
 
-function onScroll(viewportBounds, direction) {    
+function onScroll(viewportBounds, direction) {
     if(this.bounds.intersectsY(viewportBounds)) {
         this.onActive(getIntersectionInfo(this.bounds, viewportBounds, this.operation), direction);
     } else {
@@ -71,21 +72,21 @@ function onScroll(viewportBounds, direction) {
 
 function onInit(viewportBounds, direction) {
     var bounds = this.bounds;
-    updateBounds(this.$el, this.position, this.dimension, bounds);
+    updateBounds(this.$el, this.position, this.dimension, bounds, this.offset);
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
 
 function onResize(viewportBounds, direction) {
     var bounds = this.bounds;
-    updateBounds(this.$el, this.position, this.dimension, bounds);
+    updateBounds(this.$el, this.position, this.dimension, bounds, this.offset);
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
 
-function updateBounds(node, position, dimension, bounds) {
-    var el = node.get(0);
-    position.resetValues(el.offsetLeft, el.offsetTop, 0);
+function updateBounds(node, position, dimension, bounds, offset) {
+    var off = getOffset(offset, node.get(0));
+    position.resetValues(off.x, off.y, 0);
     dimension.resetValues(node.outerWidth(), node.outerHeight(), 0);
     bounds.setMin(position).max.resetValues(dimension.x + position.x, dimension.y + position.y, dimension.z + position.z);
 }
@@ -100,4 +101,11 @@ function getRange(bounds, operation) {
 
 function normalizeIntersectionInfoByRange(intersectionInfo, range) {
     return intersectionInfo.divideLocal(range.absLocal());
+}
+
+function getOffset(offset, node) {
+    var box = node.getBoundingClientRect();
+    var top = Math.max(box.top + node.clientTop, 0);
+    var left = Math.max(box.left + node.clientLeft, 0);
+    return offset.setX(left).setY(top);
 }
