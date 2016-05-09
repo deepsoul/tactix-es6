@@ -238,7 +238,12 @@
           "packages": ["picture", "animationFrame", "embed"]
         }
       }, {
-        "script": "agency-environment/lib/webpack/plugins/uglify"
+        "script": "agency-environment/lib/webpack/plugins/uglify",
+        "config": {
+          "compress": {
+            "drop_console": false
+          }
+        }
       }],
       "module": {
         "preLoaders": [{

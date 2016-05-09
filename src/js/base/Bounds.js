@@ -75,4 +75,16 @@ Bounds.prototype.intersects = function(bounds) {
     return !(bounds.max.x < this.min.x || bounds.min.x > this.max.x || bounds.max.y < this.min.y || bounds.min.y > this.max.y || bounds.max.z < this.min.z || bounds.min.z > this.max.z);
 };
 
+Bounds.prototype.intersectsX = function(bounds) {
+    return !(bounds.max.x < this.min.x || bounds.min.x > this.max.x);
+};
+
+Bounds.prototype.intersectsY = function(bounds) {
+    return !(bounds.max.y < this.min.y || bounds.min.y > this.max.y);
+};
+
+Bounds.prototype.intersectsZ = function(bounds) {
+    return !(bounds.max.z < this.min.z || bounds.min.z > this.max.z);
+};
+
 module.exports = Bounds;

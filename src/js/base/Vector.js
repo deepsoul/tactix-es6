@@ -183,11 +183,41 @@ Vector.prototype.clampLocal = function(min, max) {
     return clamp(this, min, max, this);
 };
 
-function clamp(scope, min, max, result) {    
+function clamp(scope, min, max, result) {
     return result
         .setX(Math.min(Math.max(scope.x, min), max))
         .setY(Math.min(Math.max(scope.y, min), max))
         .setZ(Math.min(Math.max(scope.z, min), max));
+}
+
+Vector.prototype.sign = function() {
+    return sign(this, new Vector());
+};
+
+Vector.prototype.signLocal = function() {
+    return sign(this, this);
+};
+
+function sign(scope, result) {
+    return result
+        .setX(scope.x >> 31 | -scope.x >>> 31)
+        .setY(scope.y >> 31 | -scope.y >>> 31)
+        .setZ(scope.z >> 31 | -scope.z >>> 31);
+}
+
+Vector.prototype.abs = function() {
+    return abs(this, new Vector());
+};
+
+Vector.prototype.absLocal = function() {
+    return abs(this, this);
+};
+
+function abs(scope, result) {
+    return result
+        .setX((scope.x + (scope.x >> 31)) ^ (scope.x >> 31))
+        .setY((scope.y + (scope.y >> 31)) ^ (scope.y >> 31))
+        .setZ((scope.z + (scope.z >> 31)) ^ (scope.z >> 31));
 }
 
 module.exports = Vector;

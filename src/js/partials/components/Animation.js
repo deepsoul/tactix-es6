@@ -7,10 +7,10 @@ module.exports = Controller.extend({
     initialize: function() {
         Controller.prototype.initialize.apply(this, arguments);
 
-        if(this.targetModel) {
-            this.targetModel.on('change:offset', update.bind(this));
-            update.bind(this)(this.targetModel, this.targetModel.offset);
-        }
+        // if(this.targetModel) {
+        //     this.targetModel.on('change:offset', update.bind(this));
+        //     update.bind(this)(this.targetModel, this.targetModel.offset);
+        // } 
     }
 });
 

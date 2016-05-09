@@ -25,7 +25,6 @@ module.exports = ScrollObserver.extend({
     },
 
     onActive: function(info) {
-        this.model.offset = info.y;
         if(this.pictureStyle) {
             this.pictureStyle.cssText = this.prefixedAttr + ': 0px ' + (info.y * 10) + 'px 10px rgba(0, 0, 0, 0.5);';
         }

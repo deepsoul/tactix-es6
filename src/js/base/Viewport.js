@@ -1,122 +1,81 @@
 "use strict";
 
-var AmpersandState = require('ampersand-state');
-var dataTypeDefinition = require('./dataTypeDefinition');
+var Vector = require('./Vector');
+var Bounds = require('./Bounds');
 var Enum = require('enum');
 var remove = require('lodash/remove');
-var throttle = require('lodash/throttle');
+var animationFrame = global.animationFrame;
 
-module.exports = AmpersandState.extend(dataTypeDefinition, {
-    EVENT_TYPES: new Enum(['RESIZE', 'SCROLL', 'INIT']),
+var Viewport = function(frame, content) {
+    this.frame = frame || this.frame;
+    this.content = content || this.content;
 
-    session: {
-        init: {
-            type: 'boolean',
-            required: true,
-            setOnce: true,
-            values: [true, false]
-        },
-
-        frame: {
-            type: 'HTMLElement',
-            required: true,
-            default: function() {
-                return global;
-            }
-        },
-
-        content: {
-            type: 'HTMLElement',
-            required: true,
-            default: function() {
-                return document.body;
-            }
-        },
-
-        dimension: {
-            type: 'Vector',
-            required: true
-        },
-
-        offset: {
-            type: 'Vector',
-            required: true
-        },
-
-        bounds: {
-            type: 'Bounds',
-            required: true
-        },
-
-        scrollPosition: {
-            type: 'Vector',
-            required: true
-        },
-
-        scrollDirection: {
-            type: 'Vector',
-            required: true
-        },
-
-        scrollDimension: {
-            type: 'Dimension',
-            required: true
-        },
-
-        scrollRange: {
-            type: 'Dimension',
-            required: true
-        },
-
-        callbacks: {
-            type: 'array',
-            required: true,
-            default: function() {
-                return [];
-            }
-        }
-    },
-
-    initialize: function() {
-        AmpersandState.prototype.initialize.apply(this, arguments);
-
-        if (global.addEventListener) {
-            global.addEventListener('resize', throttle(onResize.bind(this), 200), false);
-            global.addEventListener('scroll', onScroll.bind(this), false);
-        } else {
-            global.attachEvent('onresize', throttle(onResize.bind(this), 200));
-            global.attachEvent('scroll', onScroll.bind(this));
-        }
-
-        global.animationFrame.add(function() {
-            updateOffset(this);
-            updateDimension(this.dimension, this.frame);
-            updateScroll(this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
-            update(onInit.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
-        }.bind(this));
-
-    },
-
-    update: function() {
-        onResize.bind(this)();
-    },
-
-    register: function(fn, scope) {
-        this.callbacks.push({
-            id: scope.cid,
-            fn: fn
-        });
-        if (this.init) {
-            (fn.INIT || function() {})(this.bounds, this.scrollDirection);
-        }
-    },
-
-    unregister: function(scope) {
-        remove(this.callbacks, function(callback) {
-            return callback.id === scope.cid;
-        });
+    if(this.frame.innerWidth) {
+        this.dimensionKeyName.width = 'innerWidth';
+        this.dimensionKeyName.height = 'innerHeight';
+    } else if(this.frame.offsetWidth) {
+        this.dimensionKeyName.width = 'offsetWidth';
+        this.dimensionKeyName.height = 'offsetHeight';
+    } else {
+        this.dimensionKeyName.width = 'clientWidth';
+        this.dimensionKeyName.height = 'clientHeight';
     }
-});
+
+    if (global.addEventListener) {
+        global.addEventListener('resize', animationFrame.throttle('viewport-resize', onResize.bind(this)), false);
+        global.addEventListener('scroll', animationFrame.throttle('viewport-scroll',onScroll.bind(this), onMeasure.bind(this)), true);
+        // document.addEventListener('wheel', onMeasure.bind(this), false);
+    } else {
+        global.attachEvent('onresize', animationFrame.throttle('viewport-resize', onResize.bind(this)));
+        global.attachEvent('scroll', animationFrame.throttle('viewport-scroll', onScroll.bind(this)));
+    }
+
+    animationFrame.add(function() {
+        updateOffset(this);
+        updateDimension(this.dimension, this.frame, this.dimensionKeyName);
+        updateScroll(this.scrollX, this.scrollY, this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
+        update(onInit.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
+    }.bind(this));
+};
+
+Viewport.prototype.EVENT_TYPES = new Enum(['RESIZE', 'SCROLL', 'INIT']);
+Viewport.prototype.init = false;
+Viewport.prototype.frame = global;
+Viewport.prototype.content = (document.documentElement || document.body.parentNode || document.body);
+Viewport.prototype.dimensionKeyName = {width: null, height: null};
+Viewport.prototype.scrollX = 0;
+Viewport.prototype.scrollY = 0;
+
+Viewport.prototype.dimension = new Vector();
+Viewport.prototype.offset = new Vector();
+Viewport.prototype.bounds = new Bounds();
+Viewport.prototype.scrollPosition = new Vector();
+Viewport.prototype.scrollDirection = new Vector();
+Viewport.prototype.scrollDimension = new Vector();
+Viewport.prototype.scrollRange = new Vector();
+Viewport.prototype.callbacks = [];
+
+Viewport.prototype.update = function() {
+    onResize.bind(this)();
+};
+
+Viewport.prototype.register = function(fn, scope) {
+    this.callbacks.push({
+        id: scope.cid,
+        fn: fn
+    });
+    if (this.init) {
+        (fn.INIT || function() {})(this.bounds, this.scrollDirection);
+    }
+};
+
+Viewport.prototype.unregister = function(scope) {
+    remove(this.callbacks, function(callback) {
+        return callback.id === scope.cid;
+    });
+};
+
+module.exports = Viewport;
 
 function onInit() {
     this.scrollDirection.resetValues(0, 0, 0);
@@ -126,43 +85,48 @@ function onInit() {
 
 function onResize() {
     updateOffset(this);
-    updateDimension(this.dimension, this.frame);
+    updateDimension(this.dimension, this.frame, this.dimensionKeyName);
     this.scrollDirection.reset(this.scrollPosition);
-    updateScroll(this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
+    updateScroll(this.scrollX, this.scrollY, this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
     updateScrollDirection(this.scrollDirection, this.scrollPosition);
     update(triggerUpdate.bind(this, this.EVENT_TYPES.RESIZE), this.bounds, this.scrollPosition, this.offset, this.dimension);
 }
 
 function onScroll() {
     this.scrollDirection.reset(this.scrollPosition);
-    updateScrollPosition(this.content, this.scrollPosition);
+    updateScrollPosition(this.scrollX, this.scrollY, this.scrollPosition);
     updateScrollDirection(this.scrollDirection, this.scrollPosition);
-    update(triggerUpdate.bind(this, this.EVENT_TYPES.SCROLL), this.bounds, this.scrollPosition, this.offset, this.dimension);
+    update(triggerScroll.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
+}
+
+var b = document.body;
+function onMeasure(e) {
+
+        this.scrollX = b.scrollLeft;
+        this.scrollY = b.scrollTop;
+
 }
 
 function update(fn, bounds, scrollPosition, offset, dimension) {
     updateBounds(bounds, scrollPosition, offset, dimension);
-    global.requestAnimationFrame(fn);
+    fn();
+}
+
+function triggerScroll() {
+    triggerUpdate.bind(this)(this.EVENT_TYPES.SCROLL);
 }
 
 function triggerUpdate(eventType) {
-    var callbacks = this.callbacks;
-    var bounds = this.bounds;
-    var scrollDirection = this.scrollDirection;
-
-    for (var i = 0, l = callbacks.length; i < l; i++) {
-        (callbacks[i].fn[eventType] || function() {})(bounds, scrollDirection);
+    for (var i = 0, l = this.callbacks.length; i < l; i++) {
+        (this.callbacks[i].fn[eventType])(this.bounds, this.scrollDirection);
     }
 }
 
 function updateOffset(scope) {
     var box = scope.content.getBoundingClientRect();
 
-    var body = document.body;
-    var docElem = document.documentElement;
-
-    var top = Math.max(box.top + (docElem.clientTop || body.clientTop || 0),0);
-    var left = Math.max(box.left + (docElem.clientLeft || body.clientLeft || 0),0);
+    var top = Math.max(box.top + scope.content.clientTop, 0);
+    var left = Math.max(box.left + scope.content.clientLeft, 0);
 
     scope.offset.setX(left).setY(top);
 }
@@ -173,22 +137,18 @@ function updateBounds(bounds, position, offset, dimension) {
     bounds.max.resetValues(dimension.x + position.x + offset.x, dimension.y + position.y + offset.y, dimension.z + position.z + offset.z);
 }
 
-function updateScroll(content, scrollPosition, scrollRange, scrollDimension, viewportDimension) {
+function updateScroll(scrollX, scrollY, content, scrollPosition, scrollRange, scrollDimension, viewportDimension) {
     updateScrollDimension(content, scrollDimension);
     updateScrollRange(scrollRange, scrollDimension, viewportDimension);
-    updateScrollPosition(content, scrollPosition);
+    updateScrollPosition(scrollX, scrollY, scrollPosition);
 }
 
-function updateDimension(dimension, frame) {
-    dimension.resetValues(frame.innerWidth || frame.offsetWidth || frame.clientWidth, frame.innerHeight || frame.offsetHeight || frame.clientHeight, 0);
+function updateDimension(dimension, frame, dimensionKeyName) {
+    dimension.resetValues(frame[dimensionKeyName.width], frame[dimensionKeyName.height], 0);
 }
 
 function updateScrollDirection(direction, position) {
-    direction.subtractLocal(position).multiplyValueLocal(-1).divideValuesLocal(
-        Math.abs(direction.x),
-        Math.abs(direction.y),
-        Math.abs(direction.z)
-    );
+    direction.subtractLocal(position).multiplyValueLocal(-1).signLocal();
 }
 
 function updateScrollDimension(content, dimension) {
@@ -200,6 +160,6 @@ function updateScrollRange(range, scrollDimension, viewportDimension) {
     range.subtractLocal(viewportDimension);
 }
 
-function updateScrollPosition(content, position) {
-    position.resetValues(content.pageXOffset || content.scrollLeft, content.parentElement.scrollTop || content.pageYOffset || content.scrollTop || 0, 0);
+function updateScrollPosition(scrollX, scrollY, position) {
+    position.resetValues(scrollX, scrollY, 0);
 }

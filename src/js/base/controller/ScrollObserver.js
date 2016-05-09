@@ -4,12 +4,13 @@ var Controller = require('../Controller');
 var DomModel = require('../DomModel');
 var dataTypeDefinition = require('../dataTypeDefinition');
 var Vector = require('../Vector');
+var Bounds = require('../Bounds');
+var throttle = require('lodash/throttle');
 
 var viewport = require('../../services/viewport');
 
 var viewportDimension = new Vector();
 var objectDimension = new Vector();
-var abs = Math.abs;
 
 module.exports = Controller.extend({
     $el: null,
@@ -23,21 +24,6 @@ module.exports = Controller.extend({
                 default: function() {
                     return false;
                 }
-            },
-
-            bounds: {
-                type: 'Bounds',
-                required: true
-            },
-
-            position:  {
-                type: 'Vector',
-                required: true
-            },
-
-            dimension:  {
-                type: 'Vector',
-                required: true
             }
         }
     }),
@@ -46,7 +32,9 @@ module.exports = Controller.extend({
         Controller.prototype.initialize.apply(this, arguments);
 
         this.$el = $(this.el);
-
+        this.bounds = new Bounds();
+        this.position = new Vector();
+        this.dimension = new Vector();
 
         if(this.model.extendedRange) {
             this.operation = 'addLocal';
@@ -74,27 +62,23 @@ module.exports = Controller.extend({
 });
 
 function onScroll(viewportBounds, direction) {
-    var bounds = this.model.bounds;
-    // console.log(bounds.min,bounds.max, viewportBounds.min,viewportBounds.max);
-    if(bounds.intersects(viewportBounds)) {
-        this.onActive(getIntersectionInfo(bounds, viewportBounds, this.operation), direction);
+    if(this.bounds.intersectsY(viewportBounds)) {
+        this.onActive(getIntersectionInfo(this.bounds, viewportBounds, this.operation), direction);
     } else {
-//        console.log((viewportBounds.max.x < bounds.min.x || viewportBounds.max.y < bounds.min.y || viewportBounds.max.z < bounds.min.z));
-//        console.log(bounds.max.x < viewportBounds.min.x || bounds.max.y < viewportBounds.min.y || bounds.max.z < viewportBounds.min.z);
         this.onInactive(direction);
     }
 }
 
 function onInit(viewportBounds, direction) {
-    var bounds = this.model.bounds;
-    updateBounds(this.$el, this.model.position, this.model.dimension, bounds);
+    var bounds = this.bounds;
+    updateBounds(this.$el, this.position, this.dimension, bounds);
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
 
 function onResize(viewportBounds, direction) {
-    var bounds = this.model.bounds;
-    updateBounds(this.$el, this.model.position, this.model.dimension, bounds);
+    var bounds = this.bounds;
+    updateBounds(this.$el, this.position, this.dimension, bounds);
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
@@ -115,5 +99,5 @@ function getRange(bounds, operation) {
 }
 
 function normalizeIntersectionInfoByRange(intersectionInfo, range) {
-    return intersectionInfo.divideValuesLocal(abs(range.x), abs(range.y), abs(range.z));
+    return intersectionInfo.divideLocal(range.absLocal());
 }

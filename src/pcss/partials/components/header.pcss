@@ -1,10 +1,11 @@
-.partial[data-partial="components/header"] {
+.partial[data-partial="components/header"] {  
   position: fixed;
   top: 0;
   width: 100%;
   overflow: hidden;
   background-color: #fff;
   z-index: 9999;
+  backface-visibility: hidden;
 
   transform: translateY(-100%);
   transition-property: transform;
