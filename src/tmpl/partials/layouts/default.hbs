@@ -82,8 +82,9 @@
     ]
   </script>
 
-
-  <link type="text/css" rel="stylesheet" href="{{relativeToRoot}}/{{options.scripts.css.main}}" media="async"/>
+  {{#unless options.server.websocket}}
+    <link type="text/css" rel="stylesheet" href="{{relativeToRoot}}/{{options.scripts.css.main}}" media="async"/>
+  {{/unless}}
 
   <script type="text/javascript">
       {{#each options.scripts.js.embed}}
