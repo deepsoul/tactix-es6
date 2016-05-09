@@ -72,21 +72,22 @@ function onScroll(viewportBounds, direction) {
 
 function onInit(viewportBounds, direction) {
     var bounds = this.bounds;
-    updateBounds(this.$el, this.position, this.dimension, bounds, this.offset);
+    updateBounds(this.$el, this.position, this.dimension, bounds, this.offset, viewportBounds);
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
 
 function onResize(viewportBounds, direction) {
     var bounds = this.bounds;
-    updateBounds(this.$el, this.position, this.dimension, bounds, this.offset);
+    updateBounds(this.$el, this.position, this.dimension, bounds, this.offset, viewportBounds);
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
 
-function updateBounds(node, position, dimension, bounds, offset) {
+function updateBounds(node, position, dimension, bounds, offset, viewportBounds) {
     var off = getOffset(offset, node.get(0));
-    position.resetValues(off.x, off.y, 0);
+    position.resetValues(off.x + viewportBounds.min.x, off.y + viewportBounds.min.y, 0);
+    console.log(position);
     dimension.resetValues(node.outerWidth(), node.outerHeight(), 0);
     bounds.setMin(position).max.resetValues(dimension.x + position.x, dimension.y + position.y, dimension.z + position.z);
 }
@@ -105,7 +106,7 @@ function normalizeIntersectionInfoByRange(intersectionInfo, range) {
 
 function getOffset(offset, node) {
     var box = node.getBoundingClientRect();
-    var top = Math.max(box.top + node.clientTop, 0);
-    var left = Math.max(box.left + node.clientLeft, 0);
+    var top = box.top + node.clientTop;
+    var left = box.left + node.clientLeft;
     return offset.setX(left).setY(top);
 }
