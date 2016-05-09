@@ -1,7 +1,7 @@
 "use strict";
 
 var ScrollDirectionObserver = require('../../base/controller/ScrollDirectionObserver');
-// var TweenMax = require('gsap');
+var TweenMax = require('gsap');
 
 module.exports = ScrollDirectionObserver.extend({
     outOfViewport: false,
@@ -10,11 +10,11 @@ module.exports = ScrollDirectionObserver.extend({
 
     onInit: function() {
         this.classList = this.el.classList;
-        // this.tween = new TweenMax(this.el, 0.35, {
-        //     css: {y:'-100%'},
-        //     paused: true,
-        //     yoyo:true
-        // });
+        this.tween = new TweenMax(this.el, 0.35, {
+            css: {y:'-100%'},
+            paused: true,
+            yoyo:true
+        });
         updateClass(this, true);
 
     },
@@ -31,17 +31,17 @@ module.exports = ScrollDirectionObserver.extend({
 function updateClass(scope, flag) {
     if(scope.outOfViewport !== flag) {
 
-        // if(flag === true) {
-        //     scope.tween.reverse();
-        // } else {
-        //     scope.tween.play();
-        // }
-
-        if(flag) {
-            scope.classList.add('js-slideDown');
+        if(flag === true) {
+            scope.tween.reverse();
         } else {
-            scope.classList.remove('js-slideDown');
+            scope.tween.play();
         }
+
+        // if(flag) {
+        //     scope.classList.add('js-slideDown');
+        // } else {
+        //     scope.classList.remove('js-slideDown');
+        // }
     }
 
     scope.outOfViewport = flag;

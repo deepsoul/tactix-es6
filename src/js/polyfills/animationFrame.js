@@ -1,9 +1,7 @@
 "use strict";
 
 var nativeSupport = true;
-var taskRunnerStatus = {};
 var taskNames = {};
-var measureTasks = [];
 var mutateTasks = [];
 var timer = null;
 
@@ -73,10 +71,7 @@ loop();
 
         throttle: function(taskName, mutate, measure) {
             taskNames[taskName] = false;
-            // var measureTask = {
-            //     name: taskName,
-            //     measure: measure || function() {}
-            // };
+            measure = measure || function() {};
             var mutateTask = {
                 name: taskName,
                 mutate: mutate
@@ -89,7 +84,6 @@ loop();
                     return;
                 }
                 measure();
-                // measureTasks.push(measureTask);
                 mutateTasks.push(mutateTask);
                 taskNames[taskName] = true;
 
@@ -108,11 +102,6 @@ loop();
 
 function loop() {
     var task;
-    // while(measureTasks.length) {
-    //     task = measureTasks.pop();
-    //     task.measure();
-    // }
-
     while(mutateTasks.length) {
         task = mutateTasks.pop();
         task.mutate();

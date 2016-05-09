@@ -101,10 +101,8 @@ function onScroll() {
 
 var b = document.body;
 function onMeasure(e) {
-
         this.scrollX = b.scrollLeft;
         this.scrollY = b.scrollTop;
-
 }
 
 function update(fn, bounds, scrollPosition, offset, dimension) {
