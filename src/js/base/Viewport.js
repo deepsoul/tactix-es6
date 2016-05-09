@@ -22,19 +22,17 @@ var Viewport = function(frame, content) {
     }
 
     if (global.addEventListener) {
-        global.addEventListener('resize', animationFrame.throttle('viewport-resize', onResize.bind(this)), false);
+        global.addEventListener('resize', animationFrame.throttle('viewport-resize', onResize.bind(this), onMeasure.bind(this)), false);
         global.addEventListener('scroll', animationFrame.throttle('viewport-scroll',onScroll.bind(this), onMeasure.bind(this)), true);
         // document.addEventListener('wheel', onMeasure.bind(this), false);
     } else {
-        global.attachEvent('onresize', animationFrame.throttle('viewport-resize', onResize.bind(this)));
-        global.attachEvent('scroll', animationFrame.throttle('viewport-scroll', onScroll.bind(this)));
+        global.attachEvent('onresize', animationFrame.throttle('viewport-resize', onResize.bind(this), onMeasure.bind(this)));
+        global.attachEvent('scroll', animationFrame.throttle('viewport-scroll', onScroll.bind(this), onMeasure.bind(this)));
     }
 
     animationFrame.add(function() {
-        updateOffset(this);
-        updateDimension(this.dimension, this.frame, this.dimensionKeyName);
-        updateScroll(this.scrollX, this.scrollY, this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
-        update(onInit.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
+        onMeasure.bind(this)();
+        onInit.bind(this)();
     }.bind(this));
 };
 
@@ -78,9 +76,12 @@ Viewport.prototype.unregister = function(scope) {
 module.exports = Viewport;
 
 function onInit() {
+    updateOffset(this);
+    updateDimension(this.dimension, this.frame, this.dimensionKeyName);
+    updateScroll(this.scrollX, this.scrollY, this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
     this.scrollDirection.resetValues(0, 0, 0);
-    triggerUpdate.bind(this, this.EVENT_TYPES.INIT)();
-    this.init = true;
+    update(triggerUpdate.bind(this, this.EVENT_TYPES.INIT), this.bounds, this.scrollPosition, this.offset, this.dimension);
+    this.init = true;    
 }
 
 function onResize() {
@@ -99,10 +100,9 @@ function onScroll() {
     update(triggerScroll.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
 }
 
-var b = document.body;
-function onMeasure(e) {
-        this.scrollX = b.scrollLeft;
-        this.scrollY = b.scrollTop;
+function onMeasure() {
+    this.scrollX = this.frame.scrollX;
+    this.scrollY = this.frame.scrollY;
 }
 
 function update(fn, bounds, scrollPosition, offset, dimension) {

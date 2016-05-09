@@ -11,15 +11,16 @@ module.exports = ScrollDirectionObserver.extend({
     onInit: function() {
         this.classList = this.el.classList;
         this.tween = new TweenMax(this.el, 0.35, {
-            css: {y:'-100%'},
+            y:'-100%',
             paused: true,
-            yoyo:true
+            yoyo:true,
+            ease: 'linear'
         });
         updateClass(this, true);
-
     },
 
     onUp: function() {
+
         updateClass(this, true);
     },
 
@@ -30,7 +31,6 @@ module.exports = ScrollDirectionObserver.extend({
 
 function updateClass(scope, flag) {
     if(scope.outOfViewport !== flag) {
-
         if(flag === true) {
             scope.tween.reverse();
         } else {
@@ -48,5 +48,6 @@ function updateClass(scope, flag) {
 }
 
 function isOutOfViewport(bounds, viewportBounds) {
+    // console.log(viewportBounds.min.y, bounds.max.y, bounds.min.y);
     return (viewportBounds.min.y < bounds.max.y - bounds.min.y);
 }

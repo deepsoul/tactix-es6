@@ -61,7 +61,7 @@ module.exports = Controller.extend({
     }
 });
 
-function onScroll(viewportBounds, direction) {
+function onScroll(viewportBounds, direction) {    
     if(this.bounds.intersectsY(viewportBounds)) {
         this.onActive(getIntersectionInfo(this.bounds, viewportBounds, this.operation), direction);
     } else {

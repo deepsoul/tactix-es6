@@ -58,8 +58,8 @@ function onInit(viewportBounds, direction) {
 }
 
 function onResize(viewportBounds, direction) {
-    updateBounds(this.$el, this.position, this.dimension, this.bounds, this.offset);
-    this.callbacks[direction.y + 1](viewportBounds, direction);
+    updateBounds(this.$el, this.position, this.dimension, this.bounds, this.offset);    
+    // this.callbacks[direction.y + 1](viewportBounds, direction);
 }
 
 function onScroll(viewportBounds, direction) {
