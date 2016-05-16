@@ -46,7 +46,7 @@ module.exports = Controller.extend({
     },
 
     onActive: function(info, direction) {
-        console.log('HUI', direction.y);
+        console.log('HUI', info.y, direction.y);
         if(info.y > -1) {
             this.el.querySelector('.bottom').classList.add('js-scroll-sticky-bottom');
         } else {
@@ -67,7 +67,7 @@ module.exports = Controller.extend({
 
 function onScroll(viewportBounds, direction) {
     if(this.bounds.intersectsY(viewportBounds)) {
-        this.onActive(getIntersectionInfo(this.bounds, viewportBounds, 'addLocal'), getIntersectionInfo(this.bounds, viewportBounds, 'subtractLocal'), direction);
+        this.onActive(getIntersectionInfo(this.bounds, viewportBounds, 'addLocal'), direction);
     } else {
         this.onInactive(direction);
     }
