@@ -59,7 +59,7 @@ module.exports = Controller.extend({
 //        console.log('BOOM', info.y);
     },
 
-    destroy: function() {
+    destroy: function() { 
         viewport.unregister(this);
         Controller.prototype.destroy.apply(this, arguments);
     }
@@ -78,7 +78,6 @@ function onInit(viewportBounds, direction) {
     element.updateBounds(this.el.querySelector('.top'), this.headerBounds);
     element.updateBounds(this.el.querySelector('.bottom'), this.footerBounds);
     this.bounds.min.addValuesLocal(0, this.headerBounds.max.y - this.headerBounds.min.y, 0);
-    // this.bounds.max.subtractValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);
     this.bounds.max.subtractValuesLocal(0, viewportBounds.max.y - viewportBounds.min.y, 0);
 
     viewportDimension = viewportBounds.getDimension(viewportDimension);
@@ -90,7 +89,7 @@ function onResize(viewportBounds, direction) {
     element.updateBounds(this.el.querySelector('.top'), this.headerBounds);
     element.updateBounds(this.el.querySelector('.bottom'), this.footerBounds);
     this.bounds.min.addValuesLocal(0, this.headerBounds.max.y - this.headerBounds.min.y, 0);
-    this.bounds.max.subtractValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);
+    this.bounds.max.subtractValuesLocal(0, viewportBounds.max.y - viewportBounds.min.y, 0);
 
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
