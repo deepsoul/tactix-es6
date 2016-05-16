@@ -35,7 +35,7 @@ module.exports = new (AmpersandState.extend(dataTypeDefinition, {
             this.registry.add(browserHistory.getState().data, {merge: true});
         }.bind(this), false);
 
-        $('a[data-deep-name]').on('click', function(e) {
+        $(document).on( 'click', 'a[data-deep-name]', function(e) {
             e.preventDefault();
             var node = $(e.currentTarget);
 
