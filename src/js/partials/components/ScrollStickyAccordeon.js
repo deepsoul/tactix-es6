@@ -1,10 +1,10 @@
 "use strict";
 
-var Controller = require('../Controller');
-var DomModel = require('../DomModel');
-var dataTypeDefinition = require('../dataTypeDefinition');
-var Vector = require('../Vector');
-var Bounds = require('../Bounds');
+var Controller = require('../../base/Controller');
+var DomModel = require('../../base/DomModel');
+var dataTypeDefinition = require('../../base/dataTypeDefinition');
+var Vector = require('../../base/Vector');
+var Bounds = require('../../base/Bounds');
 
 var element = require('../../utils/element');
 var viewport = require('../../services/viewport');
@@ -31,6 +31,8 @@ module.exports = Controller.extend({
         Controller.prototype.initialize.apply(this, arguments);
 
         this.bounds = new Bounds();
+        this.headerBounds = new Bounds();
+        this.footerBounds = new Bounds();
 
         if(this.model.extendedRange) {
             this.operation = 'addLocal';
@@ -44,10 +46,16 @@ module.exports = Controller.extend({
     },
 
     onActive: function(info, direction) {
-        console.log('HUI', info.y, direction.y);
+        console.log('HUI', direction.y);
+        if(info.y > -1) {
+            this.el.querySelector('.bottom').classList.add('js-scroll-sticky-bottom');
+        } else {
+            this.el.querySelector('.bottom').classList.remove('js-scroll-sticky-bottom');
+        }
     },
 
     onInactive: function() {
+        this.el.querySelector('.bottom').classList.remove('js-scroll-sticky-bottom');
 //        console.log('BOOM', info.y);
     },
 
@@ -59,7 +67,7 @@ module.exports = Controller.extend({
 
 function onScroll(viewportBounds, direction) {
     if(this.bounds.intersectsY(viewportBounds)) {
-        this.onActive(getIntersectionInfo(this.bounds, viewportBounds, this.operation), direction);
+        this.onActive(getIntersectionInfo(this.bounds, viewportBounds, 'addLocal'), getIntersectionInfo(this.bounds, viewportBounds, 'subtractLocal'), direction);
     } else {
         this.onInactive(direction);
     }
@@ -67,12 +75,23 @@ function onScroll(viewportBounds, direction) {
 
 function onInit(viewportBounds, direction) {
     element.updateBounds(this.el, this.bounds);
+    element.updateBounds(this.el.querySelector('.top'), this.headerBounds);
+    element.updateBounds(this.el.querySelector('.bottom'), this.footerBounds);
+    this.bounds.min.addValuesLocal(0, this.headerBounds.max.y - this.headerBounds.min.y, 0);
+    // this.bounds.max.subtractValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);
+    this.bounds.max.subtractValuesLocal(0, viewportBounds.max.y - viewportBounds.min.y, 0);
+
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
 
 function onResize(viewportBounds, direction) {
     element.updateBounds(this.el, this.bounds);
+    element.updateBounds(this.el.querySelector('.top'), this.headerBounds);
+    element.updateBounds(this.el.querySelector('.bottom'), this.footerBounds);
+    this.bounds.min.addValuesLocal(0, this.headerBounds.max.y - this.headerBounds.min.y, 0);
+    this.bounds.max.subtractValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);
+
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }

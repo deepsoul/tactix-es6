@@ -10,7 +10,7 @@ module.exports = Controller.extend({
         // if(this.targetModel) {
         //     this.targetModel.on('change:offset', update.bind(this));
         //     update.bind(this)(this.targetModel, this.targetModel.offset);
-        // } 
+        // }
     }
 });
 

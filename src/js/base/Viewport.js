@@ -6,6 +6,8 @@ var Enum = require('enum');
 var remove = require('lodash/remove');
 var animationFrame = global.animationFrame;
 
+
+
 var Viewport = function(frame, content) {
     this.frame = frame || this.frame;
     this.content = content || this.content;
@@ -41,6 +43,10 @@ var Viewport = function(frame, content) {
         global.attachEvent('scroll', animationFrame.throttle('viewport-scroll', onScroll.bind(this), onMeasure.bind(this)));
     }
 
+    $('img').on('load',function() {
+        onMeasure.bind(this)();
+        onInit.bind(this)();
+    }.bind(this));
     animationFrame.add(function() {
         onMeasure.bind(this)();
         onInit.bind(this)();
