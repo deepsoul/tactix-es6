@@ -15,10 +15,22 @@
     background-color: green;
 
     &.top {
-      top: 0;
+      top: 0;    
+
+      &.out-of-screen {
+        top: auto;
+        bottom: 0;
+        transform: translateY(-100%);
+      }
     }
     &.bottom {
       bottom: 0;
+
+      &.out-of-screen {
+        top: 0;
+        bottom: auto;
+        transform: translateY(100%);
+      }
     }
   }
 
