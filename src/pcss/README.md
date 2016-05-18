@@ -1,4 +1,6 @@
-# PureCSS
+# PCSS
+
+## PureCSS
 
 PureCSS Task for generate custom grid.
 
@@ -7,7 +9,6 @@ Features:
 - ```wrapper``` class for main wrapper
 - ```offset``` classes
 - media variables | *example:* ```--screen-xs```
-
 
 Config ```tasks.json```
 
