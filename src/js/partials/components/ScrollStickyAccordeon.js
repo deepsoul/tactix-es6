@@ -21,7 +21,7 @@ module.exports = Controller.extend({
                 type: 'boolean',
                 required: true,
                 default: function() {
-                    return false;
+                    return false; 
                 }
             }
         }

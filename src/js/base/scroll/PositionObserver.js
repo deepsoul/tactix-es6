@@ -38,13 +38,13 @@ module.exports = Controller.extend({
         }
 
         viewport.register({
-            INIT: onInit.bind(this), 
+            INIT: onInit.bind(this),
             RESIZE: onResize.bind(this),
             SCROLL: onScroll.bind(this)
         }, this);
     },
 
-    onActive: function(info, direction) {
+    onActive: function() {
         // console.log('HUI', info.y, direction.y);
     },
 

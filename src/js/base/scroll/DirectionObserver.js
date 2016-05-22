@@ -51,7 +51,7 @@ function onInit(viewportBounds, direction) {
     this.callbacks[1](viewportBounds, direction);
 }
 
-function onResize(viewportBounds, direction) {
+function onResize() {
     element.updateBounds(this.el, this.bounds);
     // this.callbacks[direction.y + 1](viewportBounds, direction);
 }
