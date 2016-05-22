@@ -8,11 +8,7 @@ module.exports = AmpersandView.extend(dataTypeDefinition, {
     props: {
         targetModel: {
             type: 'DomModel'
-        },
-        model: {
-            type: 'DomModel',
-            required: true
-        }
+        }        
     },
 
     initialize: function(options) {

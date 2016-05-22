@@ -35,7 +35,8 @@ module.exports = (function (window) {
     // export to window
     window.requestAnimationFrame = requestAnimationFrame;
     window.cancelRequestAnimationFrame = cancelAnimationFrame;
-loop();
+    loop();
+
     return {
         add: function (callback) {
             window.requestAnimationFrame(callback);
@@ -77,7 +78,7 @@ loop();
                 mutate: mutate
             };
 
-            var body = document.body;
+            // var body = document.body;
             return function() {
 
                 if (taskNames[taskName]) {
@@ -87,14 +88,14 @@ loop();
                 mutateTasks.push(mutateTask);
                 taskNames[taskName] = true;
 
-                clearTimeout(timer);
-                if(!body.classList.contains('disable-hover')) {
-                    body.classList.add('disable-hover');
-                }
-
-                timer = setTimeout(function(){
-                    body.classList.remove('disable-hover');
-                },500);
+                // clearTimeout(timer);
+                // if(!body.classList.contains('disable-hover')) {
+                //     body.classList.add('disable-hover');
+                // }
+                //
+                // timer = setTimeout(function(){
+                //     body.classList.remove('disable-hover');
+                // },500);
             };
         }
     };

@@ -33,13 +33,13 @@ Bounds.prototype.setMin = function(vector){
 };
 
 Bounds.prototype.setMax = function(vector){
-    this.max = vector;
+    this.max = vector; 
     return this;
 };
 
 Bounds.prototype.reset = function(min, max){
-    this.min = min;
-    this.max = max;
+    this.min.reset(min);
+    this.max.reset(max);
     return this;
 };
 
