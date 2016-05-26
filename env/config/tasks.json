@@ -130,20 +130,20 @@
     }]
   },
   "purecss": {
-    "nodePath" : "node_modules",
-    "prefix" : "grid",
-    "columnHasPrefix" : false,
-    "columnPrefix": "col",
-    "breakpoints": {
-      "xs": "screen and (min-width: 30em)",
-      "sm": "screen and (min-width: 48em)",
-      "md": "screen and (min-width: 62em)",
-      "lg": "screen and (min-width: 75em)"
-    },
+    "prefix": "grid",
+    "columnHasPrefix": true,
     "columns": 12,
+    "columnPrefix": "col",
+    "wrapperBreakpoints": ["md", "lg"],
+    "breakpoints": {
+      "xs": "30em",
+      "sm": "48em",
+      "md": "62em",
+      "lg": "75em"
+    },
     "files": {
       "dest": "./generated/pcss/",
-      "src" : ["base-min", "grids-core-min"]
+      "src": ["base", "grids-core"]
     }
   },
   "sitemap": {
@@ -178,7 +178,7 @@
       }, {
         "script": "agency-environment/lib/webpack/plugins/uglify",
         "config": {
-          "compress":{
+          "compress": {
 
           }
         }
