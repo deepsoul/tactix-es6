@@ -1,11 +1,11 @@
 "use strict";
 
-var ScrollObserver = require('../../base/controller/ScrollObserver');
+var PositionObserver = require('../../base/scroll/PositionObserver');
 var modernizr = require('modernizr');
 
-module.exports = ScrollObserver.extend({
+module.exports = PositionObserver.extend({
 
-    modelConstructor: ScrollObserver.prototype.modelConstructor.extend({
+    modelConstructor: PositionObserver.prototype.modelConstructor.extend({
         session: {
             offset: {
                 type: 'number',
@@ -15,22 +15,20 @@ module.exports = ScrollObserver.extend({
     }),
 
     initialize: function() {
-        ScrollObserver.prototype.initialize.apply(this, arguments);
+        PositionObserver.prototype.initialize.apply(this, arguments);
 
         var picture = this.el.querySelector('picture');
-        if(picture) {
-            this.pictureStyle = picture.style;
-            this.prefixedAttr = modernizr.prefixedCSS('box-shadow');
-        }
+
+        this.pictureStyle = picture.style;
+        this.prefixedAttr = modernizr.prefixedCSS('box-shadow');
+
     },
 
-    onActive: function(info) {        
-        if(this.pictureStyle) {
-            this.pictureStyle.cssText = this.prefixedAttr + ': 0px ' + (info.y * 10) + 'px 10px rgba(0, 0, 0, 0.5);';
-        }
+    onActive: function(info) {
+        this.pictureStyle.cssText = this.prefixedAttr + ': 0px ' + (info.y * 10) + 'px 10px rgba(0, 0, 0, 0.5);';
     },
 
-    onInactive: function() {
-        // console.log('inactive');
+    onInactive: function(info) {
+        // console.log('inactive',info);
     }
 });

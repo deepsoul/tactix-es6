@@ -1,8 +1,6 @@
 "use strict";
 
 var Vector = require('./Vector');
-
-var intersectionInfo = new Vector();
 /*
  * Bounds Object
  * Contains the min and max Coordinates of an Object
@@ -22,10 +20,12 @@ function Bounds (min, max){
 
     this.min = min || new Vector();
     this.max = max || new Vector();
+    this.intersectionInfo = new Vector();
 }
 
 Bounds.prototype.min = new Vector();
 Bounds.prototype.max = new Vector();
+Bounds.prototype.intersectionInfo = new Vector();
 
 Bounds.prototype.setMin = function(vector){
     this.min = vector;
@@ -33,13 +33,13 @@ Bounds.prototype.setMin = function(vector){
 };
 
 Bounds.prototype.setMax = function(vector){
-    this.max = vector;
+    this.max = vector; 
     return this;
 };
 
 Bounds.prototype.reset = function(min, max){
-    this.min = min;
-    this.max = max;
+    this.min.reset(min);
+    this.max.reset(max);
     return this;
 };
 
@@ -56,10 +56,10 @@ Bounds.prototype.getCenter = function(){
 };
 
 Bounds.prototype.getIntersectionInfo = function(bounds) {
-    intersectionInfo.x = (bounds.max.x - this.min.x) - (this.max.x - bounds.min.x);
-    intersectionInfo.y = (bounds.max.y - this.min.y) - (this.max.y - bounds.min.y);
-    intersectionInfo.z = (bounds.max.z - this.min.z) - (this.max.z - bounds.min.z);
-    return intersectionInfo;
+    this.intersectionInfo.x = (bounds.max.x - this.min.x) - (this.max.x - bounds.min.x);
+    this.intersectionInfo.y = (bounds.max.y - this.min.y) - (this.max.y - bounds.min.y);
+    this.intersectionInfo.z = (bounds.max.z - this.min.z) - (this.max.z - bounds.min.z);
+    return this.intersectionInfo;
 };
 
 Bounds.prototype.contains = function(arg) {

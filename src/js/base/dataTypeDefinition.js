@@ -3,9 +3,8 @@
 module.exports = {
     dataTypes : {
         function : getDefinition('function', Function),
-        enum: getDefinition('enum', require('enum/dist/enumItem')),        
-        Vector: getDefinition('Vector', require('./Vector')),
-        Dimension: getDefinition('Dimension', require('./Dimension')),
+        enum: getDefinition('enum', require('enum/dist/enumItem')),
+        Vector: getDefinition('Vector', require('./Vector')),        
         Bounds: getDefinition('Bounds', require('./Bounds')),
         Color: getDefinition('Color', require('color')),
         HTMLElement: getDefinition('HTMLElement', HTMLElement),

@@ -1,0 +1,10 @@
+---
+deepName: "modal"
+url: "#1234"
+---
+{{#mixin "elements/link" this}}
+  {{#content "attributes"}}
+    data-deep-name="{{{deepName}}}"
+    data-partial="elements/link/deep"
+  {{/content}}
+{{/mixin}}

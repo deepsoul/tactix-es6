@@ -21,7 +21,7 @@ module.exports = Controller.extend({
                 type: 'boolean',
                 required: true,
                 default: function() {
-                    return false;
+                    return false; 
                 }
             }
         }
@@ -30,9 +30,15 @@ module.exports = Controller.extend({
     initialize: function() {
         Controller.prototype.initialize.apply(this, arguments);
 
-        this.bounds = new Bounds();
+        this.header = this.el.querySelector('.top');
+        this.footer = this.el.querySelector('.bottom');
+        this.contentBounds = new Bounds();
+        this.contentBoundsHeader = new Bounds();
+        this.contentBoundsFooter = new Bounds();
         this.headerBounds = new Bounds();
         this.footerBounds = new Bounds();
+        this.headerOutOfViewportInfo = null;
+        this.footerOutOfViewportInfo = null;
 
         if(this.model.extendedRange) {
             this.operation = 'addLocal';
@@ -45,18 +51,38 @@ module.exports = Controller.extend({
         }, this);
     },
 
-    onActive: function(info, direction) {
-        console.log('HUI', info.y, direction.y);
-        if(info.y > -1) {
-            this.el.querySelector('.bottom').classList.add('js-scroll-sticky-bottom');
+    onActive: function(infoFooter, infoHeader) {
+        if(infoFooter.y === 1) {
+            this.footer.classList.remove('js-scroll-sticky-bottom');
+        } else if(infoFooter.y > -1) {
+            this.footer.classList.remove('out-of-screen');
+            this.footer.classList.add('js-scroll-sticky-bottom');
         } else {
-            this.el.querySelector('.bottom').classList.remove('js-scroll-sticky-bottom');
+            this.footer.classList.remove('js-scroll-sticky-bottom');
+        }
+
+        if(infoHeader.y === 1) {
+            this.header.classList.remove('js-scroll-sticky-top');
+        } else if(infoHeader.y > -1) {
+            this.header.classList.remove('out-of-screen');
+            this.header.classList.add('js-scroll-sticky-top');
+
+        } else {
+            this.header.classList.remove('js-scroll-sticky-top');
         }
     },
 
-    onInactive: function() {
-        this.el.querySelector('.bottom').classList.remove('js-scroll-sticky-bottom');
-//        console.log('BOOM', info.y);
+    onInactive: function(infoFooter, infoHeader) {
+        if(infoFooter.y === -1) {
+            this.footer.classList.add('out-of-screen');
+        }
+
+        if(infoFooter.y === 1) {
+            this.header.classList.add('out-of-screen');
+        }
+
+        this.footer.classList.remove('js-scroll-sticky-bottom');
+        this.header.classList.remove('js-scroll-sticky-top');
     },
 
     destroy: function() {
@@ -66,42 +92,65 @@ module.exports = Controller.extend({
 });
 
 function onScroll(viewportBounds, direction) {
-    if(this.bounds.intersectsY(viewportBounds)) {
-        this.onActive(getIntersectionInfo(this.bounds, viewportBounds, 'addLocal'), direction);
+    if(this.contentBoundsFooter.intersects(viewportBounds) || this.contentBoundsHeader.intersects(viewportBounds)) {
+        this.headerOutOfViewportInfo = null;
+        this.footerOutOfViewportInfo = null;
+        this.onActive(getIntersectionInfo(this.contentBoundsFooter, objectDimension, viewportBounds, 'addLocal').clampLocal(-1, 1), getIntersectionInfo(this.contentBoundsHeader, objectDimension, viewportBounds, 'addLocal').clampLocal(-1, 1), direction);
     } else {
-        this.onInactive(direction);
+        if(!this.headerOutOfViewportInfo && !this.footerOutOfViewportInfo) {
+            this.headerOutOfViewportInfo = new Vector();
+            this.headerOutOfViewportInfo.reset(getIntersectionInfo(this.contentBoundsHeader, objectDimension, viewportBounds, 'addLocal')).clampLocal(-1, 1);
+            this.footerOutOfViewportInfo = new Vector();
+            this.footerOutOfViewportInfo.reset(getIntersectionInfo(this.contentBoundsFooter, objectDimension, viewportBounds, 'addLocal')).clampLocal(-1, 1);
+            this.onInactive(this.footerOutOfViewportInfo, this.headerOutOfViewportInfo, direction);
+        }
     }
 }
 
 function onInit(viewportBounds, direction) {
-    element.updateBounds(this.el, this.bounds);
-    element.updateBounds(this.el.querySelector('.top'), this.headerBounds);
-    element.updateBounds(this.el.querySelector('.bottom'), this.footerBounds);
-    this.bounds.min.addValuesLocal(0, this.headerBounds.max.y - this.headerBounds.min.y, 0);
-    // this.bounds.max.subtractValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);
-    this.bounds.max.subtractValuesLocal(0, viewportBounds.max.y - viewportBounds.min.y, 0);
+    element.updateBounds(this.el, this.contentBounds);
+    element.updateBounds(this.header, this.headerBounds);
+    element.updateBounds(this.footer, this.footerBounds);
+
+    this.contentBoundsHeader.reset(this.contentBounds.min, this.contentBounds.max);
+    this.contentBoundsHeader.min.addValuesLocal(0, viewportBounds.max.y - viewportBounds.min.y, 0);
+    this.contentBoundsHeader.max.subtractValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);
+    this.contentBoundsHeader.max.subtractValuesLocal(0, this.headerBounds.max.y - this.headerBounds.min.y, 0);
+
+    this.contentBoundsFooter.reset(this.contentBounds.min, this.contentBounds.max);
+    this.contentBoundsFooter.min.addValuesLocal(0, this.headerBounds.max.y - this.headerBounds.min.y, 0);
+    this.contentBoundsFooter.min.addValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);
+    this.contentBoundsFooter.max.subtractValuesLocal(0, viewportBounds.max.y - viewportBounds.min.y, 0);
 
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
 
 function onResize(viewportBounds, direction) {
-    element.updateBounds(this.el, this.bounds);
-    element.updateBounds(this.el.querySelector('.top'), this.headerBounds);
-    element.updateBounds(this.el.querySelector('.bottom'), this.footerBounds);
-    this.bounds.min.addValuesLocal(0, this.headerBounds.max.y - this.headerBounds.min.y, 0);
-    this.bounds.max.subtractValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);
+    element.updateBounds(this.el, this.contentBounds);
+    element.updateBounds(this.header, this.headerBounds);
+    element.updateBounds(this.footer, this.footerBounds);
+
+    this.contentBoundsHeader.reset(this.contentBounds.min, this.contentBounds.max);
+    this.contentBoundsHeader.min.addValuesLocal(0, viewportBounds.max.y - viewportBounds.min.y, 0);
+    this.contentBoundsHeader.max.subtractValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);
+    this.contentBoundsHeader.max.subtractValuesLocal(0, this.headerBounds.max.y - this.headerBounds.min.y, 0);
+
+    this.contentBoundsFooter.reset(this.contentBounds.min, this.contentBounds.max);
+    this.contentBoundsFooter.min.addValuesLocal(0, this.headerBounds.max.y - this.headerBounds.min.y, 0);
+    this.contentBoundsFooter.min.addValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);
+    this.contentBoundsFooter.max.subtractValuesLocal(0, viewportBounds.max.y - viewportBounds.min.y, 0);
 
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
 
-function getIntersectionInfo(bounds, viewportBounds, operation) {
-    return normalizeIntersectionInfoByRange(bounds.getIntersectionInfo(viewportBounds), getRange(bounds, operation));
+function getIntersectionInfo(bounds, dimension, viewportBounds, operation) {
+    return normalizeIntersectionInfoByRange(bounds.getIntersectionInfo(viewportBounds), getRange(bounds, dimension, operation));
 }
 
-function getRange(bounds, operation) {
-    return bounds.getDimension(objectDimension)[operation](viewportDimension);
+function getRange(bounds, dimension, operation) {
+    return bounds.getDimension(dimension)[operation](viewportDimension);
 }
 
 function normalizeIntersectionInfoByRange(intersectionInfo, range) {

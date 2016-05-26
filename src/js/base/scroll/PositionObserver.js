@@ -31,6 +31,7 @@ module.exports = Controller.extend({
         Controller.prototype.initialize.apply(this, arguments);
 
         this.bounds = new Bounds();
+        this.outOfViewportInfo = null;
 
         if(this.model.extendedRange) {
             this.operation = 'addLocal';
@@ -43,8 +44,8 @@ module.exports = Controller.extend({
         }, this);
     },
 
-    onActive: function(info, direction) {
-        console.log('HUI', info.y, direction.y);
+    onActive: function() {
+        // console.log('HUI', info.y, direction.y);
     },
 
     onInactive: function() {
@@ -58,10 +59,15 @@ module.exports = Controller.extend({
 });
 
 function onScroll(viewportBounds, direction) {
-    if(this.bounds.intersectsY(viewportBounds)) {
+    if(this.bounds.intersects(viewportBounds)) {
+        this.outOfViewportInfo = null;
         this.onActive(getIntersectionInfo(this.bounds, viewportBounds, this.operation), direction);
     } else {
-        this.onInactive(direction);
+        if(!this.outOfViewportInfo) {
+            this.outOfViewportInfo = new Vector();
+            this.outOfViewportInfo.reset(getIntersectionInfo(this.bounds, viewportBounds, this.operation)).clampLocal(-1, 1);
+            this.onInactive(this.outOfViewportInfo, direction);
+        }
     }
 }
 

@@ -37,16 +37,13 @@ var Viewport = function(frame, content) {
     if (global.addEventListener) {
         global.addEventListener('resize', animationFrame.throttle('viewport-resize', onResize.bind(this), onMeasure.bind(this)), false);
         global.addEventListener('scroll', animationFrame.throttle('viewport-scroll',onScroll.bind(this), onMeasure.bind(this)), true);
-        // document.addEventListener('wheel', onMeasure.bind(this), false);
+        document.querySelector('img').addEventListener('load', onImageLoad.bind(this));
     } else {
         global.attachEvent('onresize', animationFrame.throttle('viewport-resize', onResize.bind(this), onMeasure.bind(this)));
         global.attachEvent('scroll', animationFrame.throttle('viewport-scroll', onScroll.bind(this), onMeasure.bind(this)));
+        document.querySelector('img').attachEvent('onload', onImageLoad.bind(this));
     }
 
-    $('img').on('load',function() {
-        onMeasure.bind(this)();
-        onInit.bind(this)();
-    }.bind(this));
     animationFrame.add(function() {
         onMeasure.bind(this)();
         onInit.bind(this)();
@@ -92,6 +89,12 @@ Viewport.prototype.unregister = function(scope) {
 };
 
 module.exports = Viewport;
+
+function onImageLoad(e) {
+    console.log(e);
+    onMeasure.bind(this)();
+    onResize.bind(this)();
+}
 
 function onInit() {
     updateOffset(this);
