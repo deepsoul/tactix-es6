@@ -35,15 +35,14 @@ module.exports = new (AmpersandState.extend(dataTypeDefinition, {
             this.registry.add(browserHistory.getState().data, {merge: true});
         }.bind(this), false);
 
-        $('a[data-deep-name]').on('click', function(e) {
+        $(document).on('click', 'a[data-deep-name]', function(e) {
             e.preventDefault();
             var node = $(e.currentTarget);
-
-            if(node.data('deep-value')) {
+            if(!!node.attr('href').replace(/^#/, '')) {
                 this.update([{
                     name: node.data('deep-name'),
-                    value: node.data('deep-value').toString() || null
-                }], node.data('deep-title') || null);
+                    value: node.attr('href').replace(/^#/, '') || null
+                }], node.attr('title') || null);
             } else {
                 this.remove([node.data('deep-name')]);
             }

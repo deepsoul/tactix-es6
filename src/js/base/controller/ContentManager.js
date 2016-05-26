@@ -10,7 +10,7 @@ module.exports = Controller.extend({
             ajax: {
                 type: 'string',
                 required: true,
-                default: './'
+                default: null
             },
             deep: {
                 type: 'string',
@@ -28,13 +28,13 @@ module.exports = Controller.extend({
     initialize: function() {
         Controller.prototype.initialize.apply(this, arguments);
 
-        $(document).on('click', 'a[data-deep="' + this.model.deep + '"]', function(e) {
-            e.preventDefault();
-            browserHistory.update([{
-                name: this.model.deep,
-                value: $(e.currentTarget).attr('href').replace(/^#/, '') || null
-            }]);
-        }.bind(this));
+        // $(document).on('click', 'a[data-deep-name="' + this.model.deep + '"]', function(e) {
+        //     e.preventDefault();
+        //     browserHistory.update([{
+        //         name: this.model.deep,
+        //         value: $(e.currentTarget).attr('href').replace(/^#/, '') || null
+        //     }]);
+        // }.bind(this));
 
         browserHistory.register(this.model.deep, updateContent.bind(this));
     },
@@ -62,14 +62,18 @@ module.exports = Controller.extend({
 
 function updateContent(value) {
     if(value) {
-        clearContainer(this.el.querySelector(this.model.container));
-        this.onContentRemoved(function() {
-            $.ajax({
-                url: this.model.ajax + value,
-                success: this.onSuccess.bind(this),
-                error: onError.bind(this)
-            });
-        }.bind(this));
+        if(this.model.ajax) {
+            clearContainer(this.el.querySelector(this.model.container));
+            this.onContentRemoved(function() {
+                $.ajax({
+                    url: this.model.ajax + value,
+                    success: this.onSuccess.bind(this),
+                    error: onError.bind(this)
+                });
+            }.bind(this));
+        } else {
+            this.onContentAdded();
+        }
     }
 }
 

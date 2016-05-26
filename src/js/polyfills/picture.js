@@ -17,7 +17,7 @@ if (!global.HTMLPictureElement) {
 }
 
 var devicePixelRatio = global.devicePixelRatio || 1;
-var screenMatrix = ['default', 'xs', 'sm', 'md', 'lg'];
+var screenMatrix = ['lg', 'md', 'sm', 'xs', 'default'];
 var $ = null;
 
 module.exports = {
