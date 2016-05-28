@@ -1,0 +1,36 @@
+.partial[data-partial="common/touch-accessibility"] {
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    right: -100%;
+    bottom: -100%;
+    margin: auto;
+    border-radius: 50%;
+
+    opacity: 0;
+  }
+
+  &:before {
+    width: 9.5em;
+    height: 9.5em;
+    border: 1em solid #1ECD97;
+    transform: scale(1);
+    transition-duration: 0.35s;
+    transition-property: opacity transform;
+    transition-timing-function: easeOut;
+  }
+
+  &:active {
+    &:before {
+      transition-duration: 0s;
+      transform: scale(0.8);
+      opacity: 1;
+    }
+  }
+}
