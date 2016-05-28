@@ -7,5 +7,9 @@ module.exports = Controller.extend({
 
     initialize: function() {
         Controller.prototype.initialize.apply(this, arguments);
+
+        $(document).on('click', 'a', function() {
+            console.log('CLICK');
+        });
     }
 });
