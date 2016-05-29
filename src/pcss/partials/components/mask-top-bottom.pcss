@@ -10,16 +10,27 @@ $rad: calc($deg /100)rad;
   overflow: hidden;
   margin: 0;
 
+  article {
+    position: relative;
+    overflow: hidden;
+  }
+
   figcaption {
       display: block;
-      position: absolute;
+      position: relative;
       bottom: 0;
       left: 5%;
-      padding: 0 0 10% 0;
+      padding: 0 0 5% 0;
       width: 90%;
+      z-index: 1;
       transform: translate3d(0,100%,0);
       transition-property: transform;
       transition-duration: 0.35s;
+
+      @media (--screen-xs) {
+        position: absolute;
+        padding: 0 0 10% 0;
+      }
 
       .js-active& {
         transform: translate3d(0,0%,0);
@@ -53,6 +64,7 @@ $rad: calc($deg /100)rad;
     transform: skewY($(rad));
     backface-visibility: hidden;
     box-shadow: 0 -5px 10px 10px rgba(0,0,0,0.3);
+    z-index: 2;
   }
 
   footer {
@@ -65,5 +77,6 @@ $rad: calc($deg /100)rad;
     transform: skewY($(rad));
     backface-visibility: hidden;
     box-shadow: 0 5px 10px 10px rgba(0,0,0,0.3);
+    z-index: 2;
   }
 }
