@@ -40,6 +40,7 @@
     "ampersand-state": "^4.9.1",
     "ampersand-view": "^10.0.0",
     "blockadblock": "^3.2.0",
+    "classlist-polyfill": "^1.0.3",
     "color": "^0.11.1",
     "enum": "^2.2.0",
     "es6-promise": "^3.0.2",
