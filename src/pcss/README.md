@@ -17,6 +17,7 @@ Config ```tasks.json```
         "prefix": "grid",
         "columnHasPrefix": true,
         "columns": 12,
+        "gutterWidth" : "0.9375rem",
         "columnPrefix": "col",
         "wrapperBreakpoints": ["md", "lg"],
         "breakpoints": {
@@ -49,6 +50,14 @@ Indicates whether the column get a prefix.
 Type: ```Number```
 
 Sets the number of columns.
+
+#### gutterWidth *(optional)*
+
+Type: ```String```
+
+Sets the width of grid-gutter. Example: 0.9375rem
+
+*Required one Prefix.*
 
 #### columnPrefix
 
