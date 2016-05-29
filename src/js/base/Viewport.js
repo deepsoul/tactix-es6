@@ -94,8 +94,7 @@ Viewport.prototype.unregister = function(scope) {
 
 module.exports = Viewport;
 
-function onImageLoad(e) {
-    console.log(e);
+function onImageLoad() {    
     onMeasure.bind(this)();
     onResize.bind(this)();
 }

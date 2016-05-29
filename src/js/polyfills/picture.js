@@ -133,7 +133,7 @@ function showImage(picture, screenSize) {
         picture.image.cached = [];
     }
 //        console.log(picture.querySelectorAll('img')[0].type);
-    console.log(picture.image);
+    
     if(picture.image.type === undefined || picture.image.type !== screenMatrix[screenSize]) {
 
         var sources = collectionToArray(picture.querySelectorAll('source.' + screenMatrix[screenSize]));
@@ -169,7 +169,6 @@ function setSource(picture, source) {
             });
         } else {
             preloadImage(srcset, function(img) {
-                console.log(img.width, img.height);
                 picture.image.setAttribute('xlink:href', img.src);
                 picture.image.setAttribute('width', img.width);
                 picture.image.setAttribute('height', img.height);
