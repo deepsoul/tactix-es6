@@ -2,10 +2,8 @@
   position: fixed;
   top: 0;
   width: 100%;
-  overflow: hidden;
   background-color: #fff;
   z-index: 9999;
-  backface-visibility: hidden;
 
   // transform: translateY(-100%);
   // transition-property: transform;
@@ -16,11 +14,15 @@
     transform: translateY(0%);
   }
 
-  ul {
-    list-style-type: none;
+  nav {
+    overflow: hidden;
 
-    li {
-      display: inline-block;
+    ul {
+      list-style-type: none;
+
+      li {
+        display: inline-block;
+      }
     }
   }
 }
