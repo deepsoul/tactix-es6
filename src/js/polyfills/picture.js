@@ -56,7 +56,7 @@ function render(pictures) {
     var screenSize = getScreenSize();
     pictures = Array.prototype.slice.call(pictures);
     pictures.forEach(function (picture) {
-        if (!global.HTMLPictureElement) {
+        if (!global.HTMLPictureElement || picture.querySelectorAll('svg').length) {
             if (!picture.modified) {
                 removeIE9VideoShim(picture);
                 observePictureImage(picture);
@@ -133,8 +133,9 @@ function showImage(picture, screenSize) {
         picture.image.cached = [];
     }
 //        console.log(picture.querySelectorAll('img')[0].type);
+    console.log(picture.image);
     if(picture.image.type === undefined || picture.image.type !== screenMatrix[screenSize]) {
-        picture.image.className = '';
+
         var sources = collectionToArray(picture.querySelectorAll('source.' + screenMatrix[screenSize]));
         if(sources.length) {
             sources.forEach(function(source) {
@@ -151,7 +152,7 @@ function showImage(picture, screenSize) {
 }
 
 function loadImage(picture, source) {
-    picture.image.className = '';
+
     global.animationFrame.add(function() {
         setSource(picture, source);
     });
@@ -168,6 +169,7 @@ function setSource(picture, source) {
             });
         } else {
             preloadImage(srcset, function(img) {
+                console.log(img.width, img.height);
                 picture.image.setAttribute('xlink:href', img.src);
                 picture.image.setAttribute('width', img.width);
                 picture.image.setAttribute('height', img.height);

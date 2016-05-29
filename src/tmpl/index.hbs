@@ -5,11 +5,15 @@
   {{#content "main"}}
     {{#with body}}
 
-      {{{mixin "elements/text" textbox1}}}
+      {{{mixin "elements/text" textbox3}}}
 
       {{{mixin "elements/link/deep"}}}
 
-      {{{mixin "elements/picture"}}}
+      {{{mixin "components/mask-top-bottom"}}}
+
+      {{{mixin "elements/text" textbox2}}}
+
+      {{{mixin "elements/picture" svgImage}}}
 
       {{{mixin "elements/text" textbox2}}}
 
@@ -21,7 +25,7 @@
 
       {{{mixin "elements/text" textbox2}}}
 
-      {{{mixin "components/scroll-sticky-accordeon"}}} 
+      {{{mixin "components/scroll-sticky-accordeon"}}}
 
       {{{mixin "elements/text" textbox2}}}
 
@@ -54,9 +58,10 @@
           <p>
               Hello World!
           </p>
-
         {{/content}}
       {{/mixin}}
+
+      {{{mixin "svgs/skew-masks"}}}
 
     {{/with}}
   {{/content}}
