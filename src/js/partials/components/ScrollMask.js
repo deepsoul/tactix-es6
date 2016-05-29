@@ -2,6 +2,7 @@
 
 var StateObserver = require('../../base/scroll/StateObserver');
 var modernizr = require('modernizr');
+var TweenMax = require('gsap');
 
 module.exports = StateObserver.extend({
 
@@ -18,6 +19,20 @@ module.exports = StateObserver.extend({
         StateObserver.prototype.initialize.apply(this, arguments);
 
         var picture = this.el.querySelector('picture');
+        this.tween = new TweenMax(this.el.querySelector('figcaption'), 0.35, {
+            y:'0%',
+            paused: true,
+            yoyo:true,
+            ease: 'linear'
+        });
+
+        this.model.on('change:triggered', function(model, value) {
+            if(value) {
+                this.tween.play();
+            } else {
+                this.tween.reverse();
+            }
+        }.bind(this));
 
         this.pictureStyle = picture.style;
         this.prefixedAttr = modernizr.prefixedCSS('transform');

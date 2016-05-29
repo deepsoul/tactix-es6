@@ -1,4 +1,4 @@
-$deg: -2;
+$deg: -3;
 $offset: 5;
 $padding: calc(($deg*-1) + $offset);
 $rad: calc($deg /100)rad;
@@ -24,16 +24,10 @@ $rad: calc($deg /100)rad;
       width: 90%;
       z-index: 1;
       transform: translate3d(0,100%,0);
-      transition-property: transform;
-      transition-duration: 0.35s;
 
       @media (--screen-xs) {
         position: absolute;
         padding: 0 0 10% 0;
-      }
-
-      .js-active& {
-        transform: translate3d(0,0%,0);
       }
 
       h3 {
