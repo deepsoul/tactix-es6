@@ -5,6 +5,7 @@ var modernizr = require('modernizr');
 var TweenMax = require('gsap');
 
 module.exports = StateObserver.extend({
+    tween: null,
 
     modelConstructor: StateObserver.prototype.modelConstructor.extend({
         session: {
@@ -18,7 +19,7 @@ module.exports = StateObserver.extend({
     initialize: function() {
         StateObserver.prototype.initialize.apply(this, arguments);
 
-        var picture = this.el.querySelector('picture img');
+        var picture = this.el.querySelector('picture svg image, picture img');
         this.tween = new TweenMax(this.el.querySelector('figcaption'), 0.35, {
             y:'0%',
             paused: true,

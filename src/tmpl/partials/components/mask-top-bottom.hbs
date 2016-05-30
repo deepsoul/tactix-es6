@@ -1,9 +1,11 @@
 ---
-
+picture:
+  svg:
+    mask: '#masking'
 ---
 <figure class="partial controller" data-partial="components/mask-top-bottom" data-controller="./partials/components/ScrollMask" data-extended-range="true">
   <article>
-    {{{mixin "elements/picture"}}}
+    {{{mixin "elements/picture" picture}}}
     <header class="header"></header>
     <footer class="footer"></footer>
   </article>
@@ -12,5 +14,6 @@
     <p>
       Das ist eine description die etwas länger wird und nicht mehr weiss wo hin. wandert sie nach oben raus? es sieht fast schon so aus
     </p>
-  </figcaption>  
+  </figcaption>
+  <span class="lightbulb"></span>
 </figure>

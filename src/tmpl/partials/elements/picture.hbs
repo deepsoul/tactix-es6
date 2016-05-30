@@ -24,7 +24,7 @@ fallback:
 
     {{#if svg}}
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewbox="0 0 752 470" preserveAspectRatio="xMinYMin" width="752" height="470">
-            <image xlink:href="{{fallback.img}}" x="0" y="0" width="752" height="470" clip-path="url({{svg.clipPath}})"/>
+            <image xlink:href="{{fallback.img}}" x="0" y="0" width="752" height="470"{{#if svg.clipPath}} clip-path="url({{svg.clipPath}})"{{/if}}{{#if svg.mask}} mask="url({{svg.mask}})"{{/if}}/>
         </svg>
     {{else}}
         <img src="{{fallback.img}}" alt="{{title}}">
