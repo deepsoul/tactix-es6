@@ -20,12 +20,14 @@ module.exports = Controller.extend({
         this.bounds = new Bounds();
         this.callbacks = [this.onUp.bind(this), this.onInit.bind(this), this.onDown.bind(this)];
 
-        viewport.register({
-            INIT: onInit.bind(this),
-            RESIZE: onResize.bind(this),
-            SCROLL: onScroll.bind(this)
-        }, this);
+        this.onInit = onInit.bind(this);
+        this.onResize = onResize.bind(this);
+        this.onScroll = onScroll.bind(this);
 
+        viewport
+            .on(viewport.EVENT_TYPES.INIT, this.onInit)
+            .on(viewport.EVENT_TYPES.RESIZE, this.onResize)
+            .on(viewport.EVENT_TYPES.SCROLL, this.onScroll);
     },
 
     onInit: function() {
@@ -41,7 +43,10 @@ module.exports = Controller.extend({
     },
 
     destroy: function() {
-        viewport.unregister(this);
+        viewport
+            .off(viewport.EVENT_TYPES.INIT, this.onInit)
+            .off(viewport.EVENT_TYPES.RESIZE, this.onResize)
+            .off(viewport.EVENT_TYPES.SCROLL, this.onScroll);
         Controller.prototype.destroy.apply(this, arguments);
     }
 });

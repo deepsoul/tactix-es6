@@ -41,7 +41,9 @@ module.exports = StateObserver.extend({
 
     onActive: function(info) {
         StateObserver.prototype.onActive.apply(this, arguments);
-        this.pictureStyle.cssText = this.prefixedAttr + ': translateY(' + info.y * -10 + '%);';
+        if(this.pictureStyle) {
+            this.pictureStyle.cssText = this.prefixedAttr + ': translateY(' + info.y * -10 + '%);';
+        }
     },
 
     onInactive: function(info) {

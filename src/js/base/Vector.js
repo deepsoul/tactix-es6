@@ -220,4 +220,13 @@ function abs(scope, result) {
         .setZ((scope.z + (scope.z >> 31)) ^ (scope.z >> 31));
 }
 
+Vector.prototype.angle = function() {
+    return Math.atan2(this.y, this.x);
+};
+
+Vector.prototype.angleBetween = function(vector) {
+    return Math.atan2(vector.y,vector.x) - Math.atan2(this.y,this.x);
+    // return Math.atan2(this.y - vector.y, this.x - vector.x);
+};
+
 module.exports = Vector;

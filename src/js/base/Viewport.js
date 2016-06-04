@@ -5,12 +5,49 @@ var Bounds = require('./Bounds');
 var Enum = require('enum');
 var remove = require('lodash/remove');
 var animationFrame = global.animationFrame;
+var callbacks = {
+    MEASURE: [],
+    RESIZE: [],
+    SCROLL: []
+};
 
+if (global.addEventListener) {
+    global.addEventListener('resize', animationFrame.throttle('viewport-resize', callCallbacks.bind(callbacks.RESIZE), callCallbacks.bind(callbacks.MEASURE)), false);
+    global.addEventListener('scroll', animationFrame.throttle('viewport-scroll',callCallbacks.bind(callbacks.SCROLL), callCallbacks.bind(callbacks.MEASURE)), true);
+} else {
+    global.attachEvent('onresize', animationFrame.throttle('viewport-resize', callCallbacks.bind(callbacks.RESIZE), callCallbacks.bind(callbacks.MEASURE)));
+    global.attachEvent('scroll', animationFrame.throttle('viewport-scroll', callCallbacks.bind(callbacks.SCROLL), callCallbacks.bind(callbacks.MEASURE)));
+}
 
+function callCallbacks(e) {
+    for(var i = 0, l = this.length; i < l; i++) {
+        this[i](e);
+    }
+}
 
 var Viewport = function(frame, content) {
     this.frame = frame || this.frame;
+    if(frame === content) {
+        this.scrollFrame = global;
+    }
     this.content = content || this.content;
+    this.init = false;
+    this.dimensionKeyName = {width: null, height: null};
+    this.scrollKeyName = {x: null, y: null};
+    this.scrollX = 0;
+    this.scrollY = 0;
+
+    this.dimension = new Vector();
+    this.offset = new Vector();
+    this.bounds = new Bounds();
+    this.scrollPosition = new Vector();
+    this.scrollDirection = new Vector();
+    this.scrollDimension = new Vector();
+    this.scrollRange = new Vector();
+    this.callbacks = this.EVENT_TYPES.enums.reduce(function(result, value) {
+        result[value.key] = [];
+        return result;
+    }, {});
 
     if(this.frame.innerWidth) {
         this.dimensionKeyName.width = 'innerWidth';
@@ -23,10 +60,10 @@ var Viewport = function(frame, content) {
         this.dimensionKeyName.height = 'clientHeight';
     }
 
-    if('scrollX' in this.frame) {
+    if('scrollX' in this.scrollFrame) {
         this.scrollKeyName.x = 'scrollX';
         this.scrollKeyName.y = 'scrollY';
-    } else if('pageXOffset' in this.frame) {
+    } else if('pageXOffset' in this.scrollFrame) {
         this.scrollKeyName.x = 'pageXOffset';
         this.scrollKeyName.y = 'pageYOffset';
     } else {
@@ -34,16 +71,16 @@ var Viewport = function(frame, content) {
         this.scrollKeyName.y = 'scrollTop';
     }
 
+    callbacks.MEASURE.push(onMeasure.bind(this));
+    callbacks.RESIZE.push(onResize.bind(this));
+    callbacks.SCROLL.push(onScroll.bind(this));
+
     if (global.addEventListener) {
-        global.addEventListener('resize', animationFrame.throttle('viewport-resize', onResize.bind(this), onMeasure.bind(this)), false);
-        global.addEventListener('scroll', animationFrame.throttle('viewport-scroll',onScroll.bind(this), onMeasure.bind(this)), true);
-        [].forEach.call(document.querySelectorAll('img'),function(node) {
+        [].forEach.call(this.content.querySelectorAll('img'),function(node) {
             node.addEventListener('load', onImageLoad.bind(this));
         }.bind(this));
     } else {
-        global.attachEvent('onresize', animationFrame.throttle('viewport-resize', onResize.bind(this), onMeasure.bind(this)));
-        global.attachEvent('scroll', animationFrame.throttle('viewport-scroll', onScroll.bind(this), onMeasure.bind(this)));
-        [].forEach.call(document.querySelectorAll('img'),function(node) {
+        [].forEach.call(this.content.querySelectorAll('img'),function(node) {
             node.attachEvent('onload', onImageLoad.bind(this));
         }.bind(this));
     }
@@ -76,25 +113,24 @@ Viewport.prototype.update = function() {
     onResize.bind(this)();
 };
 
-Viewport.prototype.register = function(fn, scope) {
-    this.callbacks.push({
-        id: scope.cid,
-        fn: fn
-    });
-    if (this.init) {
-        (fn.INIT || function() {})(this.bounds, this.scrollDirection);
+Viewport.prototype.on = function(name, fn) {
+    this.callbacks[name.toString()].push(fn);
+    if(this.EVENT_TYPES.INIT.is(name) && this.init) {
+        fn(this.bounds, this.scrollDirection);
     }
+    return this;
 };
 
-Viewport.prototype.unregister = function(scope) {
-    remove(this.callbacks, function(callback) {
-        return callback.id === scope.cid;
+Viewport.prototype.off = function(name, fn) {
+    this.callbacks[name] = remove(this.callbacks[name], function(callback) {
+        return callback === fn;
     });
+    return this;
 };
 
 module.exports = Viewport;
 
-function onImageLoad() {    
+function onImageLoad() {
     onMeasure.bind(this)();
     onResize.bind(this)();
 }
@@ -125,8 +161,8 @@ function onScroll() {
 }
 
 function onMeasure() {
-    this.scrollX = this.frame[this.scrollKeyName.x];
-    this.scrollY = this.frame[this.scrollKeyName.y];
+    this.scrollX = this.scrollFrame[this.scrollKeyName.x];
+    this.scrollY = this.scrollFrame[this.scrollKeyName.y];
 }
 
 function update(fn, bounds, scrollPosition, offset, dimension) {
@@ -139,24 +175,24 @@ function triggerScroll() {
 }
 
 function triggerUpdate(eventType) {
-    for (var i = 0, l = this.callbacks.length; i < l; i++) {
-        (this.callbacks[i].fn[eventType])(this.bounds, this.scrollDirection);
+    for (var i = 0, l = this.callbacks[eventType].length; i < l; i++) {
+        (this.callbacks[eventType][i])(this.bounds, this.scrollDirection);
     }
 }
 
 function updateOffset(scope) {
     var box = scope.content.getBoundingClientRect();
 
-    var top = Math.max(box.top + scope.content.clientTop, 0);
-    var left = Math.max(box.left + scope.content.clientLeft, 0);
+    var top = box.top + scope.scrollY;
+    var left = box.left + scope.scrollX;
 
     scope.offset.setX(left).setY(top);
 }
 
 function updateBounds(bounds, position, offset, dimension) {
     // auf jeden fall korrekt, auf der Verrechnung baut Drag&Drop auf
-    bounds.min.resetValues(position.x + offset.x, position.y + offset.y, position.z + offset.z);
-    bounds.max.resetValues(dimension.x + position.x + offset.x, dimension.y + position.y + offset.y, dimension.z + position.z + offset.z);
+    bounds.min.resetValues(position.x - offset.x, position.y - offset.y, position.z - offset.z);
+    bounds.max.resetValues(position.x + dimension.x - offset.x, position.y + dimension.y - offset.y, position.z + dimension.z - offset.z);
 }
 
 function updateScroll(scrollX, scrollY, content, scrollPosition, scrollRange, scrollDimension, viewportDimension) {

@@ -79,12 +79,12 @@ module.exports = (function (window) {
             };
 
             // var body = document.body;
-            return function() {
-
+            return function(e) {
+                measure(e);
                 if (taskNames[taskName]) {
                     return;
                 }
-                measure();
+
                 mutateTasks.push(mutateTask);
                 taskNames[taskName] = true;
 

@@ -1,4 +1,4 @@
-$deg: -3;
+$deg: -6;
 $offset: 5;
 $padding: calc(($deg*-1) + $offset);
 $rad: calc($deg /100)rad;
@@ -12,7 +12,8 @@ $rad: calc($deg /100)rad;
 
   article {
     position: relative;
-    overflow: hidden;    
+    overflow: hidden;
+    margin: calc(-$(offset)+0.5)% 0;
   }
 
   figcaption {
