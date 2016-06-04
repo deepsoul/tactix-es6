@@ -47,6 +47,13 @@ Vector.prototype.resetValues = function(x, y, z) {
     return this;
 };
 
+Vector.prototype.resetByRad = function(rad) {
+    this.x = Math.cos(rad);
+    this.y = Math.sin(rad);
+    this.z = Math.tan(rad);
+    return this;
+};
+
 Vector.prototype.add = function(vector){
     return add(this, vector.x, vector.y, vector.z, new Vector());
 };
@@ -224,7 +231,7 @@ Vector.prototype.angle = function() {
     return Math.atan2(this.y, this.x);
 };
 
-Vector.prototype.angleBetween = function(vector) {
+Vector.prototype.radBetween = function(vector) {
     return Math.atan2(vector.y,vector.x) - Math.atan2(this.y,this.x);
     // return Math.atan2(this.y - vector.y, this.x - vector.x);
 };
