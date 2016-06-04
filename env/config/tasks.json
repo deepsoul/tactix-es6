@@ -268,5 +268,15 @@
         "library": ["[name]"]
       }
     }]
+  },
+  "zipcompress" : {
+    "subtasks": [{
+      "name": "default",
+      "excludes" : [],
+      "files": {
+        "src" : ["<%= destination %>"],
+        "dest": "<%= destination %>"
+      }
+    }]
   }
 }
