@@ -27,10 +27,13 @@ function callCallbacks(e) {
 
 var Viewport = function(frame, content) {
     this.frame = frame || this.frame;
-    if(frame === content) {
-        this.scrollFrame = global;
-    }
+
     this.content = content || this.content;
+    // if(frame === content) {
+        this.scrollFrame = global;
+    // } else {
+    //     this.scrollFrame = this.content;
+    // }
     this.init = false;
     this.dimensionKeyName = {width: null, height: null};
     this.scrollKeyName = {x: null, y: null};
@@ -59,7 +62,7 @@ var Viewport = function(frame, content) {
         this.dimensionKeyName.width = 'clientWidth';
         this.dimensionKeyName.height = 'clientHeight';
     }
-
+    console.log(this.scrollFrame);
     if('scrollX' in this.scrollFrame) {
         this.scrollKeyName.x = 'scrollX';
         this.scrollKeyName.y = 'scrollY';
@@ -198,6 +201,7 @@ function updateBounds(bounds, position, offset, dimension) {
 function updateScroll(scrollX, scrollY, content, scrollPosition, scrollRange, scrollDimension, viewportDimension) {
     updateScrollDimension(content, scrollDimension);
     updateScrollRange(scrollRange, scrollDimension, viewportDimension);
+    // console.log('VOILA', scrollRange, scrollDimension, viewportDimension);
     updateScrollPosition(scrollX, scrollY, scrollPosition);
 }
 

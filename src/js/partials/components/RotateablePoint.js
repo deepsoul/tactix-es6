@@ -19,6 +19,14 @@ module.exports = Controller.extend({
                 type: 'number',
                 required: true,
                 default: 0
+            },
+            min: {
+                type: 'number',
+                default: 0
+            },
+            max: {
+                type: 'number',
+                default: 0
             }
         }
     }),
@@ -82,7 +90,7 @@ function onPointerUp(e) {
     e.preventDefault();
 
     $(document).off('pointermove.' + this.cid + ' pointerup.' + this.cid);
-    this.model.radiant = (this.radiant + this.pointStart.radBetween(this.pointMove) + Math.PI * 2) % ( Math.PI * 2);    
+    this.model.radiant = (this.radiant + this.pointStart.radBetween(this.pointMove) + Math.PI * 2) % ( Math.PI * 2);
 }
 
 function onMeasure(e) {
