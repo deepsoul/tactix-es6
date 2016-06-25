@@ -14,6 +14,6 @@ module.exports = Controller.extend({
     }
 });
 
-function update(model, value) {
-    this.el.style.cssText = 'background-color: hsl(' + (180 + value * 180) + ',100%, 50%);';
-}
+// function update(model, value) {
+//     this.el.style.cssText = 'background-color: hsl(' + (180 + value * 180) + ',100%, 50%);';
+// }

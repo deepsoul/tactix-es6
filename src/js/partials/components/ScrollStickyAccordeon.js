@@ -75,7 +75,7 @@ module.exports = Controller.extend({
         }
     },
 
-    onInactive: function(infoFooter, infoHeader) {
+    onInactive: function(infoFooter) {
         if(infoFooter.y === -1) {
             this.footer.classList.add('out-of-screen');
         }

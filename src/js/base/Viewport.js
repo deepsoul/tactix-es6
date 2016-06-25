@@ -62,7 +62,7 @@ var Viewport = function(frame, content) {
         this.dimensionKeyName.width = 'clientWidth';
         this.dimensionKeyName.height = 'clientHeight';
     }
-    console.log(this.scrollFrame);
+
     if('scrollX' in this.scrollFrame) {
         this.scrollKeyName.x = 'scrollX';
         this.scrollKeyName.y = 'scrollY';
@@ -200,8 +200,7 @@ function updateBounds(bounds, position, offset, dimension) {
 
 function updateScroll(scrollX, scrollY, content, scrollPosition, scrollRange, scrollDimension, viewportDimension) {
     updateScrollDimension(content, scrollDimension);
-    updateScrollRange(scrollRange, scrollDimension, viewportDimension);
-    // console.log('VOILA', scrollRange, scrollDimension, viewportDimension);
+    updateScrollRange(scrollRange, scrollDimension, viewportDimension);    
     updateScrollPosition(scrollX, scrollY, scrollPosition);
 }
 

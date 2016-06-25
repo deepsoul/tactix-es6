@@ -28,7 +28,7 @@ module.exports = PositionObserver.extend({
         this.pictureStyle.cssText = this.prefixedAttr + ': 0px ' + (info.y * 10) + 'px 10px rgba(0, 0, 0, 0.5);';
     },
 
-    onInactive: function(info) {
+    onInactive: function() {
         // console.log('inactive',info);
     }
 });

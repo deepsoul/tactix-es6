@@ -34,11 +34,11 @@ module.exports = Controller.extend({
             // }
         }.bind(this));
 
-        this.elViewport.on('SCROLL', function(bounds) {
-            // console.log(viewport.bounds.getIntersectionInfo(bounds));
-            // console.log(this.elViewport.bounds.min.y, viewport.bounds.min.y);
-            // console.log('toll', this.elViewport.offset);
-        }.bind(this));
+        // this.elViewport.on('SCROLL', function(bounds) {
+        //     // console.log(viewport.bounds.getIntersectionInfo(bounds));
+        //     // console.log(this.elViewport.bounds.min.y, viewport.bounds.min.y);
+        //     // console.log('toll', this.elViewport.offset);
+        // }.bind(this));
         // this.el.classList.add('end');
         // Apply the 'end' class and snapshot the last position & opacity.
         this.opened = null;

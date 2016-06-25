@@ -46,7 +46,7 @@ module.exports = StateObserver.extend({
         }
     },
 
-    onInactive: function(info) {
+    onInactive: function() {
         StateObserver.prototype.onInactive.apply(this, arguments);
         // console.log('inactive',info);
     }
