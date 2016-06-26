@@ -1,0 +1,19 @@
+---
+overline:
+  text: "Article: Overline"
+headline:
+  text: "Article: Headline"
+subline:
+  text: "Article: Subline"
+content:
+  text: "Article: Text"
+---
+<article class="partial" data-partial="fragments/article">
+  {{{mixin "elements/headline/h4" overline}}}
+  {{{mixin "elements/headline/h2" headline}}}
+  {{{mixin "elements/headline/h3" subline}}}
+
+  {{#block "placeholder"}}
+    {{{mixin "elements/text" content}}}
+  {{/block}}
+</article>

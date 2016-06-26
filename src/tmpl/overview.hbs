@@ -8,6 +8,13 @@ layout: "layouts/default"
 {{/glob}}
 </ul>
 
+<h2>Fragments</h2>
+<ul>
+{{#glob "src/tmpl/partials/fragments/**/*.hbs"}}
+  <li>{{{extend "elements/link" url=(replace this "src/tmpl/" "") title=(replace this "src/tmpl/" "")}}}</li>
+{{/glob}}
+</ul>
+
 <h2>Elements</h2>
 <ul>
 {{#glob "src/tmpl/partials/elements/**/*.hbs"}}
