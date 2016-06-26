@@ -5,13 +5,11 @@
   padding-bottom: 4em;
   backface-visibility: hidden;
 
-  h2 {
+  .sticky-element {
     position: absolute;
-
     left: 0;
     width: 100%;
-    font-size: 4em;
-    line-height: 1em;
+    line-height: 4em;
     background-color: green;
 
     &.top {
@@ -34,11 +32,6 @@
     }
   }
 
-  p {
-    padding: 0;
-    margin: 0;
-  }
-
   .sticky-element.js-scroll-sticky-top {
 
     position: fixed;
@@ -52,9 +45,4 @@
     bottom: 0;
     left: 0;
   }
-}
-
-p {
-  padding: 0;
-  margin: 0;
 }

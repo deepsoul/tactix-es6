@@ -1,6 +1,12 @@
 ---
-class: "controller left-to-right"
+class: "controller left-to-right" #left-to-right oder right-to-left
 extendedRange: true
+headlineText:
+  headline:
+    text: "Headline"
+  content:
+    text: "Er hörte leise Schritte hinter sich. Das bedeutete nichts Gutes. Wer würde ihm schon folgen, spät in der Nacht und dazu noch in dieser engen Gasse mitten im übel beleumundeten Hafenviertel?"
+picture: {}
 ---
 {{#mixin "fragments/section" this class=class}}
   {{#content "attributes"}}
@@ -9,6 +15,7 @@ extendedRange: true
     data-extended-range="{{{extendedRange}}}"
   {{/content}}
   {{#content "placeholder"}}
-    {{{mixin "elements/picture"}}}
+    {{{mixin "elements/picture" picture}}}
+    {{{mixin "fragments/headline-text" headlineText}}}
   {{/content}}
 {{/mixin}}

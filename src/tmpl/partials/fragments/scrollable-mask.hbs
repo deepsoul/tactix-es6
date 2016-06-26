@@ -2,9 +2,7 @@
 picture:
   svg:
     mask: '#masking'
-caption:
-  headline: 'Headline'
-  text: 'Das ist eine description die etwas länger wird und nicht mehr weiss wo hin. wandert sie nach oben raus? es sieht fast schon so aus'
+figcaption: {}
 ---
 <figure class="partial controller" data-partial="fragments/scrollable-mask" data-controller="./partials/fragments/ScrollableMask" data-extended-range="true">
   <div class="masked-content">
@@ -15,9 +13,6 @@ caption:
     <div class="footer"></div>
   </div>
   {{#block "caption"}}
-    <figcaption>
-      <h3>{{{caption.headline}}}</h3><br/>
-      <p>{{{caption.text}}}</p>
-    </figcaption>
+    {{{mixin "elements/figcaption" figcaption}}}
   {{/block}}
 </figure>
