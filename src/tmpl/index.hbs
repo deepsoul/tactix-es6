@@ -4,49 +4,21 @@
 {{#mixin "common/content" this}}
   {{#content "main"}}
     {{#with body}}
-      {{{mixin "components/m3_stage"}}}
+      {{{mixin "components/m3_stage" stage}}}
 
-      {{{mixin "elements/text" textbox2}}}
+      {{{mixin "components/section/m4-3_headline-text" intro}}}
 
-      {{{mixin "elements/link/deep"}}}
-      {{{mixin "elements/link" url="#abc"}}}
+      {{#each teasers}}
+        {{{mixin "components/section/m4-2_teaser" this}}}
+      {{/each}}
 
-      {{{mixin "fragments/moveable-point-light"}}}
+      {{{mixin "components/section/m4-3_headline-text" main}}}
 
-      {{{mixin "elements/text" textbox2}}}
-      {{{mixin "elements/link" url="#123"}}}
+      {{{mixin "components/section/m4-4_observer"}}}
 
-      {{{mixin "fragments/scrollable-mask"}}}
+      {{{mixin "components/section/m4-5_headline-image-text"}}}
 
-      {{{mixin "elements/text" textbox2}}}
-
-      {{{mixin "elements/picture" svgImage}}}
-
-      {{{mixin "elements/text" textbox2}}}
-
-      {{{mixin "components/section/m4-2_teaser" parallaxContainer2}}}
-
-      {{{mixin "elements/text" textbox2}}}
-
-      {{{mixin "components/section/m4-2_teaser" parallaxContainer2}}}
-
-      {{{mixin "elements/text" textbox2}}}
-
-      {{{mixin "components/section/m4-2_teaser" parallaxContainer2}}}
-
-      {{{mixin "elements/text" textbox2}}}
-
-      {{{mixin "components/section/m4-2_teaser" parallaxContainer2}}}
-
-      {{{mixin "elements/text" textbox3}}}
-
-      {{{mixin "components/section/m4-2_teaser" parallaxContainer2}}}
-
-      {{{mixin "elements/text" textbox3}}}
-
-      {{{mixin "elements/picture"}}}
-
-      {{{mixin "elements/text" textbox4}}}
+      {{{mixin "components/section/m4-3_headline-text"}}}
 
       {{#mixin "layouts/modal"}}
         {{#content "content"}}
