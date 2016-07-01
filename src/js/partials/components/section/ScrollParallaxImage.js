@@ -15,19 +15,16 @@ module.exports = PositionObserver.extend({
     }),
 
     initialize: function() {
-        PositionObserver.prototype.initialize.apply(this, arguments);
-
         var picture = this.el.querySelector('picture');
 
         this.pictureStyle = picture.style;
         this.prefixedAttr = modernizr.prefixedCSS('box-shadow');
 
+        PositionObserver.prototype.initialize.apply(this, arguments);
     },
 
-    onActive: function(info) {
-        if(this.pictureStyle) {
-            this.pictureStyle.cssText = this.prefixedAttr + ': 0px ' + (info.y * 10) + 'px 10px rgba(0, 0, 0, 0.5);';
-        }
+    onActive: function(info) {        
+        this.pictureStyle.cssText = this.prefixedAttr + ': 0px ' + (info.y * 10) + 'px 10px rgba(0, 0, 0, 0.5);';
     },
 
     onInactive: function() {
