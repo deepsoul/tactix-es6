@@ -31,8 +31,28 @@
   },
   "handlebars": {
     "assets": "<%= destination %>/assets/",
-    "layouts": "./src/tmpl/partials/layouts/**/*.hbs",
-    "partials": ["./src/tmpl/partials/**/*.hbs"],
+    "layouts": {
+      "files": {
+        "src": "./src/tmpl/partials/layouts/**/*.hbs"
+      },
+      "options": {
+        "base": "./src/tmpl/partials"
+      }
+    },
+    "partials": {
+      "files": {
+        "src": ["./src/tmpl/partials/**/*.hbs"]
+      },
+      "options": {
+        "base": "./src/tmpl/partials"
+      }
+    },
+    "globals": {
+      "files": {
+        "cwd": "./src/data/",
+        "src": ["./globals/**/*.{json,yaml}"]
+      }
+    },
     "scripts": {
       "js": {
         "main": "<%= destination %>/js/app.js",
@@ -48,35 +68,24 @@
         "critical": "<%= destination %>/css/critical.css"
       }
     },
-    "fonts": [{
-      "name": "icomoon",
-      "path": "assets/fonts/icomoon/fonts/icomoon",
-      "style": "normal",
-      "weight": "400",
-      "testString": "\uea11\uea81"
-    }, {
-      "name": "AmaticSC",
-      "path": "assets/fonts/amatic-sc-v8-latin/amatic-sc-v8-latin-regular",
-      "style": "normal",
-      "weight": "400",
-      "testString": "ABCD"
-    }, {
-      "name": "AmaticSC",
-      "path": "assets/fonts/amatic-sc-v8-latin/amatic-sc-v8-latin-700",
-      "style": "normal",
-      "weight": "700",
-      "testString": "ABCD"
-    }],
     "subtasks": [{
       "name": "pages",
       "layout": "layouts/default",
       "files": {
-        "src": ["./src/tmpl/**/*.hbs", "!./src/tmpl/partials/common/**/*.hbs", "!./src/tmpl/partials/layouts/**/*.hbs"],
+        "src": ["./src/tmpl/**/*.hbs", "!./src/tmpl/partials/**/*.hbs"],
         "dest": "<%= destination %>"
       },
       "data": {
         "cwd": "./src/data/",
-        "src": "./**/*.{json,yaml}"
+        "src": ["./**/*.{json,yaml}", "!./globals/**/*.{json,yaml}"]
+      }
+    }, {
+      "name": "docs",
+      "layout": "layouts/documentation",
+      "files": {
+        "src": ["./src/tmpl/partials/**/*.hbs", "!./src/tmpl/partials/common/**/*.hbs", "!./src/tmpl/partials/layouts/**/*.hbs"],
+        "dest": "<%= destination %>",
+        "base": "./src/tmpl/"
       }
     }],
     "watch": [{
@@ -121,14 +130,19 @@
     }]
   },
   "purecss": {
+    "prefix" : "grid",
+    "columnHasPrefix" : false,
+    "columnPrefix": "col",
     "breakpoints": {
       "xs": "screen and (min-width: 30em)",
       "sm": "screen and (min-width: 48em)",
       "md": "screen and (min-width: 62em)",
       "lg": "screen and (min-width: 75em)"
     },
+    "columns": 12,
     "files": {
-      "dest": "./generated/pcss/"
+      "dest": "./generated/pcss/",
+      "src" : ["base", "grids-core"]
     }
   },
   "sitemap": {
@@ -161,7 +175,12 @@
       }, {
         "script": "agency-environment/lib/webpack/plugins/dedupe"
       }, {
-        "script": "agency-environment/lib/webpack/plugins/uglify"
+        "script": "agency-environment/lib/webpack/plugins/uglify",
+        "config": {
+          "compress":{
+
+          }
+        }
       }],
       "module": {
         "preLoaders": [{
