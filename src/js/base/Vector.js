@@ -47,6 +47,13 @@ Vector.prototype.resetValues = function(x, y, z) {
     return this;
 };
 
+Vector.prototype.resetByRad = function(rad) {
+    this.x = Math.cos(rad);
+    this.y = Math.sin(rad);
+    this.z = Math.tan(rad);
+    return this;
+};
+
 Vector.prototype.add = function(vector){
     return add(this, vector.x, vector.y, vector.z, new Vector());
 };
@@ -183,11 +190,50 @@ Vector.prototype.clampLocal = function(min, max) {
     return clamp(this, min, max, this);
 };
 
-function clamp(scope, min, max, result) {    
+function clamp(scope, min, max, result) {
     return result
         .setX(Math.min(Math.max(scope.x, min), max))
         .setY(Math.min(Math.max(scope.y, min), max))
         .setZ(Math.min(Math.max(scope.z, min), max));
 }
+
+Vector.prototype.sign = function() {
+    return sign(this, new Vector());
+};
+
+Vector.prototype.signLocal = function() {
+    return sign(this, this);
+};
+
+function sign(scope, result) {
+    return result
+        .setX(scope.x >> 31 | -scope.x >>> 31)
+        .setY(scope.y >> 31 | -scope.y >>> 31)
+        .setZ(scope.z >> 31 | -scope.z >>> 31);
+}
+
+Vector.prototype.abs = function() {
+    return abs(this, new Vector());
+};
+
+Vector.prototype.absLocal = function() {
+    return abs(this, this);
+};
+
+function abs(scope, result) {
+    return result
+        .setX((scope.x + (scope.x >> 31)) ^ (scope.x >> 31))
+        .setY((scope.y + (scope.y >> 31)) ^ (scope.y >> 31))
+        .setZ((scope.z + (scope.z >> 31)) ^ (scope.z >> 31));
+}
+
+Vector.prototype.angle = function() {
+    return Math.atan2(this.y, this.x);
+};
+
+Vector.prototype.radBetween = function(vector) {
+    return Math.atan2(vector.y,vector.x) - Math.atan2(this.y,this.x);
+    // return Math.atan2(this.y - vector.y, this.x - vector.x);
+};
 
 module.exports = Vector;

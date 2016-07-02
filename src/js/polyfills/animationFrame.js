@@ -1,6 +1,9 @@
 "use strict";
 
 var nativeSupport = true;
+var taskNames = {};
+var mutateTasks = [];
+var timer = null;
 
 module.exports = (function (window) {
     var lastTime = 0;
@@ -32,26 +35,79 @@ module.exports = (function (window) {
     // export to window
     window.requestAnimationFrame = requestAnimationFrame;
     window.cancelRequestAnimationFrame = cancelAnimationFrame;
+    loop();
 
     return {
         add: function (callback) {
             window.requestAnimationFrame(callback);
         },
 
-        addLoop: function (callback) {
+        addLoop: function (duration, callback) {
             var handler = {
                 id: null,
+                begin: 0,
+                current: 0,
+                duration: duration || -1,
                 callback: callback
             };
             (function animloop(time) {
                 handler.id = window.requestAnimationFrame(animloop);
-                handler.callback(time);
+                handler.begin = handler.begin || time;
+                if(time) {
+                    handler.current = (time - handler.begin) / duration;
+                    if(handler.current >= 1) {
+                        window.cancelRequestAnimationFrame(handler.id);
+                        handler.callback(1);
+                    } else {
+                        handler.callback(handler.current);
+                    }
+                }
             })();
             return handler;
         },
 
         cancelLoop: function (handler) {
             window.cancelRequestAnimationFrame(handler.id);
+        },
+
+        throttle: function(taskName, mutate, measure) {
+            taskNames[taskName] = false;
+            measure = measure || function() {};
+            var mutateTask = {
+                name: taskName,
+                mutate: mutate
+            };
+
+            // var body = document.body;
+            return function(e) {
+                measure(e);
+                if (taskNames[taskName]) {
+                    return;
+                }
+
+                mutateTasks.push(mutateTask);
+                taskNames[taskName] = true;
+
+                // clearTimeout(timer);
+                // if(!body.classList.contains('disable-hover')) {
+                //     body.classList.add('disable-hover');
+                // }
+                //
+                // timer = setTimeout(function(){
+                //     body.classList.remove('disable-hover');
+                // },500);
+            };
         }
     };
 })(global);
+
+function loop() {
+    var task;
+    while(mutateTasks.length) {
+        task = mutateTasks.pop();
+        task.mutate();
+        taskNames[task.name] = false;
+    }
+
+    global.requestAnimationFrame(loop);
+}

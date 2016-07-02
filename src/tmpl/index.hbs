@@ -4,26 +4,31 @@
 {{#mixin "common/content" this}}
   {{#content "main"}}
     {{#with body}}
+      {{{mixin "components/m3_stage" stage}}}
 
-      {{{mixin "elements/text" textbox1}}}
+      {{{mixin "components/section/m4-3_headline-text" intro}}}
 
-      {{{mixin "elements/picture"}}}
+      {{#each teasers}}
+        {{{mixin "components/section/m4-2_teaser" this}}}
+      {{/each}}
 
-      {{{mixin "elements/text" textbox2}}}
+      {{{mixin "components/section/m4-3_headline-text" main}}}
 
-      {{#mixin "components/parallax-container" parallaxContainer1}}
-        {{#content "elements"}}
-          {{{mixin "components/animation" animation}}}
+      {{{mixin "components/section/m4-4_observer"}}}
+
+      {{{mixin "components/section/m4-5_headline-image-text"}}}
+
+      {{{mixin "components/section/m4-3_headline-text"}}}
+
+      {{#mixin "layouts/modal"}}
+        {{#content "content"}}
+          <p>
+              Hello World!
+          </p>
         {{/content}}
       {{/mixin}}
 
-      {{{mixin "components/parallax-container" parallaxContainer2}}}
-
-      {{{mixin "elements/text" textbox3}}}
-
-      {{{mixin "elements/picture"}}}
-
-      {{{mixin "elements/text" textbox4}}}
+      {{{mixin "svgs/skew-masks"}}}
 
     {{/with}}
   {{/content}}

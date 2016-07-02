@@ -3,17 +3,7 @@
 var AmpersandView = require('ampersand-view');
 var dataTypeDefinition = require('./dataTypeDefinition');
 
-module.exports = AmpersandView.extend(dataTypeDefinition, {
-
-    props: {
-        targetModel: {
-            type: 'DomModel'
-        },
-        model: {
-            type: 'DomModel',
-            required: true
-        }
-    },
+module.exports = AmpersandView.extend(dataTypeDefinition, {    
 
     initialize: function(options) {
         AmpersandView.prototype.initialize.apply(this, arguments);

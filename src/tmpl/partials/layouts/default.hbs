@@ -82,8 +82,9 @@
     ]
   </script>
 
-
-  <link type="text/css" rel="stylesheet" href="{{relativeToRoot}}/{{options.scripts.css.main}}" media="async"/>
+  {{#unless options.server.websocket}}
+    <link type="text/css" rel="stylesheet" href="{{relativeToRoot}}/{{options.scripts.css.main}}" media="async"/>
+  {{/unless}}
 
   <script type="text/javascript">
       {{#each options.scripts.js.embed}}
@@ -107,7 +108,7 @@
       document.write('<script type="text/javascript" src="//' + host +':{{options.server.webpack.port}}/{{options.scripts.js.main}}"></' + 'script>');
     </script>
   {{else}}
-    <script type="text/javascript" src="{{relative options.server.dest options.scripts.js.main}}" async defer></script>
+    <script type="text/javascript" src="{{{relativeToRoot}}}/{{relative options.server.dest options.scripts.js.main}}" async defer></script>
   {{/if}}
 
 </body>
