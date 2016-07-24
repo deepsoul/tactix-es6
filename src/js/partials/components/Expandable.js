@@ -3,7 +3,6 @@
 var Controller = require('../../base/Controller');
 // var Flip = require('FLIP/dist/flip');
 var TweenMax = require('gsap');
-var TimelineMax = require('gsap/src/uncompressed/TimelineMax');
 var Viewport = require('../../base/Viewport');
 var viewport = require('../../services/viewport');
 
