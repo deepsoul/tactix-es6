@@ -2,11 +2,11 @@
 title: "sample image"
 class: #css-class
 sources:
-    - {type: 'lg', srcset: '//dummyimage.com/1920x1080/ff0000/fff'}
-    - {type: 'md', srcset: '//dummyimage.com/1199x674/00ff00/fff'}
-    - {type: 'sm', srcset: '//dummyimage.com/991x557/0000ff/fff'}
-    - {type: 'xs', srcset: '//dummyimage.com/767x431/ffff00/fff'}
-    - {type: 'default', srcset: '//dummyimage.com/479x269/00ffff/fff'}
+    - {type: 'lg', absolute: true, srcset: '//dummyimage.com/1920x1080/ff0000/fff'}
+    - {type: 'md', absolute: true, srcset: '//dummyimage.com/1199x674/00ff00/fff'}
+    - {type: 'sm', absolute: true, srcset: '//dummyimage.com/991x557/0000ff/fff'}
+    - {type: 'xs', absolute: true, srcset: '//dummyimage.com/767x431/ffff00/fff'}
+    - {type: 'default', absolute: true, srcset: '//dummyimage.com/479x269/00ffff/fff'}
 sizes:
     lg: '(min-width: 1200px)'
     md: '(min-width: 992px)'
@@ -18,7 +18,7 @@ fallback:
 <picture class="partial{{#if class}} {{class}}{{/if}}{{#if svg}} svg{{/if}}" data-partial="elements/picture">
     <!--[if IE 9]><video><![endif]-->
     {{#each sources}}
-        <source class="{{type}}"{{#if (lookup ../sizes type)}} media="{{lookup ../sizes type}}"{{/if}}{{#if src}} src="{{src}}"{{/if}}{{#if srcset}} srcset="{{srcset}}"{{/if}}/>
+        <source class="{{type}}"{{#if (lookup ../sizes type)}} media="{{lookup ../sizes type}}"{{/if}}{{#if src}} src="{{#unless absolute}}{{{../relativeToRoot}}}{{/unless}}{{src}}"{{/if}}{{#if srcset}} srcset="{{#unless absolute}}{{{../relativeToRoot}}}{{/unless}}{{srcset}}"{{/if}}/>
     {{/each}}
     <!--[if IE 9]></video><![endif]-->
 

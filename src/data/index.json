@@ -29,18 +29,23 @@
             "title": "Katze",
             "sources": [{
                 "type": "lg",
+                "absolute": true,
                 "srcset": "//placekitten.com/g/1920/1080"
             }, {
                 "type": "md",
+                "absolute": true,
                 "srcset": "//placekitten.com/g/1199/674"
             }, {
                 "type": "sm",
+                "absolute": true,
                 "srcset": "//placekitten.com/g/991/557"
             }, {
                 "type": "xs",
+                "absolute": true,
                 "srcset": "//placekitten.com/g/767/431"
             }, {
                 "type": "default",
+                "absolute": true,
                 "srcset": "//placekitten.com/g/479/269"
             }]
         }
@@ -77,18 +82,23 @@
             "title": "Katze",
             "sources": [{
               "type": "lg",
+              "absolute": true,
               "srcset": "//placekitten.com/g/960/540"
             }, {
               "type": "md",
+              "absolute": true,
               "srcset": "//placekitten.com/g/600/337"
             }, {
                 "type": "sm",
+                "absolute": true,
                 "srcset": "//placekitten.com/g/496/279"
             }, {
                 "type": "xs",
+                "absolute": true,
                 "srcset": "//placekitten.com/g/384/215"
             }, {
                 "type": "default",
+                "absolute": true,
                 "srcset": "//placekitten.com/g/239/134"
             }]
           }
@@ -107,18 +117,23 @@
             "title": "Katze",
             "sources": [{
               "type": "lg",
+              "absolute": true,
               "srcset": "//placekitten.com/960/540"
             }, {
               "type": "md",
+              "absolute": true,
               "srcset": "//placekitten.com/600/337"
             }, {
                 "type": "sm",
+                "absolute": true,
                 "srcset": "//placekitten.com/496/279"
             }, {
                 "type": "xs",
+                "absolute": true,
                 "srcset": "//placekitten.com/384/215"
             }, {
                 "type": "default",
+                "absolute": true,
                 "srcset": "//placekitten.com/239/134"
             }]
           }

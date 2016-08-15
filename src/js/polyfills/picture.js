@@ -4,16 +4,16 @@
 if (!global.HTMLPictureElement) {
     document.createElement('picture');
     document.createElement('source');
+}
 
-    if (global.addEventListener) {
-        global.addEventListener('resize', function () {
-            render(document.getElementsByTagName('picture'));
-        }, false);
-    } else {
-        global.attachEvent('onresize', function () {
-            render(document.getElementsByTagName('picture'));
-        });
-    }
+if (global.addEventListener) {
+    global.addEventListener('resize', function () {
+        render(document.getElementsByTagName('picture'));
+    }, false);
+} else {
+    global.attachEvent('onresize', function () {
+        render(document.getElementsByTagName('picture'));
+    });
 }
 
 var devicePixelRatio = global.devicePixelRatio || 1;
@@ -133,7 +133,7 @@ function showImage(picture, screenSize) {
         picture.image.cached = [];
     }
 //        console.log(picture.querySelectorAll('img')[0].type);
-    
+
     if(picture.image.type === undefined || picture.image.type !== screenMatrix[screenSize]) {
 
         var sources = collectionToArray(picture.querySelectorAll('source.' + screenMatrix[screenSize]));
