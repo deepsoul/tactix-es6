@@ -12,7 +12,8 @@
   "testString": "ABCD"
 }, {
   "name": "AmaticSC",
-  "path": "assets/fonts/amatic-sc-v8-latin/amatic-sc-v8-latin-700",
+  "base64": true,
+  "path": "assets/fonts/amatic-sc-v8-latin/amatic-sc-v8-latin-700.woff",
   "style": "normal",
   "weight": "700",
   "testString": "ABCD"
