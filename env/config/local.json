@@ -138,7 +138,14 @@
         "options": {}
       }, {
         "module": "agency-server/lib/hapi/route/static",
-        "options": {}
+        "options": {
+          "config": {
+            "state": {
+              "parse": false,
+              "failAction": "ignore"
+            }
+          }
+        }
       }, {
         "module": "agency-server/lib/hapi/route/proxy",
         "options": {}
