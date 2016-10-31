@@ -238,7 +238,13 @@
       },
       "resolve": {
         "alias": {
-          "modernizr$": "<%= root %>/.modernizrrc"
+          "modernizr$": "<%= root %>/.modernizrrc",
+          "TweenMax": "gsap/src/uncompressed/TweenMax.js",
+          "TweenLite" : "gsap/src/uncompressed/TweenLite.js",
+          "TimelineLite" : "gsap/src/uncompressed/TimelineLite.js",
+          "TimelineMax": "gsap/src/uncompressed/TimelineMax.js",
+          "EasePack": "gsap/src/uncompressed/easing/EasePack.js",
+          "CSSPlugin": "gsap/src/uncompressed/plugins/CSSPlugin.js"
         }
       },
       "files": {
@@ -284,7 +290,13 @@
       },
       "resolve": {
         "alias": {
-          "modernizr$": "<%= root %>/.modernizrrc"
+          "modernizr$": "<%= root %>/.modernizrrc",
+          "TweenMax": "gsap/src/uncompressed/TweenMax.js",
+          "TweenLite" : "gsap/src/uncompressed/TweenLite.js",
+          "TimelineLite" : "gsap/src/uncompressed/TimelineLite.js",
+          "TimelineMax": "gsap/src/uncompressed/TimelineMax.js",
+          "EasePack": "gsap/src/uncompressed/easing/EasePack.js",
+          "CSSPlugin": "gsap/src/uncompressed/plugins/CSSPlugin.js"
         }
       },
       "files": {
