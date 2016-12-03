@@ -208,6 +208,16 @@
 
           }
         }
+      }, {
+        "script": "agency-environment/lib/webpack/plugins/analyzer",
+        "config": {
+          "analyzerMode": "static",
+          "openAnalyzer": false,
+          "reportFilename": "../reports/webpack/index.html",
+          "generateStatsFile": true,
+          "statsFilename": "../reports/webpack/stats.json",
+          "logLevel": "info"
+        }
       }],
       "module": {
         "preLoaders": [{
