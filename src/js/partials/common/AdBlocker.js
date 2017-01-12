@@ -9,7 +9,7 @@ module.exports = Controller.extend({
         Controller.prototype.initialize.apply(this, arguments);
 
         blockAdBlock.onDetected(function() {
-            $(this.el).addClass('js-active');
+            this.el.classList.add('js-active');
         }.bind(this));
     }
 });

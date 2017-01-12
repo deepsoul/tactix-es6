@@ -87,6 +87,7 @@
     "globals"       : {
         "FB": false,
         "gapi": false,
-        "$": false
+        "$": false,
+        "Promise": false
     }        // additional predefined global variables
 }
