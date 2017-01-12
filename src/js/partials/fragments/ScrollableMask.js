@@ -1,8 +1,8 @@
 "use strict";
 
 var StateObserver = require('../../base/scroll/StateObserver');
-var modernizr = require('modernizr');
-var TweenMax = require('gsap');
+
+var Velocity = require('velocity-animate');
 
 module.exports = StateObserver.extend({
     tween: null,
@@ -19,30 +19,31 @@ module.exports = StateObserver.extend({
     initialize: function() {
         StateObserver.prototype.initialize.apply(this, arguments);
 
-        var picture = this.el.querySelector('picture svg image, picture img');
-        this.tween = new TweenMax(this.el.querySelector('figcaption'), 0.35, {
-            y:'0%',
-            paused: true,
-            yoyo:true,
-            ease: 'linear'
-        });
+        var picture = this.el.querySelector('picture');
 
-        this.model.on('change:triggered', function(model, value) {
+        Velocity(this.el.querySelector('figcaption'), {
+            translateY: '100%'
+        }, 350);
+
+        this.model.on('change:triggered', function(model, value) {            
             if(value) {
-                this.tween.play();
+                Velocity(this.el.querySelector('figcaption'), {
+                    translateY: '0%'
+                }, 350);
             } else {
-                this.tween.reverse();
+                Velocity(this.el.querySelector('figcaption'), {
+                    translateY: '100%'
+                }, 350);
             }
         }.bind(this));
 
         this.pictureStyle = picture.style;
-        this.prefixedAttr = modernizr.prefixedCSS('transform');
     },
 
     onActive: function(info) {
         StateObserver.prototype.onActive.apply(this, arguments);
         if(this.pictureStyle) {
-            this.pictureStyle.cssText = this.prefixedAttr + ': translateY(' + info.y * -10 + '%);';
+            this.pictureStyle.cssText = global.prefix.css + 'transform' + ': translateY(' + info.y * -10 + '%);';
         }
     },
 

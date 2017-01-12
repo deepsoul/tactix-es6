@@ -1,6 +1,28 @@
 "use strict";
 
 require('classlist-polyfill');
+require('element-dataset').default();
+require('./polyfills/animationFrame');
+require('./polyfills/picture');
 require('./embed/fontfaceObserver');
-require('./embed/performance/stats');
-require('./embed/performance/perfbar');
+require('script-loader!fg-loadcss');
+require('script-loader!fg-loadcss/src/cssrelpreload');
+// require('./embed/performance/stats');
+// require('./embed/performance/perfbar');
+
+
+module.exports = global.prefix = (function () {
+  var styles = window.getComputedStyle(document.documentElement, ''),
+    pre = (Array.prototype.slice
+      .call(styles)
+      .join('')
+      .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
+    )[1],
+    dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
+  return {
+    dom: dom,
+    lowercase: pre,
+    css: '-' + pre + '-',
+    js: pre[0].toUpperCase() + pre.substr(1)
+  };
+})();

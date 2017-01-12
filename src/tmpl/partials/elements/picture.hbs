@@ -15,22 +15,22 @@ sizes:
 fallback:
     img: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 ---
-<picture class="partial{{#if class}} {{class}}{{/if}}{{#if svg}} svg{{/if}}" data-partial="elements/picture">
-    <!--[if IE 9]><video><![endif]-->
-    {{#each sources}}
-        <source class="{{type}}"{{#if (lookup ../sizes type)}} media="{{lookup ../sizes type}}"{{/if}}{{#if src}} src="{{#unless absolute}}{{{../relativeToRoot}}}{{/unless}}{{src}}"{{/if}}{{#if srcset}} srcset="{{#unless absolute}}{{{../relativeToRoot}}}{{/unless}}{{srcset}}"{{/if}}/>
-    {{/each}}
-    <!--[if IE 9]></video><![endif]-->
-
-    {{#if svg}}
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewbox="0 0 752 470" preserveAspectRatio="xMinYMin" width="752" height="470">
-            <image xlink:href="{{fallback.img}}" x="0" y="0" width="752" height="470"{{#if svg.clipPath}} clip-path="url({{svg.clipPath}})"{{/if}}{{#if svg.mask}} mask="url({{svg.mask}})"{{/if}}/>
-        </svg>
-    {{else}}
-        <img src="{{fallback.img}}" alt="{{title}}">
-    {{/if}}
+<picture class="partial{{#if class}} {{class}}{{/if}}" data-partial="elements/picture">
+  <!--[if IE 9]><video><![endif]-->
+  {{#each sources}}
+    <source class="{{type}}"{{#if (lookup ../sizes type)}} media="{{lookup ../sizes type}}"{{/if}}{{#if src}} src="{{#unless absolute}}{{{../relativeToRoot}}}{{/unless}}{{src}}"{{/if}}{{#if srcset}} srcset="{{#unless absolute}}{{{../relativeToRoot}}}{{/unless}}{{srcset}}"{{/if}}/>
+  {{/each}}
+  <!--[if IE 9]></video><![endif]-->
+  <img src="{{#unless absolute}}{{{../relativeToRoot}}}{{/unless}}{{sources.0.srcset}}" alt="{{title}}">
+  {{#with svg}}
+    <template>
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewbox="0 0 752 470" preserveAspectRatio="xMinYMin" width="752" height="470">
+        <image xlink:href="{{fallback.img}}" x="0" y="0" width="752" height="470"{{#if clipPath}} clip-path="url({{clipPath}})"{{/if}}{{#if mask}} mask="url({{mask}})"{{/if}}></image>
+      </svg>
+    </template>
+  {{/with}}
 </picture>
 <script type="text/javascript">
-    var pictures = document.getElementsByTagName('picture');
-    window.picture.parse(pictures[pictures.length - 1]);
+  var pictures = document.getElementsByTagName('picture');
+  window.picture.parse(pictures[pictures.length - 1]);
 </script>

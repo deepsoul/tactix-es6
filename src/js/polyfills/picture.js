@@ -1,35 +1,38 @@
 "use strict";
-/* globals $: true */
+
+var template = require('../utils/template');
+var validBrowser = !navigator.userAgent.match(/(Google Page Speed Insights)/i);
 
 if (!global.HTMLPictureElement) {
     document.createElement('picture');
     document.createElement('source');
 }
 
-if (global.addEventListener) {
-    global.addEventListener('resize', function () {
-        render(document.getElementsByTagName('picture'));
-    }, false);
-} else {
-    global.attachEvent('onresize', function () {
-        render(document.getElementsByTagName('picture'));
-    });
-}
+global.addEventListener('resize', function () {
+    render(document.getElementsByTagName('picture'));
+}, false);
 
 var devicePixelRatio = global.devicePixelRatio || 1;
 var screenMatrix = ['lg', 'md', 'sm', 'xs', 'default'];
-var $ = null;
 
-module.exports = {
+var init = {
+    ready: false,
+    promises: [],
+    callbacks: []
+};
+
+module.exports = global.picture = {
     parse: function (node) {
         if(!node) {
             node = document.body;
         }
         node = getNativeNode(node);
         if(node.tagName.toLowerCase() === 'picture') {
+            registerObserver(node.querySelectorAll('img'));
             render([node]);
         } else {
-            render(collectionToArray(node.getElementsByTagName('picture')));
+            registerObserver(node.querySelectorAll('picture img'));
+            render(node.querySelectorAll('picture'));
         }
     },
 
@@ -40,10 +43,27 @@ module.exports = {
         });
     },
 
-    addjQueryTriggerSupport: function(jquery) {
-        $ = jquery;
+    ready: function(cb) {
+        if(init.ready) {
+            cb();
+        } else {
+            init.callbacks.push(cb);
+        }
     }
 };
+
+document.addEventListener( "DOMContentLoaded", function() {
+
+    var nodes = [].map.call(document.querySelectorAll('picture > img'), function(image) {
+        return image.promise;
+    });
+    Promise.all(nodes).then(function() {
+        init.ready = true;
+        while(init.callbacks.length > 0) {
+            (init.callbacks.shift())();
+        }
+    });
+}, false);
 
 function getNativeNode(node) {
     if (node.get) {
@@ -52,54 +72,63 @@ function getNativeNode(node) {
     return node;
 }
 
-function render(pictures) {
-    var screenSize = getScreenSize();
-    pictures = Array.prototype.slice.call(pictures);
-    pictures.forEach(function (picture) {
-        if (!global.HTMLPictureElement || picture.querySelectorAll('svg').length) {
-            if (!picture.modified) {
-                removeIE9VideoShim(picture);
-                observePictureImage(picture);
-                picture.modified = true;
-            }
-            showImage(picture, screenSize);
-        } else {
-            if (!picture.modified) {
-                observePictureImage(picture);
-                if(picture.image.tagName === 'IMG') {
-                    if(picture.image.complete) {
-                        global.animationFrame.add(function() {
-                            triggerEvent(picture.image, 'load');
-                        });
-                    }
-                }
-                picture.modified = true;
-            }
+function registerObserver(images) {
+    [].forEach.call(images, function(image) {
+        if (!global.HTMLPictureElement) {
+            image.addEventListener('load', stopPropagation, false);
         }
+        image.promise = new Promise(function(resolve, reject) {
+            var tmpl = image.parentNode.querySelector('template');
+            if(tmpl) {
+                var svgImage = createSVG(tmpl, image);
+                image.onload = function(e) {
+                    // svgImage.addEventListener('load', function() {
+                    //
+                    // }, false);
+                    updateSVG(svgImage, e.target);
+                    resolve(true);
+                };
+            } else {
+                image.onload = resolve;
+            }
+            image.onerror = reject;
+        });
     });
 }
 
-/*
- *  Configure and observe the image inside the picture element
- *  Following picture properties will be set:
- *  - sourceMap = map of sources which are provided by picture element
- *  - image = image element inside the picture element
- *  - image.cached = history of already loaded image sources
- */
-function observePictureImage(picture) {
-    picture.sources = collectSources(picture.querySelectorAll('source'));
-    picture.image = picture.getElementsByTagName('img')[0] || picture.getElementsByTagName('image')[0];
-    picture.image.cached = [];
-    picture.image.onload = function () {
-        if(picture.image.currentSrc) {
-            picture.image.screenType = picture.sources[picture.image.currentSrc];
-        } else {
-            picture.image.screenType = picture.sources[picture.image.src || picture.image.getAttribute('xlink:href')];
+function createSVG(tmpl, image) {
+    var node = template.getContent(tmpl).cloneNode(true);
+    var svgImage = node.querySelector('image');
+    image.classList.add('js-hidden');
+    image.parentNode.appendChild(node);
+    return svgImage;
+}
+
+function updateSVG(svgImage, image) {
+    svgImage.setAttribute('xlink:href', image.currentSrc || image.src);
+    svgImage.setAttribute('width', image.naturalWidth);
+    svgImage.setAttribute('height', image.naturalHeight);
+    svgImage.parentNode.setAttribute('viewBox', '0 0 ' + image.naturalWidth + ' ' + image.naturalHeight);
+    svgImage.parentNode.setAttribute('width', image.naturalWidth);
+    svgImage.parentNode.setAttribute('height', image.naturalHeight);
+}
+
+function render(pictures) {
+    if(validBrowser) {
+        if (!global.HTMLPictureElement) {
+            var screenSize = getScreenSize();
         }
-        if($) {
-            $(picture).trigger('load');
-        }
-    };
+        pictures = Array.prototype.slice.call(pictures);
+        pictures.forEach(function (picture) {
+            if (!global.HTMLPictureElement) {
+                if (!picture.modified) {
+                    removeIE9VideoShim(picture);
+                    picture.modified = true;
+                }
+                showImage(picture, screenSize);
+            }
+        });
+    }
 }
 
 var size = null;
@@ -117,30 +146,27 @@ function getScreenSize() {
  *  Removes the IE9 video shim (conditional comment)
  */
 function removeIE9VideoShim(picture) {
-    var videos = collectionToArray(picture.getElementsByTagName('video'));
-    videos.forEach(function(video) {
+    var video = picture.querySelector('video');
+    if(video) {
         var vsources = video.getElementsByTagName('source');
         while (vsources.length) {
             picture.insertBefore(vsources[ 0 ], video);
         }
         video.parentNode.removeChild(video);
-    });
+    }
 }
 
 function showImage(picture, screenSize) {
     if(picture.image === undefined) {
-        picture.image = picture.querySelectorAll('img')[0];
-        picture.image.cached = [];
+        picture.image = picture.querySelector('img');
+    } else {
+        picture.image.removeEventListener('load', stopPropagation);
     }
-//        console.log(picture.querySelectorAll('img')[0].type);
 
     if(picture.image.type === undefined || picture.image.type !== screenMatrix[screenSize]) {
-
-        var sources = collectionToArray(picture.querySelectorAll('source.' + screenMatrix[screenSize]));
-        if(sources.length) {
-            sources.forEach(function(source) {
-                loadImage(picture, source);
-            });
+        var source = picture.querySelector('source.' + screenMatrix[screenSize]);
+        if(source) {
+            loadImage(picture, source);
         } else {
             if(screenSize < 4) {
                 showImage(picture, ++screenSize);
@@ -151,48 +177,24 @@ function showImage(picture, screenSize) {
     }
 }
 
-function loadImage(picture, source) {
+function stopPropagation(e) {
+    e.stopImmediatePropagation();
+}
 
-    global.animationFrame.add(function() {
+function loadImage(picture, source) {
+    global.animationFrame.addOnce(function() {
         setSource(picture, source);
     });
     picture.image.type = source.className;
 }
 
 function setSource(picture, source) {
-    registerSource(picture, source.className);
     var srcset = source.getAttribute('srcset');
     if(srcset) {
-        if(picture.image.src) {
-            preloadImage(srcset, function(img) {
-                picture.image.src = img.src;
-            });
-        } else {
-            preloadImage(srcset, function(img) {
-                picture.image.setAttribute('xlink:href', img.src);
-                picture.image.setAttribute('width', img.width);
-                picture.image.setAttribute('height', img.height);
-                picture.image.parentNode.setAttribute('viewBox', '0 0 ' + img.width + ' ' + img.height);
-                picture.image.parentNode.setAttribute('width', img.width);
-                picture.image.parentNode.setAttribute('height', img.height);
-                picture.style.paddingTop = (img.height / img.width) * 100 + '%';
-            });
-        }
+        picture.image.src = getSrcFromSrcSet(srcset);
     } else {
         picture.image.src = source.src;
     }
-}
-
-function registerSource(picture, className) {
-    picture.image.cached.push(className);
-}
-
-function collectSources(sources) {
-    var map = {};
-    collectionToArray(sources).forEach(function(source) {
-        map[getSrcFromSrcSet(source.getAttribute('srcset'))] = source.className;
-    });
-    return map;
 }
 
 function getSrcFromSrcSet(srcset) {
@@ -238,29 +240,4 @@ function getBestCandidate(candidates) {
         }
     }
     return bestCandidate;
-}
-
-function triggerEvent(el, eventName) {
-    if (document.createEvent) {
-        var event = document.createEvent('HTMLEvents');
-        event.initEvent(eventName, true, false);
-        el.dispatchEvent(event);
-    } else {
-        el.fireEvent('on' + eventName);
-    }
-}
-
-function collectionToArray(collection) {
-    for(var i = 0, list = []; i < collection.length; i++) {
-        list.push(collection[i]);
-    }
-    return list;
-}
-
-function preloadImage(srcset, callback) {
-    var img = new Image();
-    img.onload = function() {
-        callback(img);
-    };
-    img.src = getSrcFromSrcSet(srcset);
 }

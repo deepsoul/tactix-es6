@@ -44,11 +44,13 @@ module.exports = Controller.extend({
             this.operation = 'addLocal';
         }
 
+        this.onMeasure = onMeasure.bind(this);
         this.onInit = onInit.bind(this);
         this.onResize = onResize.bind(this);
         this.onScroll = onScroll.bind(this);
 
         viewport
+            .on(viewport.EVENT_TYPES.MEASURE, this.onMeasure)
             .on(viewport.EVENT_TYPES.INIT, this.onInit)
             .on(viewport.EVENT_TYPES.RESIZE, this.onResize)
             .on(viewport.EVENT_TYPES.SCROLL, this.onScroll);
@@ -90,6 +92,7 @@ module.exports = Controller.extend({
 
     destroy: function() {
         viewport
+            .off(viewport.EVENT_TYPES.MEASURE, this.onMeasure)
             .off(viewport.EVENT_TYPES.INIT, this.onInit)
             .off(viewport.EVENT_TYPES.RESIZE, this.onResize)
             .off(viewport.EVENT_TYPES.SCROLL, this.onScroll);
@@ -113,11 +116,13 @@ function onScroll(viewportBounds, direction) {
     }
 }
 
-function onInit(viewportBounds, direction) {
+function onMeasure() {
     element.updateBounds(this.el, this.contentBounds);
     element.updateBounds(this.header, this.headerBounds);
     element.updateBounds(this.footer, this.footerBounds);
+}
 
+function onInit(viewportBounds, direction) {
     this.contentBoundsHeader.reset(this.contentBounds.min, this.contentBounds.max);
     this.contentBoundsHeader.min.addValuesLocal(0, viewportBounds.max.y - viewportBounds.min.y, 0);
     this.contentBoundsHeader.max.subtractValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);
@@ -133,10 +138,6 @@ function onInit(viewportBounds, direction) {
 }
 
 function onResize(viewportBounds, direction) {
-    element.updateBounds(this.el, this.contentBounds);
-    element.updateBounds(this.header, this.headerBounds);
-    element.updateBounds(this.footer, this.footerBounds);
-
     this.contentBoundsHeader.reset(this.contentBounds.min, this.contentBounds.max);
     this.contentBoundsHeader.min.addValuesLocal(0, viewportBounds.max.y - viewportBounds.min.y, 0);
     this.contentBoundsHeader.max.subtractValuesLocal(0, this.footerBounds.max.y - this.footerBounds.min.y, 0);

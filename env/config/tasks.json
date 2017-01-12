@@ -57,9 +57,6 @@
       "js": {
         "main": "<%= destination %>/js/app.js",
         "embed": [
-          "<%= destination %>/js/embed/_main.js",
-          "<%= destination %>/js/embed/animationFrame.js",
-          "<%= destination %>/js/embed/picture.js",
           "<%= destination %>/js/embed/embed.js"
         ]
       },
@@ -205,7 +202,7 @@
         "script": "agency-environment/lib/webpack/plugins/uglify",
         "config": {
           "compress": {
-
+            "drop_console": true
           }
         }
       }, {
@@ -266,24 +263,16 @@
       "name": "embed",
 
       "entry": {
-        "picture": "./src/js/polyfills/picture",
-        "animationFrame": "./src/js/polyfills/animationFrame",
         "embed": "./src/js/embed"
       },
 
       "plugins": [{
         "script": "agency-environment/lib/webpack/plugins/dedupe"
       }, {
-        "script": "agency-environment/lib/webpack/plugins/chunk",
-        "config": {
-          "main": "_main.js",
-          "packages": ["picture", "animationFrame", "embed"]
-        }
-      }, {
         "script": "agency-environment/lib/webpack/plugins/uglify",
         "config": {
           "compress": {
-            "drop_console": false
+            "drop_console": true
           }
         }
       }],

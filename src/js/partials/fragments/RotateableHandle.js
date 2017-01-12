@@ -78,7 +78,7 @@ function onPointerDown(e) {
         .divideLocal(this.rootViewport.dimension)
         .multiplyValueLocal(-1);
 
-    $(document).on('pointermove.' + this.cid, global.animationFrame.throttle('pointermove', onPointerMove.bind(this), onMeasure.bind(this)));
+    $(document).on('pointermove.' + this.cid, global.animationFrame.throttle(onMeasure.bind(this), onPointerMove.bind(this)));
     $(document).on('pointerup.' + this.cid, onPointerUp.bind(this));
 }
 

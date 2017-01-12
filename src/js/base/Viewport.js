@@ -4,20 +4,14 @@ var Vector = require('./Vector');
 var Bounds = require('./Bounds');
 var Enum = require('enum');
 var remove = require('lodash/remove');
-var animationFrame = global.animationFrame;
 var callbacks = {
     MEASURE: [],
     RESIZE: [],
     SCROLL: []
 };
 
-if (global.addEventListener) {
-    global.addEventListener('resize', animationFrame.throttle('viewport-resize', callCallbacks.bind(callbacks.RESIZE), callCallbacks.bind(callbacks.MEASURE)), false);
-    global.addEventListener('scroll', animationFrame.throttle('viewport-scroll',callCallbacks.bind(callbacks.SCROLL), callCallbacks.bind(callbacks.MEASURE)), true);
-} else {
-    global.attachEvent('onresize', animationFrame.throttle('viewport-resize', callCallbacks.bind(callbacks.RESIZE), callCallbacks.bind(callbacks.MEASURE)));
-    global.attachEvent('scroll', animationFrame.throttle('viewport-scroll', callCallbacks.bind(callbacks.SCROLL), callCallbacks.bind(callbacks.MEASURE)));
-}
+global.addEventListener('resize', global.animationFrame.throttle(callCallbacks.bind(callbacks.MEASURE), callCallbacks.bind(callbacks.RESIZE)), false);
+global.addEventListener('scroll', global.animationFrame.throttle(callCallbacks.bind(callbacks.MEASURE), callCallbacks.bind(callbacks.SCROLL)), true);
 
 function callCallbacks(e) {
     for(var i = 0, l = this.length; i < l; i++) {
@@ -25,15 +19,8 @@ function callCallbacks(e) {
     }
 }
 
-var Viewport = function(frame, content) {
-    this.frame = frame || this.frame;
+var Viewport = function() {
 
-    this.content = content || this.content;
-    // if(frame === content) {
-        this.scrollFrame = global;
-    // } else {
-    //     this.scrollFrame = this.content;
-    // }
     this.init = false;
     this.dimensionKeyName = {width: null, height: null};
     this.scrollKeyName = {x: null, y: null};
@@ -52,10 +39,10 @@ var Viewport = function(frame, content) {
         return result;
     }, {});
 
-    if(this.frame.innerWidth) {
+    if('innerWidth' in this.frame) {
         this.dimensionKeyName.width = 'innerWidth';
         this.dimensionKeyName.height = 'innerHeight';
-    } else if(this.frame.offsetWidth) {
+    } else if('offsetWidth' in this.frame) {
         this.dimensionKeyName.width = 'offsetWidth';
         this.dimensionKeyName.height = 'offsetHeight';
     } else {
@@ -63,10 +50,10 @@ var Viewport = function(frame, content) {
         this.dimensionKeyName.height = 'clientHeight';
     }
 
-    if('scrollX' in this.scrollFrame) {
+    if('scrollX' in this.frame) {
         this.scrollKeyName.x = 'scrollX';
         this.scrollKeyName.y = 'scrollY';
-    } else if('pageXOffset' in this.scrollFrame) {
+    } else if('pageXOffset' in this.frame) {
         this.scrollKeyName.x = 'pageXOffset';
         this.scrollKeyName.y = 'pageYOffset';
     } else {
@@ -78,23 +65,10 @@ var Viewport = function(frame, content) {
     callbacks.RESIZE.push(onResize.bind(this));
     callbacks.SCROLL.push(onScroll.bind(this));
 
-    if (global.addEventListener) {
-        [].forEach.call(this.content.querySelectorAll('img'),function(node) {
-            node.addEventListener('load', onImageLoad.bind(this));
-        }.bind(this));
-    } else {
-        [].forEach.call(this.content.querySelectorAll('img'),function(node) {
-            node.attachEvent('onload', onImageLoad.bind(this));
-        }.bind(this));
-    }
-
-    animationFrame.add(function() {
-        onMeasure.bind(this)();
-        onInit.bind(this)();
-    }.bind(this));
+    global.picture.ready(onImageLoad.bind(this));
 };
 
-Viewport.prototype.EVENT_TYPES = new Enum(['RESIZE', 'SCROLL', 'INIT']);
+Viewport.prototype.EVENT_TYPES = new Enum(['RESIZE', 'SCROLL', 'INIT', 'MEASURE']);
 Viewport.prototype.init = false;
 Viewport.prototype.frame = global;
 Viewport.prototype.content = (document.documentElement || document.body.parentNode || document.body);
@@ -135,42 +109,41 @@ module.exports = Viewport;
 
 function onImageLoad() {
     onMeasure.bind(this)();
-    onResize.bind(this)();
+    onInit.bind(this)();
 }
 
 function onInit() {
-    updateOffset(this);
-    updateDimension(this.dimension, this.frame, this.dimensionKeyName);
-    updateScroll(this.scrollX, this.scrollY, this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
     this.scrollDirection.resetValues(0, 0, 0);
     update(triggerUpdate.bind(this, this.EVENT_TYPES.INIT), this.bounds, this.scrollPosition, this.offset, this.dimension);
     this.init = true;
 }
 
 function onResize() {
+    update(triggerUpdate.bind(this, this.EVENT_TYPES.RESIZE), this.bounds, this.scrollPosition, this.offset, this.dimension);
+}
+
+function onScroll() {
+    update(triggerScroll.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
+}
+
+function onMeasure() {
+    this.scrollX = this.frame[this.scrollKeyName.x];
+    this.scrollY = this.frame[this.scrollKeyName.y];
     updateOffset(this);
     updateDimension(this.dimension, this.frame, this.dimensionKeyName);
     this.scrollDirection.reset(this.scrollPosition);
     updateScroll(this.scrollX, this.scrollY, this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
     updateScrollDirection(this.scrollDirection, this.scrollPosition);
-    update(triggerUpdate.bind(this, this.EVENT_TYPES.RESIZE), this.bounds, this.scrollPosition, this.offset, this.dimension);
-}
-
-function onScroll() {
-    this.scrollDirection.reset(this.scrollPosition);
-    updateScrollPosition(this.scrollX, this.scrollY, this.scrollPosition);
-    updateScrollDirection(this.scrollDirection, this.scrollPosition);
-    update(triggerScroll.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
-}
-
-function onMeasure() {
-    this.scrollX = this.scrollFrame[this.scrollKeyName.x];
-    this.scrollY = this.scrollFrame[this.scrollKeyName.y];
+    update(triggerMeasure.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
 }
 
 function update(fn, bounds, scrollPosition, offset, dimension) {
     updateBounds(bounds, scrollPosition, offset, dimension);
     fn();
+}
+
+function triggerMeasure() {
+    triggerUpdate.bind(this)(this.EVENT_TYPES.MEASURE);
 }
 
 function triggerScroll() {
@@ -200,7 +173,7 @@ function updateBounds(bounds, position, offset, dimension) {
 
 function updateScroll(scrollX, scrollY, content, scrollPosition, scrollRange, scrollDimension, viewportDimension) {
     updateScrollDimension(content, scrollDimension);
-    updateScrollRange(scrollRange, scrollDimension, viewportDimension);    
+    updateScrollRange(scrollRange, scrollDimension, viewportDimension);
     updateScrollPosition(scrollX, scrollY, scrollPosition);
 }
 

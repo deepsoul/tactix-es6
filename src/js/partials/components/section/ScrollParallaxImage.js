@@ -1,7 +1,7 @@
 "use strict";
 
 var PositionObserver = require('../../../base/scroll/PositionObserver');
-var modernizr = require('modernizr');
+
 
 module.exports = PositionObserver.extend({
 
@@ -18,13 +18,12 @@ module.exports = PositionObserver.extend({
         var picture = this.el.querySelector('picture');
 
         this.pictureStyle = picture.style;
-        this.prefixedAttr = modernizr.prefixedCSS('box-shadow');
 
         PositionObserver.prototype.initialize.apply(this, arguments);
     },
 
     onActive: function(info) {        
-        this.pictureStyle.cssText = this.prefixedAttr + ': 0px ' + (info.y * 10) + 'px 10px rgba(0, 0, 0, 0.5);';
+        this.pictureStyle.cssText = global.prefix.css + 'box-shadow' + ': 0px ' + (info.y * 10) + 'px 10px rgba(0, 0, 0, 0.5);';
     },
 
     onInactive: function() {

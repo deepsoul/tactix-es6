@@ -1,39 +1,43 @@
 "use strict";
 
-var Controller = require('../../base/Controller');
-var Viewport = require('../../base/Viewport');
+var PositionObserver = require('../../base/scroll/PositionObserver');
+var viewport = require('../../services/viewport');
 var Vector = require('../../base/Vector');
-var TweenMax = require('gsap');
+var Velocity = require('velocity-animate');
 require('pepjs');
 
-module.exports = Controller.extend({
+module.exports = PositionObserver.extend({
 
     events: {
         'pointerdown .masked-content': onPointerDown
     },
 
     initialize: function() {
-        Controller.prototype.initialize.apply(this, arguments);
-
+        PositionObserver.prototype.initialize.apply(this, arguments);
+        this.dimension = new Vector();
         this.movePoint = new Vector();
-        this.viewport = new Viewport(this.el.querySelector('.masked-content'), this.el.querySelector('.masked-content'));
         this.mask = this.el.querySelector('.mask');
 
-        this.viewport
-            .on(this.viewport.EVENT_TYPES.INIT, onResize.bind(this))
-            .on(this.viewport.EVENT_TYPES.RESIZE, onResize.bind(this));
+        this.onViewportMeasure = onViewportMeasure.bind(this);
+
+        viewport
+            .on(viewport.EVENT_TYPES.MEASURE, this.onViewportMeasure);
+    },
+
+    destroy: function() {
+        viewport
+            .off(viewport.EVENT_TYPES.MEASURE, this.onMeasure);
+        PositionObserver.prototype.destroy.apply(this, arguments);
     }
 });
 
-function onResize() {
-    this.viewport.dimension.divideValueLocal(2);
+function onViewportMeasure() {
+    this.dimension = this.bounds.getDimension(this.dimension).divideValueLocal(2);
 }
 
-function onPointerDown(e) {
-    onMeasure.bind(this)(e);
-    global.animationFrame.throttle('pointerdown', onPaint.bind(this))();
-
-    $(document).on('pointermove.' + this.cid, global.animationFrame.throttle('pointermove', onPaint.bind(this), onMeasure.bind(this)));
+function onPointerDown() {
+    global.animationFrame.addOnce(onPaint.bind(this));
+    $(document).on('pointermove.' + this.cid, global.animationFrame.throttle(onPointerMeasure.bind(this), onPaint.bind(this)));
     $(document).on('pointerup.' + this.cid, onPointerUp.bind(this));
 }
 
@@ -41,21 +45,19 @@ function onPointerUp() {
     $(document).off('pointermove.' + this.cid + ' pointerup.' + this.cid);
 }
 
-function onMeasure(e) {
+function onPointerMeasure(e) {
     e.preventDefault();
     this.movePoint.setX(e.pageX).setY(e.pageY)
-        .subtractLocal(this.viewport.offset)
-        .subtractLocal(this.viewport.dimension)
-        .divideLocal(this.viewport.dimension)
+        .subtractLocal(this.bounds.min)
+        .subtractLocal(this.dimension)
+        .divideLocal(this.dimension)
         .divideValueLocal(2)
         .multiplyValueLocal(100);
 }
 
 function onPaint() {
-    TweenMax.set(this.mask, {
-        css: {
-            x: this.movePoint.x + '%',
-            y: this.movePoint.y + '%'
-        }
-    });
+    Velocity(this.mask, {
+        translateX: this.movePoint.x + '%',
+        translateY: this.movePoint.y + '%'
+    }, 0);
 }

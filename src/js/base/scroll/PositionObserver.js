@@ -37,11 +37,13 @@ module.exports = Controller.extend({
             this.operation = 'addLocal';
         }
 
+        this.onMeasure = onMeasure.bind(this);
         this.onInit = onInit.bind(this);
         this.onResize = onResize.bind(this);
         this.onScroll = onScroll.bind(this);
 
         viewport
+            .on(viewport.EVENT_TYPES.MEASURE, this.onMeasure)
             .on(viewport.EVENT_TYPES.INIT, this.onInit)
             .on(viewport.EVENT_TYPES.RESIZE, this.onResize)
             .on(viewport.EVENT_TYPES.SCROLL, this.onScroll);
@@ -57,6 +59,7 @@ module.exports = Controller.extend({
 
     destroy: function() {
         viewport
+            .off(viewport.EVENT_TYPES.MEASURE, this.onMeasure)
             .off(viewport.EVENT_TYPES.INIT, this.onInit)
             .off(viewport.EVENT_TYPES.RESIZE, this.onResize)
             .off(viewport.EVENT_TYPES.SCROLL, this.onScroll);
@@ -76,15 +79,17 @@ function onScroll(viewportBounds, direction) {
         }
     }
 }
+ 
+function onMeasure() {
+    element.updateBounds(this.el, this.bounds);
+}
 
 function onInit(viewportBounds, direction) {
-    element.updateBounds(this.el, this.bounds);
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
 
 function onResize(viewportBounds, direction) {
-    element.updateBounds(this.el, this.bounds);
     viewportDimension = viewportBounds.getDimension(viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }

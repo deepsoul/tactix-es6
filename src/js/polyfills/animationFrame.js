@@ -1,15 +1,15 @@
 "use strict";
 
 var nativeSupport = true;
-var taskNames = {};
-var mutateTasks = [];
-var timer = null;
+var loopingTasks = [];
+var singleTasks = [];
+var handler;
+var step;
 
-module.exports = (function (window) {
+module.exports = global.animationFrame = (function (window) {
     var lastTime = 0;
     var requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
     var cancelAnimationFrame = window.cancelRequestAnimationFrame || window.webkitCancelRequestAnimationFrame || window.mozCancelRequestAnimationFrame;
-
 
     // polyfill with setTimeout fallback
     // heavily inspired from @darius gist mod: https://gist.github.com/paulirish/1579671#comment-837945
@@ -35,79 +35,70 @@ module.exports = (function (window) {
     // export to window
     window.requestAnimationFrame = requestAnimationFrame;
     window.cancelRequestAnimationFrame = cancelAnimationFrame;
-    loop();
 
     return {
-        add: function (callback) {
-            window.requestAnimationFrame(callback);
+        add: function(fn, duration) {
+            var start = 0;
+            if(!duration) {
+                start = -1;
+            }
+            var task = {
+                mutate: fn,
+                duration: duration || 0,
+                start: start
+            };
+            loopingTasks.push(task);
+            return task;
         },
 
-        addLoop: function (duration, callback) {
-            var handler = {
-                id: null,
-                begin: 0,
-                current: 0,
-                duration: duration || -1,
-                callback: callback
-            };
-            (function animloop(time) {
-                handler.id = window.requestAnimationFrame(animloop);
-                handler.begin = handler.begin || time;
-                if(time) {
-                    handler.current = (time - handler.begin) / duration;
-                    if(handler.current >= 1) {
-                        window.cancelRequestAnimationFrame(handler.id);
-                        handler.callback(1);
-                    } else {
-                        handler.callback(handler.current);
-                    }
+        remove: function(task) {
+            loopingTasks = loopingTasks.filter(function(item) {
+                if (item !== task) {
+                    return item;
                 }
-            })();
-            return handler;
+            });
         },
 
-        cancelLoop: function (handler) {
-            window.cancelRequestAnimationFrame(handler.id);
-        },
+        throttle: function(measure, mutate) {
+            var handler = {mutate: mutate, running: false};
 
-        throttle: function(taskName, mutate, measure) {
-            taskNames[taskName] = false;
-            measure = measure || function() {};
-            var mutateTask = {
-                name: taskName,
-                mutate: mutate
-            };
-
-            // var body = document.body;
             return function(e) {
                 measure(e);
-                if (taskNames[taskName]) {
+                if (handler.running) {
                     return;
                 }
-
-                mutateTasks.push(mutateTask);
-                taskNames[taskName] = true;
-
-                // clearTimeout(timer);
-                // if(!body.classList.contains('disable-hover')) {
-                //     body.classList.add('disable-hover');
-                // }
-                //
-                // timer = setTimeout(function(){
-                //     body.classList.remove('disable-hover');
-                // },500);
+                singleTasks.push(handler);
+                handler.running = true;
             };
+        },
+
+        addOnce: function(mutate) {
+            singleTasks.push({mutate: mutate, running: true});
         }
     };
 })(global);
 
-function loop() {
-    var task;
-    while(mutateTasks.length) {
-        task = mutateTasks.pop();
-        task.mutate();
-        taskNames[task.name] = false;
-    }
-
+global.requestAnimationFrame(function loop(time) {
+    runSingleTasks(time);
+    runLoopingTasks(time);
     global.requestAnimationFrame(loop);
+});
+
+function runSingleTasks(time) {
+    while(singleTasks.length) {
+        handler = singleTasks.shift();
+        handler.mutate(time);
+        handler.running = false;
+    }
+}
+
+function runLoopingTasks(time) {
+    loopingTasks.forEach(function(task) {
+        task.start = task.start || time;
+        step = (time - task.start) / task.duration;
+        task.mutate(step, time);
+        if(step >= 1 && step !== Infinity) {
+            global.animationFrame.remove(task);
+        }
+    });
 }
