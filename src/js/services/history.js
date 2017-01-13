@@ -8,9 +8,8 @@ var merge = require('../utils/merge');
 
 //https://www.npmjs.com/package/history-events
 
-module.exports = new (AmpersandState.extend(dataTypeDefinition, {
+module.exports = new(AmpersandState.extend(dataTypeDefinition, {
     session: {
-
         registry: {
             type: 'AmpersandCollection',
             required: true,
@@ -25,6 +24,13 @@ module.exports = new (AmpersandState.extend(dataTypeDefinition, {
             default: function() {
                 return document.title;
             }
+        },
+        defaultBaseFilename: {
+            type: 'string',
+            required: true,
+            default: function() {
+                return 'index.html';
+            }
         }
     },
 
@@ -32,13 +38,15 @@ module.exports = new (AmpersandState.extend(dataTypeDefinition, {
         AmpersandState.prototype.initialize.apply(this, arguments);
 
         browserHistory.Adapter.bind(window, 'statechange', function() {
-            this.registry.add(browserHistory.getState().data, {merge: true});
+            this.registry.add(browserHistory.getState().data, {
+                merge: true
+            });
         }.bind(this), false);
 
         $(document).on('click', 'a[data-deep-name]', function(e) {
             e.preventDefault();
             var node = $(e.currentTarget);
-            if(!!node.attr('href').replace(/^#/, '')) {
+            if (!!node.attr('href').replace(/^#/, '')) {
                 this.update([{
                     name: node.data('deep-name'),
                     value: node.attr('href').replace(/^#/, '') || null
@@ -48,29 +56,47 @@ module.exports = new (AmpersandState.extend(dataTypeDefinition, {
             }
         }.bind(this));
 
+        /**
+         * Set [history-base-filename] attribute on HTML or BODY tag, for override default base filename.
+         */
+        if (document.querySelector('[data-history-base-filename]')) {
+            this.defaultBaseFilename = document.querySelector('[data-history-base-filename]').getAttribute('data-history-base-filename');
+        }
+
         var state = this.registry.toJSON();
-        browserHistory.replaceState(state, getTitle.bind(this)(state), toQueryString(state));
+        browserHistory.replaceState(state, getTitle.bind(this)(state), toQueryString(state, this.defaultBaseFilename));
     },
 
     register: function(name, callback) {
         var entry = this.registry.get(name);
-        if(!entry){
-            entry = this.registry.add({name: name});
+        if (!entry) {
+            entry = this.registry.add({
+                name: name
+            });
         }
-        entry.callbacks.push(callback);
+        entry.callbacks.push({
+            name: name,
+            cb: callback
+        });
         callback(entry.value);
     },
 
-    unregister: function() {
-
+    unregister: function(name) {
+        var callbacks = this.registry.get(name).callbacks;
+        callbacks.splice(callbacks.findIndex(function(callback) {
+            if (callback.name === name) {
+                return true;
+            }
+        }), 1);
+        this.registry.get(name).callbacks = callbacks;
     },
 
     update: function(map, title) {
         var collection = updateSerializedCollection(this.registry.toJSON(), map);
-        if(title) {
-            browserHistory.pushState(collection, title, toQueryString(collection));
+        if (title) {
+            browserHistory.pushState(collection, title, toQueryString(collection, this.defaultBaseFilename));
         } else {
-            browserHistory.replaceState(collection, browserHistory.getState().title, toQueryString(collection));
+            browserHistory.replaceState(collection, browserHistory.getState().title, toQueryString(collection, this.defaultBaseFilename));
         }
     },
 
@@ -88,7 +114,7 @@ function getTitle(state) {
     var title = this.defaultTitle;
     state.forEach(function(item) {
         var node = $('[data-deep-name="' + item.name + '"][data-deep-value="' + item.value + '"][data-deep-title]');
-        if(node.length) {
+        if (node.length) {
             title = node.data('deep-title');
         }
     });
@@ -99,15 +125,15 @@ function updateSerializedCollection(collection, map) {
     return merge.collections(collection, map, 'name');
 }
 
-function toQueryString(collection) {
+function toQueryString(collection, defaultBaseFilename) {
     var result = collection.filter(function(item) {
         return item.value !== null;
     }).map(function(item) {
         return item.name + '=' + item.value;
     });
-    if(result.length) {
+    if (result.length) {
         return '?' + result.join('&');
     } else {
-        return location.pathname.split('/').slice(-1)[0] || 'index.html';
+        return location.pathname.split('/').slice(-1)[0] || defaultBaseFilename;
     }
 }
