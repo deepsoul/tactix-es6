@@ -49,45 +49,10 @@
       {{{raw options.scripts.css.critical}}}
   </style>
 
-  <style type="text/css">
-    {{#each globals.fonts}}
-      {{#if this.base64}}
-        @font-face {
-          font-family: '{{name}}';
-          src: url('data:application/x-font-woff;charset=utf-8;base64,{{{base64 this.path}}}') format('{{{replace (extname this.path) "." ""}}}');
-          font-style: {{style}};
-          font-weight: {{weight}};
-        }
+  {{#if globals.fonts}}
+    {{{mixin "common/head/fonts" fonts=globals.fonts}}}
+  {{/if}}
 
-      {{else}}
-        @font-face {
-          font-family: '{{name}}';
-          src: url('{{#unless this.absolute}}{{../relativeToRoot}}{{/unless}}{{{this.path}}}.eot');
-          src: url('{{#unless this.absolute}}{{../relativeToRoot}}{{/unless}}{{this.path}}.eot?#iefix') format('embedded-opentype'),
-          url('{{#unless this.absolute}}{{../relativeToRoot}}{{/unless}}{{this.path}}.woff') format('woff'),
-          url('{{#unless this.absolute}}{{../relativeToRoot}}{{/unless}}{{this.path}}.ttf') format('truetype');
-          font-style: {{style}};
-          font-weight: {{weight}};
-        }
-      {{/if}}
-    {{/each}}
-
-
-  </style>
-  <script type="text/javascript">
-    window.customFonts = [
-      {{#each globals.fonts}}
-        {
-          name: '{{name}}',
-          props: {
-            style: '{{style}}',
-            weight: '{{weight}}'
-          },
-          testString: '{{testString}}'
-        },
-      {{/each}}
-    ]
-  </script>
   <link rel="preload" href="{{relativeToRoot}}{{options.scripts.css.main}}" as="style" onload="this.rel='stylesheet'" media="screen">
   <noscript><link rel="stylesheet" href="{{relativeToRoot}}{{options.scripts.css.main}}"></noscript>
   <script type="text/javascript">
