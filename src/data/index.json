@@ -160,11 +160,18 @@
           "clipPath": "#skew-vertical-left-shape"
         }
       },
+      "scrollContainer": {
+        "article": {
+          "scrollableMask": {
+            "target": ".controller[data-controller='./partials/components/section/ScrollContainer']"
+          }
+        }
+      },
       "modal": {
         "headlineImageText": {
           "article": {
             "scrollableMask": {
-              "target": ".partial[data-partial='layouts/modal']"
+              "target": ".controller[data-controller='./partials/layouts/Modal']"
             }
           }
         }

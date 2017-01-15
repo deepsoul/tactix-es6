@@ -54,7 +54,7 @@ var Viewport = function(frameNode, contentNode) {
     }
 
     global.addEventListener('resize', global.animationFrame.throttle(onMeasure.bind(this), onResize.bind(this)), false);
-    this.scrollNode.addEventListener('scroll', global.animationFrame.throttle(onMeasure.bind(this), onScroll.bind(this)), false);
+    this.frameNode.addEventListener('scroll', global.animationFrame.throttle(onMeasure.bind(this), onScroll.bind(this)), false);
 
     global.picture.ready(onImageLoad.bind(this));
 };
@@ -100,7 +100,7 @@ Viewport.prototype.off = function(name, fn) {
 
 module.exports = Viewport;
 
-function onImageLoad() {    
+function onImageLoad() {
     onMeasure.bind(this)({stopImmediatePropagation: function() {}, stopPropagation: function() {}});
     onInit.bind(this)();
 }

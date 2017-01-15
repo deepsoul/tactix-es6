@@ -4,9 +4,6 @@ var ContentManager = require('../../base/controller/ContentManager');
 var browserHistory = require('../../services/history');
 var preventOverscroll = require('prevent-overscroll');
 var Viewport = require('../../base/Viewport');
-var viewport = require('../../services/viewport');
-var element = require('../../utils/element');
-var bounds = new (require('../../base/Bounds'))();
 
 module.exports = ContentManager.extend({
 
@@ -39,7 +36,7 @@ module.exports = ContentManager.extend({
         this.onResize = onResize.bind(this);
         this.onScroll = onScroll.bind(this);
 
-        this.model.viewport = new Viewport(this.el, this.el.querySelector('.content'));
+        this.model.viewport = new Viewport(this.el.querySelector('.content'), this.el.querySelector('.content > .document'));
         this.model.viewport
             .on(this.model.viewport.EVENT_TYPES.MEASURE, this.onMeasure)
             .on(this.model.viewport.EVENT_TYPES.INIT, this.onInit)
