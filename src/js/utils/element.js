@@ -1,10 +1,8 @@
 'use strict';
 
-var viewport = require('../services/viewport');
-
 module.exports = {
-    updateBounds: function(node, bounds) {
-        var box = node.getBoundingClientRect();    
+    updateBounds: function(node, bounds, viewport) {
+        var box = node.getBoundingClientRect();
         bounds.min
             .setX(box.left + node.clientLeft + viewport.bounds.min.x)
             .setY(box.top + node.clientTop + viewport.bounds.min.y);

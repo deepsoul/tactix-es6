@@ -1,6 +1,6 @@
 ---
 class: #string
-deep: "modal"
+deep: "modal" 
 ajax: #"ajax/"
 ---
 <aside class="partial controller{{#if class}} {{class}}{{/if}}" data-partial="layouts/modal" data-controller="./partials/layouts/Modal" data-deep="{{deep}}"{{#if ajax}} data-ajax="{{ajax}}"{{/if}}>
@@ -8,8 +8,10 @@ ajax: #"ajax/"
 
   {{{mixin "elements/link/deep" class="close" deep=deep url="#" title="&times;"}}}
   <div class="content">
-    {{#block "content"}}
+    <div class="document">
+      {{#block "content"}}
 
-    {{/block}}
+      {{/block}}
+    </div>
   </div>
 </aside>

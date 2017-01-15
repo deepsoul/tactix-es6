@@ -4,24 +4,16 @@ var Vector = require('./Vector');
 var Bounds = require('./Bounds');
 var Enum = require('enum');
 var remove = require('lodash/remove');
-var callbacks = {
-    MEASURE: [],
-    RESIZE: [],
-    SCROLL: []
-};
 
-global.addEventListener('resize', global.animationFrame.throttle(callCallbacks.bind(callbacks.MEASURE), callCallbacks.bind(callbacks.RESIZE)), false);
-global.addEventListener('scroll', global.animationFrame.throttle(callCallbacks.bind(callbacks.MEASURE), callCallbacks.bind(callbacks.SCROLL)), true);
-
-function callCallbacks(e) {
-    for(var i = 0, l = this.length; i < l; i++) {
-        this[i](e);
-    }
-}
-
-var Viewport = function() {
-
+var Viewport = function(frameNode, contentNode) {
     this.init = false;
+
+    this.frameNode = frameNode || this.frameNode;
+    this.contentNode = contentNode || this.contentNode;
+    if(this.frameNode !== global) {
+        this.scrollNode = this.contentNode;
+    }
+
     this.dimensionKeyName = {width: null, height: null};
     this.scrollKeyName = {x: null, y: null};
     this.scrollX = 0;
@@ -39,10 +31,10 @@ var Viewport = function() {
         return result;
     }, {});
 
-    if('innerWidth' in this.frame) {
+    if('innerWidth' in this.frameNode) {
         this.dimensionKeyName.width = 'innerWidth';
         this.dimensionKeyName.height = 'innerHeight';
-    } else if('offsetWidth' in this.frame) {
+    } else if('offsetWidth' in this.frameNode) {
         this.dimensionKeyName.width = 'offsetWidth';
         this.dimensionKeyName.height = 'offsetHeight';
     } else {
@@ -50,10 +42,10 @@ var Viewport = function() {
         this.dimensionKeyName.height = 'clientHeight';
     }
 
-    if('scrollX' in this.frame) {
+    if('scrollX' in this.scrollNode) {
         this.scrollKeyName.x = 'scrollX';
         this.scrollKeyName.y = 'scrollY';
-    } else if('pageXOffset' in this.frame) {
+    } else if('pageXOffset' in this.frameNode) {
         this.scrollKeyName.x = 'pageXOffset';
         this.scrollKeyName.y = 'pageYOffset';
     } else {
@@ -61,17 +53,17 @@ var Viewport = function() {
         this.scrollKeyName.y = 'scrollTop';
     }
 
-    callbacks.MEASURE.push(onMeasure.bind(this));
-    callbacks.RESIZE.push(onResize.bind(this));
-    callbacks.SCROLL.push(onScroll.bind(this));
+    global.addEventListener('resize', global.animationFrame.throttle(onMeasure.bind(this), onResize.bind(this)), false);
+    this.scrollNode.addEventListener('scroll', global.animationFrame.throttle(onMeasure.bind(this), onScroll.bind(this)), false);
 
     global.picture.ready(onImageLoad.bind(this));
 };
 
 Viewport.prototype.EVENT_TYPES = new Enum(['RESIZE', 'SCROLL', 'INIT', 'MEASURE']);
 Viewport.prototype.init = false;
-Viewport.prototype.frame = global;
-Viewport.prototype.content = (document.documentElement || document.body.parentNode || document.body);
+Viewport.prototype.frameNode = global;
+Viewport.prototype.scrollNode = global;
+Viewport.prototype.contentNode = (document.documentElement || document.body.parentNode || document.body);
 Viewport.prototype.dimensionKeyName = {width: null, height: null};
 Viewport.prototype.scrollKeyName = {x: null, y: null};
 Viewport.prototype.scrollX = 0;
@@ -87,6 +79,7 @@ Viewport.prototype.scrollRange = new Vector();
 Viewport.prototype.callbacks = [];
 
 Viewport.prototype.update = function() {
+    onMeasure.bind(this)({stopImmediatePropagation: function() {}, stopPropagation: function() {}});
     onResize.bind(this)();
 };
 
@@ -107,8 +100,8 @@ Viewport.prototype.off = function(name, fn) {
 
 module.exports = Viewport;
 
-function onImageLoad() {
-    onMeasure.bind(this)();
+function onImageLoad() {    
+    onMeasure.bind(this)({stopImmediatePropagation: function() {}, stopPropagation: function() {}});
     onInit.bind(this)();
 }
 
@@ -126,13 +119,14 @@ function onScroll() {
     update(triggerScroll.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
 }
 
-function onMeasure() {
-    this.scrollX = this.frame[this.scrollKeyName.x];
-    this.scrollY = this.frame[this.scrollKeyName.y];
+function onMeasure(e) {
+    e.stopImmediatePropagation();
+    this.scrollX = this.frameNode[this.scrollKeyName.x];
+    this.scrollY = this.frameNode[this.scrollKeyName.y];
     updateOffset(this);
-    updateDimension(this.dimension, this.frame, this.dimensionKeyName);
+    updateDimension(this.dimension, this.frameNode, this.dimensionKeyName);
     this.scrollDirection.reset(this.scrollPosition);
-    updateScroll(this.scrollX, this.scrollY, this.content, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
+    updateScroll(this.scrollX, this.scrollY, this.contentNode, this.scrollPosition, this.scrollRange, this.scrollDimension, this.dimension);
     updateScrollDirection(this.scrollDirection, this.scrollPosition);
     update(triggerMeasure.bind(this), this.bounds, this.scrollPosition, this.offset, this.dimension);
 }
@@ -157,7 +151,7 @@ function triggerUpdate(eventType) {
 }
 
 function updateOffset(scope) {
-    var box = scope.content.getBoundingClientRect();
+    var box = scope.contentNode.getBoundingClientRect();
 
     var top = box.top + scope.scrollY;
     var left = box.left + scope.scrollX;

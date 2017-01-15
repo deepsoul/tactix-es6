@@ -117,9 +117,9 @@ function onScroll(viewportBounds, direction) {
 }
 
 function onMeasure() {
-    element.updateBounds(this.el, this.contentBounds);
-    element.updateBounds(this.header, this.headerBounds);
-    element.updateBounds(this.footer, this.footerBounds);
+    element.updateBounds(this.el, this.contentBounds, viewport);
+    element.updateBounds(this.header, this.headerBounds, viewport);
+    element.updateBounds(this.footer, this.footerBounds, viewport);
 }
 
 function onInit(viewportBounds, direction) {

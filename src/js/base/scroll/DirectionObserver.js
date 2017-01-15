@@ -9,9 +9,11 @@ var element = require('../../utils/element');
 var viewport = require('../../services/viewport');
 
 module.exports = Controller.extend({
-
+    viewport: viewport,
     modelConstructor: DomModel.extend(dataTypeDefinition, {
+        session: {
 
+        }
     }),
 
     initialize: function() {
@@ -24,12 +26,16 @@ module.exports = Controller.extend({
         this.onInit = onInit.bind(this);
         this.onResize = onResize.bind(this);
         this.onScroll = onScroll.bind(this);
+        
+        if(this.targetModel && this.targetModel.viewport) {
+            this.viewport = this.targetModel.viewport;
+        }
 
-        viewport
-            .on(viewport.EVENT_TYPES.MEASURE, this.onMeasure)
-            .on(viewport.EVENT_TYPES.INIT, this.onInit)
-            .on(viewport.EVENT_TYPES.RESIZE, this.onResize)
-            .on(viewport.EVENT_TYPES.SCROLL, this.onScroll);
+        this.viewport
+            .on(this.viewport.EVENT_TYPES.MEASURE, this.onMeasure)
+            .on(this.viewport.EVENT_TYPES.INIT, this.onInit)
+            .on(this.viewport.EVENT_TYPES.RESIZE, this.onResize)
+            .on(this.viewport.EVENT_TYPES.SCROLL, this.onScroll);
     },
 
     onInit: function() {
@@ -45,17 +51,17 @@ module.exports = Controller.extend({
     },
 
     destroy: function() {
-        viewport
-            .off(viewport.EVENT_TYPES.MEASURE, this.onMeasure)
-            .off(viewport.EVENT_TYPES.INIT, this.onInit)
-            .off(viewport.EVENT_TYPES.RESIZE, this.onResize)
-            .off(viewport.EVENT_TYPES.SCROLL, this.onScroll);
+        this.viewport
+            .off(this.viewport.EVENT_TYPES.MEASURE, this.onMeasure)
+            .off(this.viewport.EVENT_TYPES.INIT, this.onInit)
+            .off(this.viewport.EVENT_TYPES.RESIZE, this.onResize)
+            .off(this.viewport.EVENT_TYPES.SCROLL, this.onScroll);
         Controller.prototype.destroy.apply(this, arguments);
     }
 });
 
 function onMeasure() {
-    element.updateBounds(this.el, this.bounds);
+    element.updateBounds(this.el, this.bounds, this.viewport);
 }
 
 function onInit(viewportBounds, direction) {
@@ -63,7 +69,7 @@ function onInit(viewportBounds, direction) {
 }
 
 function onResize() {
-    
+
 }
 
 function onScroll(viewportBounds, direction) {

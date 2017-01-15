@@ -4,7 +4,7 @@ picture:
     mask: '#masking'
 figcaption: {}
 ---
-<figure class="partial controller" data-partial="fragments/scrollable-mask" data-controller="./partials/fragments/ScrollableMask" data-extended-range="true">
+<figure class="partial controller" data-partial="fragments/scrollable-mask" data-controller="./partials/fragments/ScrollableMask" data-extended-range="true"{{#if target}} data-target="{{{target}}}"{{/if}}>
   <div class="masked-content">
     {{#block "content"}}
       {{{mixin "elements/picture" picture}}}

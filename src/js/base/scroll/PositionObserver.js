@@ -9,11 +9,11 @@ var Bounds = require('../Bounds');
 var element = require('../../utils/element');
 var viewport = require('../../services/viewport');
 
-var viewportDimension = new Vector();
 var objectDimension = new Vector();
 
 module.exports = Controller.extend({
     operation: 'subtractLocal',
+    viewport: viewport,
 
     modelConstructor: DomModel.extend(dataTypeDefinition, {
         session: {
@@ -42,11 +42,17 @@ module.exports = Controller.extend({
         this.onResize = onResize.bind(this);
         this.onScroll = onScroll.bind(this);
 
-        viewport
-            .on(viewport.EVENT_TYPES.MEASURE, this.onMeasure)
-            .on(viewport.EVENT_TYPES.INIT, this.onInit)
-            .on(viewport.EVENT_TYPES.RESIZE, this.onResize)
-            .on(viewport.EVENT_TYPES.SCROLL, this.onScroll);
+        this.viewportDimension = new Vector();
+
+        if(this.targetModel && this.targetModel.viewport) {
+            this.viewport = this.targetModel.viewport;
+        }
+
+        this.viewport
+            .on(this.viewport.EVENT_TYPES.MEASURE, this.onMeasure)
+            .on(this.viewport.EVENT_TYPES.INIT, this.onInit)
+            .on(this.viewport.EVENT_TYPES.RESIZE, this.onResize)
+            .on(this.viewport.EVENT_TYPES.SCROLL, this.onScroll);
     },
 
     onActive: function() {
@@ -58,11 +64,11 @@ module.exports = Controller.extend({
     },
 
     destroy: function() {
-        viewport
-            .off(viewport.EVENT_TYPES.MEASURE, this.onMeasure)
-            .off(viewport.EVENT_TYPES.INIT, this.onInit)
-            .off(viewport.EVENT_TYPES.RESIZE, this.onResize)
-            .off(viewport.EVENT_TYPES.SCROLL, this.onScroll);
+        this.viewport
+            .off(this.viewport.EVENT_TYPES.MEASURE, this.onMeasure)
+            .off(this.viewport.EVENT_TYPES.INIT, this.onInit)
+            .off(this.viewport.EVENT_TYPES.RESIZE, this.onResize)
+            .off(this.viewport.EVENT_TYPES.SCROLL, this.onScroll);
         Controller.prototype.destroy.apply(this, arguments);
     }
 });
@@ -70,35 +76,35 @@ module.exports = Controller.extend({
 function onScroll(viewportBounds, direction) {
     if(this.bounds.intersects(viewportBounds)) {
         this.outOfViewportInfo = null;
-        this.onActive(getIntersectionInfo(this.bounds, viewportBounds, this.operation), direction);
+        this.onActive(getIntersectionInfo(this.bounds, viewportBounds, this.viewportDimension, this.operation), direction);
     } else {
         if(!this.outOfViewportInfo) {
             this.outOfViewportInfo = new Vector();
-            this.outOfViewportInfo.reset(getIntersectionInfo(this.bounds, viewportBounds, this.operation)).clampLocal(-1, 1);
+            this.outOfViewportInfo.reset(getIntersectionInfo(this.bounds, viewportBounds, this.viewportDimension, this.operation)).clampLocal(-1, 1);
             this.onInactive(this.outOfViewportInfo, direction);
         }
     }
 }
- 
+
 function onMeasure() {
-    element.updateBounds(this.el, this.bounds);
+    element.updateBounds(this.el, this.bounds, this.viewport);
 }
 
 function onInit(viewportBounds, direction) {
-    viewportDimension = viewportBounds.getDimension(viewportDimension);
+    this.viewportDimension = viewportBounds.getDimension(this.viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
 
 function onResize(viewportBounds, direction) {
-    viewportDimension = viewportBounds.getDimension(viewportDimension);
+    this.viewportDimension = viewportBounds.getDimension(this.viewportDimension);
     onScroll.bind(this)(viewportBounds, direction);
 }
 
-function getIntersectionInfo(bounds, viewportBounds, operation) {
-    return normalizeIntersectionInfoByRange(bounds.getIntersectionInfo(viewportBounds), getRange(bounds, operation));
+function getIntersectionInfo(bounds, viewportBounds, viewportDimension, operation) {
+    return normalizeIntersectionInfoByRange(bounds.getIntersectionInfo(viewportBounds), getRange(bounds, viewportDimension, operation));
 }
 
-function getRange(bounds, operation) {
+function getRange(bounds, viewportDimension, operation) {
     return bounds.getDimension(objectDimension)[operation](viewportDimension);
 }
 

@@ -34,7 +34,7 @@ module.exports = AmpersandModel.extend({
     initialize: function() {
         AmpersandModel.prototype.initialize.apply(this, arguments);
 
-        this.on('change:value', function(model, value) {
+        this.on('change:value', function(model, value) {            
             model.callbacks.forEach(function(callback) {
                 callback(value);
             });

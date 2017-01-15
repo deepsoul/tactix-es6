@@ -69,15 +69,13 @@ module.exports = new(AmpersandState.extend(dataTypeDefinition, {
 
     register: function(name, callback) {
         var entry = this.registry.get(name);
+    
         if (!entry) {
             entry = this.registry.add({
                 name: name
             });
         }
-        entry.callbacks.push({
-            name: name,
-            cb: callback
-        });
+        entry.callbacks.push(callback);
         callback(entry.value);
     },
 

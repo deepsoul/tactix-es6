@@ -159,6 +159,15 @@
         "svg": {
           "clipPath": "#skew-vertical-left-shape"
         }
+      },
+      "modal": {
+        "headlineImageText": {
+          "article": {
+            "scrollableMask": {
+              "target": ".partial[data-partial='layouts/modal']"
+            }
+          }
+        }
       }
     }
 }
