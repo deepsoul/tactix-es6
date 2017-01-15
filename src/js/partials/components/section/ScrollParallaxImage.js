@@ -22,8 +22,8 @@ module.exports = PositionObserver.extend({
         PositionObserver.prototype.initialize.apply(this, arguments);
     },
 
-    onActive: function(info) {        
-        this.pictureStyle.cssText = global.prefix.css + 'box-shadow' + ': 0px ' + (info.y * 10) + 'px 10px rgba(0, 0, 0, 0.5);';
+    onActive: function(info) {    
+        this.pictureStyle.cssText = 'box-shadow' + ': 0px ' + (info.y * 10) + 'px 10px rgba(0, 0, 0, 0.5);';
     },
 
     onInactive: function() {
