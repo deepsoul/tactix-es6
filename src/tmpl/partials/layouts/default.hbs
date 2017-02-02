@@ -7,14 +7,6 @@
 <!--[if gt IE 9]>  <html class="no-js ie gt-ie9 partial loading" data-partial="layouts/default" lang="{{language}}"><![endif]-->
 <!--[if !IE]><!--> <html class="no-js partial loading" data-partial="layouts/default" lang="{{default.language}}"><!--<![endif]-->
 <head>
-  {{#if options.server.weinre}}
-  <script type="text/javascript">
-      if(/(weinre)/g.test(location.search)) {
-        var host = (location.host || 'localhost').split(':')[0];
-        document.write('<script src="//' + host + ':{{options.server.weinre.port}}/target/target-script-min.js#anonymous"></'+'script>');
-      }
-  </script>
-  {{/if}}
   {{#if options.server.livereload}}
   <script type="text/javascript">
       if('WebSocket' in window || 'MozWebSocket' in window) {

@@ -54,7 +54,7 @@ Vector.prototype.resetByRad = function(rad) {
     return this;
 };
 
-Vector.prototype.add = function(vector){
+Vector.prototype.add = function(vector){    
     return add(this, vector.x, vector.y, vector.z, new Vector());
 };
 

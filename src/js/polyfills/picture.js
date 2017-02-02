@@ -2,6 +2,7 @@
 
 var template = require('../utils/template');
 var validBrowser = !navigator.userAgent.match(/(Google Page Speed Insights)/i);
+var isIE9 = document.documentElement.classList.contains('ie9');
 
 if (!global.HTMLPictureElement) {
     document.createElement('picture');
@@ -122,7 +123,9 @@ function render(pictures) {
         pictures.forEach(function (picture) {
             if (!global.HTMLPictureElement) {
                 if (!picture.modified) {
-                    removeIE9VideoShim(picture);
+                    if(isIE9) {
+                        removeIE9VideoShim(picture);
+                    }
                     picture.modified = true;
                 }
                 showImage(picture, screenSize);
