@@ -31,26 +31,30 @@ $rad: calc($deg /100)rad;
   .header {
     position: absolute;
     top: 0;
-    width: 100%;
+    width: 101%;
     padding-bottom: $padding%;
     background-color: rgba(255,255,255,1);
     transform-origin: top left;
     transform: skewY($(rad));
     backface-visibility: hidden;
     box-shadow: 0 -5px 10px 10px rgba(0,0,0,0.3);
-    z-index: 2;
+    @media (--screen-xs) {
+      z-index: 2;
+    }
   }
 
   .footer {
     position: absolute;
     bottom: 0;
-    width: 100%;
+    width: 101%;
     padding-bottom: $padding%;
     background-color: rgba(255,255,255,1);
     transform-origin: bottom right;
     transform: skewY($(rad));
     backface-visibility: hidden;
     box-shadow: 0 5px 10px 10px rgba(0,0,0,0.3);
-    z-index: 2;
+    @media (--screen-xs) {
+      z-index: 2;
+    }
   }
 }

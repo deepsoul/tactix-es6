@@ -115,7 +115,7 @@
         "params": []
       }, {
         "name": "cssnano",
-        "params": []
+        "params": [{"zindex": false}]
       }],
       "files": {
         "src": ["./src/pcss/style.pcss", "./src/pcss/critical.pcss"],
