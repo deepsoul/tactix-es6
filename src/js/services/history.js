@@ -1,6 +1,6 @@
 "use strict";
 
-var browserHistory = require('exports?History!historyjs/scripts/bundled-uncompressed/html4+html5/native.history');
+var browserHistory = require('exports?History!historyjs/scripts/bundled-uncompressed/html5/native.history');
 var AmpersandState = require('ampersand-state');
 var Registry = require('./history/Registry');
 var dataTypeDefinition = require('../base/dataTypeDefinition');
