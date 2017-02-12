@@ -45,14 +45,14 @@ module.exports = new(AmpersandState.extend(dataTypeDefinition, {
 
         $(document).on('click', 'a[data-deep-name]', function(e) {
             e.preventDefault();
-            var node = $(e.currentTarget);
-            if (!!node.attr('href').replace(/^#/, '')) {
+            var node = e.currentTarget;
+            if (!!node.getAttribute('href').replace(/^#/, '')) {
                 this.update([{
-                    name: node.data('deep-name'),
-                    value: node.attr('href').replace(/^#/, '') || null
-                }], node.attr('title') || null);
+                    name: node.dataset.deepName,
+                    value: node.getAttribute('href').replace(/^#/, '') || null
+                }], node.getAttribute('title') || null);
             } else {
-                this.remove([node.data('deep-name')]);
+                this.remove([node.dataset.deepName]);
             }
         }.bind(this));
 
@@ -69,7 +69,7 @@ module.exports = new(AmpersandState.extend(dataTypeDefinition, {
 
     register: function(name, callback) {
         var entry = this.registry.get(name);
-    
+
         if (!entry) {
             entry = this.registry.add({
                 name: name

@@ -46,13 +46,13 @@ module.exports = ContentManager.extend({
         browserHistory.register(this.model.deep, function(value) {
             if(value !== null) {
                 addBodyScrollbarOffset();
-                $('html').addClass('js-modal-active');
+                document.documentElement.classList.add('js-modal-active');
                 this.model.open = true;
                 cleanup = preventOverscroll(this.el.querySelector('div.content'));
                 this.model.viewport.update();
             } else {
                 removeBodyScrollbarOffset();
-                $('html').removeClass('js-modal-active');
+                document.documentElement.classList.remove('js-modal-active');
                 this.model.open = false;
                 (cleanup || function(){})();
             }
@@ -88,16 +88,16 @@ function onScroll() {
 function clickOutside(e) {
     e.preventDefault();
 
-    if(!$(e.target).closest('.content', this.el).length) {
+    if(!e.target.closest('.content', this.el)) {
         $('>a.close', this.el).trigger('click');
     }
 }
 
 //prevent bouncing content by disabling scrollbar (overflow: hidden)
 function addBodyScrollbarOffset() {
-    $('html').css('margin-right', window.innerWidth - document.documentElement.clientWidth);
+    document.documentElement.style.cssText = 'margin-right: ' + (window.innerWidth - document.documentElement.clientWidth) + 'px';
 }
 
 function removeBodyScrollbarOffset() {
-    $('html').css('margin-right', '');
+    document.documentElement.style.cssText = '';
 }

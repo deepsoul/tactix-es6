@@ -2,6 +2,7 @@
 
 require('classlist-polyfill');
 require('element-dataset').default();
+require('element-closest');
 require('script-loader!fg-loadcss');
 require('script-loader!fg-loadcss/src/cssrelpreload');
 require('./polyfills/animationFrame');

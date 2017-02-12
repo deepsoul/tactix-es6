@@ -73,7 +73,9 @@ module.exports = global.animationFrame = (function (window) {
         },
 
         addOnce: function(mutate) {
-            singleTasks.push({mutate: mutate, running: true});
+            // global.requestAnimationFrame(function() {
+                singleTasks.push({mutate: mutate, running: true});
+            // });            
         }
     };
 })(global);

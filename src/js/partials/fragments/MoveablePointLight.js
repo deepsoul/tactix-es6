@@ -3,7 +3,6 @@
 var PositionObserver = require('../../base/scroll/PositionObserver');
 var viewport = require('../../services/viewport');
 var Vector = require('../../base/Vector');
-var Velocity = require('velocity-animate');
 require('pepjs');
 
 module.exports = PositionObserver.extend({
@@ -56,8 +55,5 @@ function onPointerMeasure(e) {
 }
 
 function onPaint() {
-    Velocity(this.mask, {
-        translateX: this.movePoint.x + '%',
-        translateY: this.movePoint.y + '%'
-    }, 0);
+    this.mask.style.cssText = 'transform: translate(' + this.movePoint.x + '%, ' + this.movePoint.y + '%)';
 }

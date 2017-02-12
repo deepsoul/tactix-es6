@@ -189,10 +189,10 @@
       "plugins": [{
         "script": "agency-environment/lib/webpack/plugins/provide",
         "config": {
-          "$": "jquery",
-          "jQuery": "jquery",
-          "window.jQuery": "jquery",
-          "root.jQuery": "jquery"
+          "$": "jquery/src/core",
+          "jQuery": "jquery/src/core",
+          "window.jQuery": "jquery/src/core",
+          "root.jQuery": "jquery/src/core"
         }
       }, {
         "script": "agency-environment/lib/webpack/plugins/polyfills"
@@ -204,6 +204,11 @@
           "compress": {
             "drop_console": true
           }
+        }
+      }, {
+        "script": "agency-environment/lib/webpack/plugins/optimize",
+        "config": {
+          "sourceMap": false
         }
       }, {
         "script": "agency-environment/lib/webpack/plugins/analyzer",
@@ -275,6 +280,11 @@
             "drop_console": true
           }
         }
+      }, {
+        "script": "agency-environment/lib/webpack/plugins/optimize",
+        "config": {
+          "sourceMap": false
+        }
       }],
       "module": {
         "preLoaders": [{
@@ -299,7 +309,7 @@
         }
       },
       "files": {
-        "src": ["./src/js/polyfills/animationFrame", "./src/js/polyfills/picture", "./src/js/embed"],
+        "src": ["./src/js/embed"],
         "dest": "<%= destination %>/js/embed/[name].js",
         "library": ["[name]"]
       }

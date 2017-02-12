@@ -56,7 +56,7 @@ module.exports = Controller.extend({
     },
 
     onActive: function() {
-        // console.log('HUI', info.y, direction.y);
+        // console.log('HUI', info.y, direction.y); 
     },
 
     onInactive: function() {

@@ -2,7 +2,7 @@
 
 var StateObserver = require('../../base/scroll/StateObserver');
 
-var Velocity = require('velocity-animate');
+var anime = require('animejs');
 
 module.exports = StateObserver.extend({
     tween: null,
@@ -21,19 +21,31 @@ module.exports = StateObserver.extend({
 
         var picture = this.el.querySelector('picture');
 
-        Velocity(this.el.querySelector('figcaption'), {
-            translateY: '100%'
-        }, 350);
+        anime({
+            targets: this.el.querySelector('figcaption'),
+            translateY: {
+                value: '100%',
+                duration: 350
+            }
+        });
 
-        this.model.on('change:triggered', function(model, value) {            
+        this.model.on('change:triggered', function(model, value) {
             if(value) {
-                Velocity(this.el.querySelector('figcaption'), {
-                    translateY: '0%'
-                }, 350);
+                anime({
+                    targets: this.el.querySelector('figcaption'),
+                    translateY: {
+                        value: '0%',
+                        duration: 350
+                    }
+                });
             } else {
-                Velocity(this.el.querySelector('figcaption'), {
-                    translateY: '100%'
-                }, 350);
+                anime({
+                    targets: this.el.querySelector('figcaption'),
+                    translateY: {
+                        value: '100%',
+                        duration: 350
+                    }
+                });
             }
         }.bind(this));
 

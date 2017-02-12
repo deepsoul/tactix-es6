@@ -56,10 +56,10 @@
       "plugins": [{
         "script": "agency-environment/lib/webpack/plugins/provide",
         "config": {
-          "$": "jquery",
-          "jQuery": "jquery",
-          "window.jQuery": "jquery",
-          "root.jQuery": "jquery"
+          "$": "jquery/src/core",
+          "jQuery": "jquery/src/core",
+          "window.jQuery": "jquery/src/core",
+          "root.jQuery": "jquery/src/core"
         }
       }, {
         "script": "agency-environment/lib/webpack/plugins/polyfills"

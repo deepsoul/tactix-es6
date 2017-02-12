@@ -3,7 +3,6 @@
 var Vector = require('./Vector');
 var Bounds = require('./Bounds');
 var Enum = require('enum');
-var remove = require('lodash/remove');
 
 var Viewport = function(frameNode, contentNode) {
     this.init = false;
@@ -107,9 +106,12 @@ Viewport.prototype.on = function(name, fn) {
 };
 
 Viewport.prototype.off = function(name, fn) {
-    this.callbacks[name] = remove(this.callbacks[name], function(callback) {
-        return callback === fn;
-    });
+    this.callbacks[name] = this.callbacks[name].reduce(function(result, callback) {
+        if(callback !== fn) {
+            result.push(callback);
+        }
+        return result;
+    }, []);
     return this;
 };
 

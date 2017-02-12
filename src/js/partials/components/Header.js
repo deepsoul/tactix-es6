@@ -1,7 +1,7 @@
 "use strict";
 
 var ScrollDirectionObserver = require('../../base/scroll/DirectionObserver');
-var Velocity = require('velocity-animate');
+var anime = require('animejs');
 
 module.exports = ScrollDirectionObserver.extend({
     outOfViewport: false,
@@ -26,22 +26,25 @@ module.exports = ScrollDirectionObserver.extend({
 function updateClass(scope, flag) {
     if(scope.outOfViewport !== flag) {
         if(flag === true) {
-            Velocity(scope.el, {
-                translateY: '0%'
-            }, {
-                duration: 350
+            anime({
+                targets: scope.el,
+                translateY: {
+                    value: '0%',
+                    duration: 350
+                },
+                easing: 'easeInOutQuad'
             });
-            // scope.tween.reverse();
         } else {
-            // scope.tween.play();
-            Velocity(scope.el, {
-                translateY: '-100%'
-            }, {
-                duration: 350
+            anime({
+                targets: scope.el,
+                translateY: {
+                    value: '-100%',
+                    duration: 350
+                },
+                easing: 'easeInOutQuad'
             });
         }
     }
-
     scope.outOfViewport = flag;
 }
 

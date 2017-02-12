@@ -17,9 +17,15 @@ var devicePixelRatio = global.devicePixelRatio || 1;
 var screenMatrix = ['lg', 'md', 'sm', 'xs', 'default'];
 
 var init = {
+    load: false,
     ready: false,
     promises: [],
     callbacks: []
+};
+
+global.onload = function() {
+    init.load = true;
+    processCallbacks();
 };
 
 module.exports = global.picture = {
@@ -45,7 +51,7 @@ module.exports = global.picture = {
     },
 
     ready: function(cb) {
-        if(init.ready) {
+        if(init.ready && init.load) {
             cb();
         } else {
             init.callbacks.push(cb);
@@ -54,17 +60,22 @@ module.exports = global.picture = {
 };
 
 document.addEventListener( "DOMContentLoaded", function() {
-
     var nodes = [].map.call(document.querySelectorAll('picture > img'), function(image) {
         return image.promise;
     });
     Promise.all(nodes).then(function() {
         init.ready = true;
+        processCallbacks();
+    });
+}, false);
+
+function processCallbacks() {
+    if(init.ready && init.load) {
         while(init.callbacks.length > 0) {
             (init.callbacks.shift())();
         }
-    });
-}, false);
+    }
+}
 
 function getNativeNode(node) {
     if (node.get) {
@@ -83,14 +94,18 @@ function registerObserver(images) {
             if(tmpl) {
                 var svgImage = createSVG(tmpl, image);
                 image.onload = function(e) {
-                    // svgImage.addEventListener('load', function() {
-                    //
-                    // }, false);
                     updateSVG(svgImage, e.target);
-                    resolve(true);
+                    resolve(svgImage);
                 };
+                if(image.complete) {
+                    updateSVG(svgImage, image);
+                    resolve(svgImage);
+                }
             } else {
                 image.onload = resolve;
+                if(image.complete) {
+                    resolve(image);
+                }
             }
             image.onerror = reject;
         });
