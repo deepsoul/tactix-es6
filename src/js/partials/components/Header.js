@@ -19,7 +19,7 @@ module.exports = ScrollDirectionObserver.extend({
             autoplay: false,
             direction: 'reverse',
             easing: 'easeInOutQuad'
-        });        
+        });
     },
 
     onInit: function() {
@@ -39,12 +39,8 @@ module.exports = ScrollDirectionObserver.extend({
 });
 
 function updateClass(scope, flag) {
-    if(scope.outOfViewport !== flag) {
-        if(flag === true) {
-            scope.tween.play();
-        } else {
-            scope.tween.play();
-        }
+    if(scope.outOfViewport !== flag) {        
+        scope.tween.play();
     }
     scope.outOfViewport = flag;
 }

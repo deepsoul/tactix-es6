@@ -12,6 +12,10 @@ module.exports = StateObserver.extend({
             offset: {
                 type: 'number',
                 default: 0
+            },
+            triggered: {
+                type: 'boolean',
+                default: true
             }
         }
     }),
@@ -21,32 +25,18 @@ module.exports = StateObserver.extend({
 
         var picture = this.el.querySelector('picture');
 
-        anime({
+        this.tween = anime({
             targets: this.el.querySelector('figcaption'),
             translateY: {
                 value: '100%',
                 duration: 350
-            }
+            },
+            autoplay: true,
+            direction: 'reverse'
         });
 
-        this.model.on('change:triggered', function(model, value) {
-            if(value) {
-                anime({
-                    targets: this.el.querySelector('figcaption'),
-                    translateY: {
-                        value: '0%',
-                        duration: 350
-                    }
-                });
-            } else {
-                anime({
-                    targets: this.el.querySelector('figcaption'),
-                    translateY: {
-                        value: '100%',
-                        duration: 350
-                    }
-                });
-            }
+        this.model.on('change:triggered', function() {            
+            this.tween.play();
         }.bind(this));
 
         this.pictureStyle = picture.style;
