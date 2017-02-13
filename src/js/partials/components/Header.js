@@ -8,9 +8,24 @@ module.exports = ScrollDirectionObserver.extend({
     handler: null,
     tween: null,
 
+    initialize: function() {
+        ScrollDirectionObserver.prototype.initialize.apply(this, arguments);
+        this.tween = anime({
+            targets: this.el,
+            translateY: {
+                value: '-100%',
+                duration: 350
+            },
+            autoplay: false,
+            direction: 'reverse',
+            easing: 'easeInOutQuad'
+        });        
+    },
+
     onInit: function() {
         this.classList = this.el.classList;
         updateClass(this, true);
+        this.tween.pause();
     },
 
     onUp: function() {
@@ -26,29 +41,14 @@ module.exports = ScrollDirectionObserver.extend({
 function updateClass(scope, flag) {
     if(scope.outOfViewport !== flag) {
         if(flag === true) {
-            anime({
-                targets: scope.el,
-                translateY: {
-                    value: '0%',
-                    duration: 350
-                },
-                easing: 'easeInOutQuad'
-            });
+            scope.tween.play();
         } else {
-            anime({
-                targets: scope.el,
-                translateY: {
-                    value: '-100%',
-                    duration: 350
-                },
-                easing: 'easeInOutQuad'
-            });
+            scope.tween.play();
         }
     }
     scope.outOfViewport = flag;
 }
 
 function isOutOfViewport(bounds, viewportBounds) {
-    // console.log(viewportBounds.min.y, bounds.max.y, bounds.min.y);
     return (viewportBounds.min.y < bounds.max.y - bounds.min.y);
 }

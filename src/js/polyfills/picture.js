@@ -52,7 +52,9 @@ module.exports = global.picture = {
 
     ready: function(cb) {
         if(init.ready && init.load) {
-            cb();
+            setTimeout(function() {
+                cb();
+            },0);
         } else {
             init.callbacks.push(cb);
         }
