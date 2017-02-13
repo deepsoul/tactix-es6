@@ -23,6 +23,13 @@ module.exports = Controller.extend({
                 default: function() {
                     return false;
                 }
+            },
+            analyzeOutOfViewport: {
+                type: 'boolean',
+                required: true,
+                default: function() {
+                    return false;
+                }
             }
         }
     }),
