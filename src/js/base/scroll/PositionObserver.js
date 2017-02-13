@@ -23,13 +23,6 @@ module.exports = Controller.extend({
                 default: function() {
                     return false;
                 }
-            },
-            analyzeOutOfViewport: {
-                type: 'boolean',
-                required: true,
-                default: function() {
-                    return false;
-                }
             }
         }
     }),
@@ -63,7 +56,7 @@ module.exports = Controller.extend({
     },
 
     onActive: function() {
-        // console.log('HUI', info.y, direction.y); 
+        // console.log('HUI', info.y, direction.y);
     },
 
     onInactive: function() {
