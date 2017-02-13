@@ -71,9 +71,11 @@ document.addEventListener( "DOMContentLoaded", function() {
 
 function processCallbacks() {
     if(init.ready && init.load) {
-        while(init.callbacks.length > 0) {
-            (init.callbacks.shift())();
-        }
+        setTimeout(function() {
+            while(init.callbacks.length > 0) {
+                (init.callbacks.shift())();
+            }
+        },0);
     }
 }
 

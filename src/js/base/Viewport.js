@@ -122,7 +122,7 @@ function onImageLoad() {
         stopImmediatePropagation: function() {},
         stopPropagation: function() {}
     });
-    global.animationFrame.addOnce(onInit.bind(this));    
+    global.animationFrame.addOnce(onInit.bind(this));
 }
 
 function onInit() {
