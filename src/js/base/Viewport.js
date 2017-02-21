@@ -68,7 +68,7 @@ Viewport.prototype.EVENT_TYPES = new Enum(['RESIZE', 'SCROLL', 'INIT', 'MEASURE'
 Viewport.prototype.init = false;
 Viewport.prototype.frameNode = global;
 Viewport.prototype.scrollNode = global;
-Viewport.prototype.contentNode = (document.documentElement || document.body.parentNode || document.body);
+Viewport.prototype.contentNode = document.body;
 Viewport.prototype.dimensionKeyName = {
     width: null,
     height: null

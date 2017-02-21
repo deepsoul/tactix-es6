@@ -181,10 +181,9 @@ function removeIE9VideoShim(picture) {
 function showImage(picture, screenSize) {
     if(picture.image === undefined) {
         picture.image = picture.querySelector('img');
-    } else {
-        picture.image.removeEventListener('load', stopPropagation);
     }
-
+    // remove stopPropagation from fallback image
+    picture.image.removeEventListener('load', stopPropagation);
     if(picture.image.type === undefined || picture.image.type !== screenMatrix[screenSize]) {
         var source = picture.querySelector('source.' + screenMatrix[screenSize]);
         if(source) {
