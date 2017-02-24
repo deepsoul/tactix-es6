@@ -40,7 +40,7 @@ function initController(node) {
                 initController(targetNode);
             }
         }
-        
+
         var controllerClass = packages.find(function(controller) {
             return controller.name === node.getAttribute('data-controller');
         });

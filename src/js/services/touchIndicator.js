@@ -1,11 +1,11 @@
 "use strict";
 
 var parse = require('url-parse');
+var $ = require('jquery');
 
-$(function() {
-
+(function() {
     $('a.partial[data-partial*="elements/link"]').on('click', function(e) {
-        var target = e.currentTarget;        
+        var target = e.currentTarget;
         var node = target.querySelector('.pressure-waves');
         if (!node) {
             return;
@@ -33,7 +33,7 @@ $(function() {
         }
 
     });
-});
+})();
 
 function isNewPageUrl(node) {
     var linkUrl = parse(node.href);

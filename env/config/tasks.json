@@ -97,6 +97,12 @@
         "name": "postcss-import",
         "params": []
       }, {
+        "name": "postcss-url",
+        "params": []
+      }, {
+        "name": "postcss-cssnext",
+        "params": []
+      }, {
         "name": "precss",
         "params": []
       }, {
@@ -116,6 +122,12 @@
       }, {
         "name": "cssnano",
         "params": [{"zindex": false}]
+      }, {
+        "name": "postcss-browser-reporter",
+        "params": []
+      }, {
+        "name": "postcss-reporter",
+        "params": []
       }],
       "files": {
         "src": ["./src/pcss/style.pcss", "./src/pcss/critical.pcss"],
@@ -186,77 +198,105 @@
       "entry": {
         "app": "./src/js/main"
       },
-      "plugins": [{
-        "script": "agency-environment/lib/webpack/plugins/provide",
-        "config": {
-          "$": "jquery/src/core",
-          "jQuery": "jquery/src/core",
-          "window.jQuery": "jquery/src/core",
-          "root.jQuery": "jquery/src/core"
-        }
-      }, {
-        "script": "agency-environment/lib/webpack/plugins/polyfills"
-      }, {
-        "script": "agency-environment/lib/webpack/plugins/dedupe"
-      }, {
-        "script": "agency-environment/lib/webpack/plugins/uglify",
-        "config": {
-          "compress": {
-            "drop_console": true
-          }
-        }
-      }, {
-        "script": "agency-environment/lib/webpack/plugins/optimize",
-        "config": {
-          "sourceMap": false
-        }
-      }, {
-        "script": "agency-environment/lib/webpack/plugins/analyzer",
-        "config": {
-          "analyzerMode": "static",
-          "openAnalyzer": false,
-          "reportFilename": "../reports/webpack/index.html",
-          "generateStatsFile": true,
-          "statsFilename": "../reports/webpack/stats.json",
-          "logLevel": "info"
-        }
-      }],
-      "module": {
-        "preLoaders": [{
-          "test": ".js$",
-          "exclude": "node_modules",
-          "loader": "jshint-loader"
-        }],
-        "loaders": [{
-          "test": ".hbs$",
-          "loader": "handlebars-loader",
-          "query": {
-            "knownHelpers": ["block", "content"],
-            "helperDirs": [
-              "<%= root %>/src/tmpl/partials"
-            ],
+      "plugins": [
+        {
+          "script": "agency-environment/lib/webpack/plugins/polyfills"
+        }, {
+          "script": "agency-environment/lib/webpack/plugins/loader",
+          "config": {
+            "minimize": false,
             "debug": false
           }
         }, {
-          "test": ".css$",
-          "loader": "style-loader!css-loader"
+          "script": "agency-environment/lib/webpack/plugins/uglify",
+          "config": {
+            "compress": {
+              "drop_console": false
+            }
+          }
         }, {
-          "test": ".(png|jpg|gif|svg|ttf|woff|eot)$",
-          "loader": "url-loader?limit=100000"
+          "script": "agency-environment/lib/webpack/plugins/optimize",
+          "config": {
+            "sourceMap": false
+          }
         }, {
-          "test": ".modernizrrc$",
-          "loader": "modernizr"
-        }]
+          "script": "agency-environment/lib/webpack/plugins/analyzer",
+          "config": {
+            "analyzerMode": "static",
+            "openAnalyzer": false,
+            "reportFilename": "../reports/webpack/index.html",
+            "generateStatsFile": true,
+            "statsFilename": "../reports/webpack/stats.json",
+            "logLevel": "info"
+          }
+        }
+      ],
+      "module": {
+        "preLoaders": [
+          {
+            "test": ".js$",
+            "exclude": "node_modules",
+            "loader": "jshint-loader"
+          }
+        ],
+        "rules": [
+          {
+            "test": ".hbs$",
+            "use": [
+              {
+                "loader": "handlebars-loader",
+                "options": {
+                  "helperDirs": [
+
+                  ],
+                  "runtime": "handlebars/runtime",
+                  "partialDirs": [
+                    "<%= root %>/src/tmpl/partials"
+                  ],
+                  "debug": false
+                }
+              }
+            ]
+          }, {
+            "test": ".css$",
+            "use": [
+              {
+                "loader": "style-loader"
+              }, {
+                "loader": "css-loader",
+                "options": {}
+              }, {
+                "loader": "postcss-loader",
+                "options": {}
+              }
+            ]
+          }, {
+            "test": ".(png|jpg|gif|svg|ttf|woff|eot)$",
+            "use": [
+              {
+                "loader": "url-loader",
+                "options": {
+                  "limit": 100000
+                }
+              }
+            ]
+          }, {
+            "test": ".modernizrrc.js$",
+            "use": [
+              {
+                "loader": "modernizr",
+                "options": {
+
+                }
+              }
+            ]
+          }
+        ]
       },
       "resolve": {
         "alias": {
-          "modernizr$": "<%= root %>/.modernizrrc",
-          "TweenMax": "gsap/src/uncompressed/TweenMax.js",
-          "TweenLite" : "gsap/src/uncompressed/TweenLite.js",
-          "TimelineLite" : "gsap/src/uncompressed/TimelineLite.js",
-          "TimelineMax": "gsap/src/uncompressed/TimelineMax.js",
-          "EasePack": "gsap/src/uncompressed/easing/EasePack.js",
-          "CSSPlugin": "gsap/src/uncompressed/plugins/CSSPlugin.js"
+          "jquery": "jquery/src/core.js",
+          "modernizr$": "<%= root %>/.modernizrrc.js"
         }
       },
       "files": {
@@ -266,14 +306,10 @@
       }
     }, {
       "name": "embed",
-
       "entry": {
         "embed": "./src/js/embed"
       },
-
       "plugins": [{
-        "script": "agency-environment/lib/webpack/plugins/dedupe"
-      }, {
         "script": "agency-environment/lib/webpack/plugins/uglify",
         "config": {
           "compress": {
@@ -299,13 +335,7 @@
       },
       "resolve": {
         "alias": {
-          "modernizr$": "<%= root %>/.modernizrrc",
-          "TweenMax": "gsap/src/uncompressed/TweenMax.js",
-          "TweenLite" : "gsap/src/uncompressed/TweenLite.js",
-          "TimelineLite" : "gsap/src/uncompressed/TimelineLite.js",
-          "TimelineMax": "gsap/src/uncompressed/TimelineMax.js",
-          "EasePack": "gsap/src/uncompressed/easing/EasePack.js",
-          "CSSPlugin": "gsap/src/uncompressed/plugins/CSSPlugin.js"
+
         }
       },
       "files": {

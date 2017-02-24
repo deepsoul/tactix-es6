@@ -4,6 +4,7 @@ var Controller = require('../../base/Controller');
 var DomModel = require('../../base/DomModel');
 var Viewport = require('../../base/Viewport');
 var Vector = require('../../base/Vector');
+var $ = require('jquery');
 require('pepjs');
 
 module.exports = Controller.extend({

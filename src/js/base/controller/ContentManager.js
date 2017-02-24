@@ -3,6 +3,7 @@
 var Controller = require('../Controller');
 var DomModel = require('../DomModel');
 var browserHistory = require('../../services/history');
+var $ = require('jquery');
 
 module.exports = Controller.extend({
     modelConstructor: DomModel.extend({

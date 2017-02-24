@@ -1,5 +1,8 @@
 "use strict";
 
+var handlebars = require('handlebars/runtime');
+handlebars.registerHelper(require('handlebars-layouts')(handlebars));
+
 function Template(hbs) {
     this.hbs = hbs;
 }

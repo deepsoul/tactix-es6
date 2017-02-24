@@ -8,7 +8,7 @@ module.exports = Controller.extend({
 
     initialize: function() {
         Controller.prototype.initialize.apply(this, arguments);
-        require("style!outdated-browser/outdatedbrowser/outdatedbrowser.css");
+        require("style!css!outdated-browser/outdatedbrowser/outdatedbrowser.css");
         global.animationFrame.addOnce(function() {
             var outdatedBrowser = require('exports?outdatedBrowser!outdated-browser/outdatedbrowser/outdatedbrowser');
             outdatedBrowser({

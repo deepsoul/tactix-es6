@@ -4,6 +4,7 @@ var ContentManager = require('../../base/controller/ContentManager');
 var browserHistory = require('../../services/history');
 var preventOverscroll = require('prevent-overscroll');
 var Viewport = require('../../base/Viewport');
+var $ = require('jquery');
 
 module.exports = ContentManager.extend({
 

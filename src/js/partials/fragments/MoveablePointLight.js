@@ -3,6 +3,7 @@
 var PositionObserver = require('../../base/scroll/PositionObserver');
 var viewport = require('../../services/viewport');
 var Vector = require('../../base/Vector');
+var $ = require('jquery');
 require('pepjs');
 
 module.exports = PositionObserver.extend({

@@ -1,11 +1,12 @@
 {
-  "minify": true,
+  "minify": false,
   "options": [
-    "setClasses",
-    "addTest",
-    "prefixedCSS"
+    "setClasses"
   ],
   "feature-detects": [
-    "touchevents"
+  	"touchevents",
+    "test/css/flexbox",
+    "test/es6/promises",
+    "test/serviceworker"
   ]
 }

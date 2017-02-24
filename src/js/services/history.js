@@ -5,6 +5,7 @@ var AmpersandState = require('ampersand-state');
 var Registry = require('./history/Registry');
 var dataTypeDefinition = require('../base/dataTypeDefinition');
 var merge = require('../utils/merge');
+var $ = require('jquery');
 
 //https://www.npmjs.com/package/history-events
 

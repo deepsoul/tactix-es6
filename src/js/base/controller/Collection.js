@@ -3,6 +3,7 @@
 var Controller = require('../Controller');
 var DomModel = require('../DomModel');
 var AmpersandCollection = require('ampersand-collection');
+var $ = require('jquery');
 
 module.exports = Controller.extend({
 

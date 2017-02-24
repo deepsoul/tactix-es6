@@ -2,6 +2,7 @@
 
 var AmpersandView = require('ampersand-view');
 var dataTypeDefinition = require('./dataTypeDefinition');
+var $ = require('jquery');
 
 module.exports = AmpersandView.extend(dataTypeDefinition, {
 

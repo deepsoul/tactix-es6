@@ -2,6 +2,8 @@
 
 var ScrollDirectionObserver = require('../../base/scroll/DirectionObserver');
 var anime = require('animejs');
+var Template = require('../../base/Template');
+var tmpl = new Template(require('handlebars!../../../tmpl/partials/elements/link.hbs'));
 
 module.exports = ScrollDirectionObserver.extend({
     outOfViewport: false,
@@ -20,6 +22,7 @@ module.exports = ScrollDirectionObserver.extend({
             direction: 'reverse',
             easing: 'easeInOutQuad'
         });
+        console.log(tmpl.toText({}));
     },
 
     onInit: function() {
@@ -39,7 +42,7 @@ module.exports = ScrollDirectionObserver.extend({
 });
 
 function updateClass(scope, flag) {
-    if(scope.outOfViewport !== flag) {        
+    if(scope.outOfViewport !== flag) {
         scope.tween.play();
     }
     scope.outOfViewport = flag;
