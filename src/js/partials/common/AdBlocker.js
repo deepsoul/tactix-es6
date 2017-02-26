@@ -1,9 +1,9 @@
 "use strict";
 
-var Controller = require('../../base/Controller');
-var blockAdBlock = require('exports?blockAdBlock!blockadblock');
+import Controller from '../../base/Controller';
+import blockAdBlock from 'exports-loader?blockAdBlock!blockadblock';
 
-module.exports = Controller.extend({
+export default Controller.extend({
 
     initialize: function() {
         Controller.prototype.initialize.apply(this, arguments);

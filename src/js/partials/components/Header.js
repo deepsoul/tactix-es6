@@ -1,11 +1,13 @@
 "use strict";
 
-var ScrollDirectionObserver = require('../../base/scroll/DirectionObserver');
-var anime = require('animejs');
-var Template = require('../../base/Template');
-var tmpl = new Template(require('handlebars!../../../tmpl/partials/elements/link.hbs'));
+import ScrollDirectionObserver from '../../base/scroll/DirectionObserver';
+import anime from 'animejs';
+import Template from '../../base/Template';
+import linkTmpl from '../../../tmpl/partials/elements/link.hbs';
+import test from '../../../pcss/partials/elements.pcss';
+var tmpl = new Template(linkTmpl);
 
-module.exports = ScrollDirectionObserver.extend({
+export default ScrollDirectionObserver.extend({
     outOfViewport: false,
     handler: null,
     tween: null,
@@ -22,6 +24,7 @@ module.exports = ScrollDirectionObserver.extend({
             direction: 'reverse',
             easing: 'easeInOutQuad'
         });
+        console.log(test);
         console.log(tmpl.toText({}));
     },
 

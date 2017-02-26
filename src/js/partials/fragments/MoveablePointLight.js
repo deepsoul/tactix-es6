@@ -1,12 +1,11 @@
 "use strict";
 
-var PositionObserver = require('../../base/scroll/PositionObserver');
-var viewport = require('../../services/viewport');
-var Vector = require('../../base/Vector');
-var $ = require('jquery');
-require('pepjs');
+import 'pepjs';
+import PositionObserver from '../../base/scroll/PositionObserver';
+import viewport from '../../services/viewport';
+import Vector from '../../base/Vector';
 
-module.exports = PositionObserver.extend({
+export default PositionObserver.extend({
 
     events: {
         'pointerdown .masked-content': onPointerDown

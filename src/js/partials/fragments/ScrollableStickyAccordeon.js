@@ -1,18 +1,18 @@
 "use strict";
 
-var Controller = require('../../base/Controller');
-var DomModel = require('../../base/DomModel');
-var dataTypeDefinition = require('../../base/dataTypeDefinition');
-var Vector = require('../../base/Vector');
-var Bounds = require('../../base/Bounds');
+import Controller from '../../base/Controller';
+import DomModel from '../../base/DomModel';
+import dataTypeDefinition from '../../base/dataTypeDefinition';
+import Vector from '../../base/Vector';
+import Bounds from '../../base/Bounds';
 
-var element = require('../../utils/element');
-var viewport = require('../../services/viewport');
+import {updateBounds} from '../../utils/element';
+import viewport from '../../services/viewport';
 
 var viewportDimension = new Vector();
 var objectDimension = new Vector();
 
-module.exports = Controller.extend({
+export default Controller.extend({
     operation: 'subtractLocal',
 
     modelConstructor: DomModel.extend(dataTypeDefinition, {
@@ -117,9 +117,9 @@ function onScroll(viewportBounds, direction) {
 }
 
 function onMeasure() {
-    element.updateBounds(this.el, this.contentBounds, viewport);
-    element.updateBounds(this.header, this.headerBounds, viewport);
-    element.updateBounds(this.footer, this.footerBounds, viewport);
+    updateBounds(this.el, this.contentBounds, viewport);
+    updateBounds(this.header, this.headerBounds, viewport);
+    updateBounds(this.footer, this.footerBounds, viewport);
 }
 
 function onInit(viewportBounds, direction) {

@@ -1,6 +1,6 @@
 "use strict";
 
-var Vector = require('./Vector');
+import Vector from './Vector';
 /*
  * Bounds Object
  * Contains the min and max Coordinates of an Object
@@ -87,4 +87,4 @@ Bounds.prototype.intersectsZ = function(bounds) {
     return !(bounds.max.z < this.min.z || bounds.min.z > this.max.z);
 };
 
-module.exports = Bounds;
+export default Bounds;

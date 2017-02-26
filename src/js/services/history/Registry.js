@@ -1,10 +1,10 @@
 "use strict";
 
-var AmpersandCollection = require('ampersand-collection');
-var parse = require('url-parse');
-var Entry = require('./Entry');
+import AmpersandCollection from 'ampersand-collection';
+import parse from 'url-parse';
+import Entry from './Entry';
 
-module.exports = AmpersandCollection.extend({
+export default AmpersandCollection.extend({
     mainIndex: 'name',
     model: Entry,
 

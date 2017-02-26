@@ -1,8 +1,8 @@
 "use strict";
 
-var Vector = require('./Vector');
-var Bounds = require('./Bounds');
-var Enum = require('enum');
+import Vector from './Vector';
+import Bounds from'./Bounds';
+import Enum from 'enum';
 
 var Viewport = function(frameNode, contentNode) {
     this.init = false;
@@ -115,7 +115,7 @@ Viewport.prototype.off = function(name, fn) {
     return this;
 };
 
-module.exports = Viewport;
+export default Viewport;
 
 function onImageLoad() {
     onMeasure.bind(this)({

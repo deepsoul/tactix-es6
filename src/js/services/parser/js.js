@@ -1,9 +1,8 @@
 "use strict";
 
-var packages = require('../../packages');
-var req = null;
+import packages from '../../packages';
 
-module.exports = global.js = {
+export default {
     parse: function (node) {
         node = node || document.documentElement;
         var nodes = Array.prototype.slice.call(node.querySelectorAll('.controller[data-controller]'));

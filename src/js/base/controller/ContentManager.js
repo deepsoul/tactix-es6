@@ -1,11 +1,11 @@
 'use strict';
 
-var Controller = require('../Controller');
-var DomModel = require('../DomModel');
-var browserHistory = require('../../services/history');
-var $ = require('jquery');
+import Controller from '../Controller';
+import DomModel from '../DomModel';
+import browserHistory from '../../services/history';
+import js from '../../services/parser/js';
 
-module.exports = Controller.extend({
+export default Controller.extend({
     modelConstructor: DomModel.extend({
         session: {
             ajax: {
@@ -43,7 +43,7 @@ module.exports = Controller.extend({
     onSuccess: function(content) {
         if(typeof content === 'string') {
             this.el.querySelector(this.model.container).innerHTML = content;
-            require('../../services/parser/js').parse(this.el.querySelector(this.model.container));
+            js.parse(this.el.querySelector(this.model.container));
             window.picture.parse(this.el.querySelector(this.model.container));
             this.onContentAdded();
         } else {

@@ -1,9 +1,8 @@
 "use strict";
 
-var PositionObserver = require('../../../base/scroll/PositionObserver');
+import PositionObserver from '../../../base/scroll/PositionObserver';
 
-
-module.exports = PositionObserver.extend({
+export default PositionObserver.extend({
 
     modelConstructor: PositionObserver.prototype.modelConstructor.extend({
         session: {
@@ -22,7 +21,7 @@ module.exports = PositionObserver.extend({
         PositionObserver.prototype.initialize.apply(this, arguments);
     },
 
-    onActive: function(info) {    
+    onActive: function(info) {
         this.pictureStyle.cssText = 'box-shadow' + ': 0px ' + (info.y * 10) + 'px 10px rgba(0, 0, 0, 0.5);';
     },
 

@@ -1,6 +1,6 @@
 "use strict";
 
-var FontFaceObserver = require('fontfaceobserver/fontfaceobserver');
+import FontFaceObserver from 'fontfaceobserver/fontfaceobserver';
 
 (function(window) {
     window.customFonts.forEach(function(font){

@@ -1,9 +1,9 @@
 "use strict";
 
-var AmpersandModel = require('ampersand-model');
-var dataTypeDefinition = require('./dataTypeDefinition');
+import AmpersandModel from 'ampersand-model';
+import dataTypeDefinition from './dataTypeDefinition';
 
-module.exports = AmpersandModel.extend(dataTypeDefinition, {
+export default AmpersandModel.extend(dataTypeDefinition, {
 
     initialize: function() {
         AmpersandModel.prototype.initialize.apply(this, arguments);

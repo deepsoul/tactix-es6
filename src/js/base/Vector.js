@@ -54,7 +54,7 @@ Vector.prototype.resetByRad = function(rad) {
     return this;
 };
 
-Vector.prototype.add = function(vector){    
+Vector.prototype.add = function(vector){
     return add(this, vector.x, vector.y, vector.z, new Vector());
 };
 
@@ -236,4 +236,4 @@ Vector.prototype.radBetween = function(vector) {
     // return Math.atan2(this.y - vector.y, this.x - vector.x);
 };
 
-module.exports = Vector;
+export default Vector;

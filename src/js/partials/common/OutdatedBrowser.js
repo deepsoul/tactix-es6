@@ -1,16 +1,15 @@
 "use strict";
 
+import Controller from '../../base/Controller';
+import 'outdated-browser/outdatedbrowser/outdatedbrowser.css';
+import outdatedBrowser from 'exports-loader?outdatedBrowser!outdated-browser/outdatedbrowser/outdatedbrowser';
 
-
-var Controller = require('../../base/Controller');
-
-module.exports = Controller.extend({
+export default Controller.extend({
 
     initialize: function() {
         Controller.prototype.initialize.apply(this, arguments);
-        require("style!css!outdated-browser/outdatedbrowser/outdatedbrowser.css");
-        global.animationFrame.addOnce(function() {
-            var outdatedBrowser = require('exports?outdatedBrowser!outdated-browser/outdatedbrowser/outdatedbrowser');
+
+        global.animationFrame.addOnce(function() {            
             outdatedBrowser({
                 bgColor: '#f25648',
                 color: '#ffffff',

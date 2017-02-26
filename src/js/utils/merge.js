@@ -1,10 +1,8 @@
 "use strict";
 
-var uniq = require('lodash/uniq');
-var unionBy = require('lodash/unionBy');
+import uniq from 'lodash/uniq';
+import unionBy from 'lodash/unionBy';
 
-module.exports = {
-    collections: function(collectionA, collectionB, by) {
-        return uniq(unionBy(collectionB, collectionA, by), false, by);
-    }
-};
+export function mergeCollections(collectionA, collectionB, by) {
+    return uniq(unionBy(collectionB, collectionA, by), false, by);
+}

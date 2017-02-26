@@ -1,15 +1,14 @@
 "use strict";
 
-var browserHistory = require('exports?History!historyjs/scripts/bundled-uncompressed/html5/native.history');
-var AmpersandState = require('ampersand-state');
-var Registry = require('./history/Registry');
-var dataTypeDefinition = require('../base/dataTypeDefinition');
-var merge = require('../utils/merge');
-var $ = require('jquery');
+import browserHistory from 'exports-loader?History!historyjs/scripts/bundled-uncompressed/html5/native.history';
+import AmpersandState from 'ampersand-state';
+import Registry from './history/Registry';
+import dataTypeDefinition from'../base/dataTypeDefinition';
+import {mergeCollections} from '../utils/merge';
 
 //https://www.npmjs.com/package/history-events
 
-module.exports = new(AmpersandState.extend(dataTypeDefinition, {
+export default new(AmpersandState.extend(dataTypeDefinition, {
     session: {
         registry: {
             type: 'AmpersandCollection',
@@ -121,7 +120,7 @@ function getTitle(state) {
 }
 
 function updateSerializedCollection(collection, map) {
-    return merge.collections(collection, map, 'name');
+    return mergeCollections(collection, map, 'name');
 }
 
 function toQueryString(collection, defaultBaseFilename) {

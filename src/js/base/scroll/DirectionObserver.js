@@ -1,14 +1,14 @@
 "use strict";
 
-var Controller = require('../Controller');
-var DomModel = require('../DomModel');
-var Bounds = require('../Bounds');
-var dataTypeDefinition = require('../dataTypeDefinition');
-var element = require('../../utils/element');
+import Controller from '../Controller';
+import DomModel from '../DomModel';
+import Bounds from '../Bounds';
+import dataTypeDefinition from '../dataTypeDefinition';
+import {updateBounds} from '../../utils/element';
 
-var viewport = require('../../services/viewport');
+import viewport from '../../services/viewport';
 
-module.exports = Controller.extend({
+export default Controller.extend({
     viewport: viewport,
     modelConstructor: DomModel.extend(dataTypeDefinition, {
         session: {
@@ -26,7 +26,7 @@ module.exports = Controller.extend({
         this.onInit = onInit.bind(this);
         this.onResize = onResize.bind(this);
         this.onScroll = onScroll.bind(this);
-        
+
         if(this.targetModel && this.targetModel.viewport) {
             this.viewport = this.targetModel.viewport;
         }
@@ -61,7 +61,7 @@ module.exports = Controller.extend({
 });
 
 function onMeasure() {
-    element.updateBounds(this.el, this.bounds, this.viewport);
+    updateBounds(this.el, this.bounds, this.viewport);
 }
 
 function onInit(viewportBounds, direction) {

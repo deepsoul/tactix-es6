@@ -1,9 +1,9 @@
 'use strict';
 
-var Controller = require('../../base/Controller');
+import Controller from '../../base/Controller';
 
 
-module.exports = Controller.extend({
+export default Controller.extend({
 
     initialize: function() {
         Controller.prototype.initialize.apply(this, arguments);

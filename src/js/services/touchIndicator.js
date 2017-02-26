@@ -1,7 +1,6 @@
 "use strict";
 
-var parse = require('url-parse');
-var $ = require('jquery');
+import parse from 'url-parse';
 
 (function() {
     $('a.partial[data-partial*="elements/link"]').on('click', function(e) {

@@ -1,6 +1,6 @@
 "use strict";
 
-var template = require('../utils/template');
+import {getContent} from '../utils/template';
 var validBrowser = !navigator.userAgent.match(/(Google Page Speed Insights)/i);
 var isIE9 = document.documentElement.classList.contains('ie9');
 
@@ -28,7 +28,7 @@ global.onload = function() {
     processCallbacks();
 };
 
-module.exports = global.picture = {
+global.picture = {
     parse: function (node) {
         if(!node) {
             node = document.body;
@@ -60,6 +60,8 @@ module.exports = global.picture = {
         }
     }
 };
+
+export default global.picture;
 
 document.addEventListener( "DOMContentLoaded", function() {
     var nodes = [].map.call(document.querySelectorAll('picture > img'), function(image) {
@@ -117,7 +119,7 @@ function registerObserver(images) {
 }
 
 function createSVG(tmpl, image) {
-    var node = template.getContent(tmpl).cloneNode(true);
+    var node = getContent(tmpl).cloneNode(true);
     var svgImage = node.querySelector('image');
     image.classList.add('js-hidden');
     image.parentNode.appendChild(node);
