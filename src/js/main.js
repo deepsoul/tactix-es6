@@ -1,5 +1,5 @@
 "use strict";
-// require('swiper');
+
 import 'jquery/../event';
 import 'jquery/../event/trigger';
 import 'jquery/../data';
@@ -14,5 +14,5 @@ global.picture.ready(function() {
 
 
 
-var f = ([a, b] = [1, 2], {x: c} = {x: a + b}) => console.log(a + b + c);
-f();  // 6
+// var f = ([a, b] = [1, 2], {x: c} = {x: a + b}) => console.log(a + b + c);
+// f();  // 6
