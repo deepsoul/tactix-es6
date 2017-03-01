@@ -52,18 +52,10 @@
 
   {% body %}
 
-  {{#if options.server.websocket}}
-    <script src="http://localhost:8050/socket.io/socket.io.js" type="text/javascript"></script>
-  {{/if}}
   {{#if options.server.webpack}}
     {{{mixin "common/breakpoint"}}}
-    <script>
-      var host = (location.host || 'localhost').split(':')[0];
-      document.write('<script type="text/javascript" src="/{{options.scripts.js.main}}"></' + 'script>');
-    </script>
-  {{else}}
-    <script type="text/javascript" src="{{{relativeToRoot}}}{{relative options.server.dest options.scripts.js.main}}" async defer></script>
   {{/if}}
 
+  <script type="text/javascript" src="{{{relativeToRoot}}}{{relative options.server.dest options.scripts.js.main}}" async defer></script>
 </body>
 </html>

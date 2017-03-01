@@ -87,5 +87,9 @@ module.exports = [
         development: true,
         production: false,
         config: new webpack.HotModuleReplacementPlugin()
+    }, {
+        development: true,
+        production: true,
+        config: new webpack.NoErrorsPlugin()
     }
 ];

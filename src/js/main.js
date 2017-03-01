@@ -9,7 +9,7 @@ import './services/touchIndicator';
 
 js.parse();
 global.picture.ready(function() {
-    console.log('READY Hurra!!!12345');
+    console.log('READY Hurra!!!1234567');
 });
 
 
