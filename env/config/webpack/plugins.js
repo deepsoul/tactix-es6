@@ -2,7 +2,6 @@
 
 var webpack = require('webpack');
 var OptimizeJsPlugin = require("optimize-js-plugin");
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = [
@@ -37,7 +36,7 @@ module.exports = [
     }, {
         development: false,
         production: true,
-        config: new UglifyJsPlugin({
+        config: new webpack.optimize.UglifyJsPlugin({
             screwIE8: true,
             mangle: {
                 except: []
@@ -89,7 +88,7 @@ module.exports = [
         config: new webpack.HotModuleReplacementPlugin()
     }, {
         development: true,
-        production: true,
-        config: new webpack.NoErrorsPlugin()
+        production: false,
+        config: new webpack.NoEmitOnErrorsPlugin()
     }
 ];

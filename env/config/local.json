@@ -42,7 +42,7 @@
         "port": 8050,
         "secret": "UNSAFE: CHANGE ME"
       },
-      "routes": ""
+      "routes": "<%= root %>/env/config/hapi/routes"
     }
   }
 }
