@@ -59,7 +59,7 @@
     {{{mixin "common/breakpoint"}}}
     <script>
       var host = (location.host || 'localhost').split(':')[0];
-      document.write('<script type="text/javascript" src="//' + host +':{{options.server.webpack.port}}/{{options.scripts.js.main}}"></' + 'script>');
+      document.write('<script type="text/javascript" src="/{{options.scripts.js.main}}"></' + 'script>');
     </script>
   {{else}}
     <script type="text/javascript" src="{{{relativeToRoot}}}{{relative options.server.dest options.scripts.js.main}}" async defer></script>

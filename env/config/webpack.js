@@ -6,7 +6,7 @@ var devtool = {
     production: 'cheap-source-map'
 };
 
-module.exports = function(server) {    
+module.exports = function() {
     return {
         devtool: devtool[process.env.NODE_ENV],
         plugins: require('./webpack/plugins').reduce(reduceList, []),
@@ -22,11 +22,6 @@ module.exports = function(server) {
                 "jquery": "jquery/src/core.js",
                 "modernizr$": process.cwd() + '/env/config/modernizr.js'
             }
-        },
-        devServer: require('./webpack/devServer')[process.env.NODE_ENV](server),
-        node: {
-            __filename: true,
-            __dirname: true
         }
     };
 };

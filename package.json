@@ -33,9 +33,10 @@
     "fb": "^1.0.2",
     "htmlescape": "^1.1.0",
     "jshint": "^2.8.0",
-    "minimist": "^1.2.0"    
+    "minimist": "^1.2.0"
   },
   "dependencies": {
+    "@danielbayerlein/hapi-webpack-middleware": "^1.0.1",
     "ampersand-collection": "^2.0.0",
     "ampersand-model": "^8.0.0",
     "ampersand-state": "^5.0.2",
@@ -49,15 +50,16 @@
     "es6-promise": "^3.0.2",
     "fg-loadcss": "^1.2.1",
     "fontfaceobserver": "^1.6.1",
-    "handlebars": "^4.0.5",
+    "hapi-webpack-dev-middleware": "^2.0.0",
     "historyjs": "^1.8.0-b2",
     "jquery": "^3.1.1",
-    "jshint-loader": "^0.8.3",
     "lodash": "^4.6.1",
     "modernizr": "^3.0.0",
     "outdated-browser": "^1.0.2",
     "pepjs": "^0.4.0",
     "prevent-overscroll": "^0.1.0",
-    "purecss": "^0.6.0"
+    "purecss": "^0.6.0",
+    "webpack-dev-middleware": "^1.10.1",
+    "webpack-hot-middleware": "^2.17.1"
   }
 }

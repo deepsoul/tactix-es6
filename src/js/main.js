@@ -9,10 +9,10 @@ import './services/touchIndicator';
 
 js.parse();
 global.picture.ready(function() {
-    console.log('READY');
+    console.log('READY Hurra!!!12345');
 });
 
 
 
-// var f = ([a, b] = [1, 2], {x: c} = {x: a + b}) => console.log(a + b + c);
-// f();  // 6
+var f = ([a, b] = [1, 2], {x: c} = {x: a + b}) => console.log(a + b + c);
+f();  // 6
