@@ -2,8 +2,8 @@
 
 var path = require('path');
 var devtool = {
-    development: 'source-map',
-    production: 'cheap-source-map'
+    development: 'eval-source-map',
+    production: 'source-map'
 };
 
 module.exports = {

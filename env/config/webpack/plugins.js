@@ -31,12 +31,13 @@ module.exports = [
         production: true,
         config: new webpack.LoaderOptionsPlugin({
             minimize: true,
-            debug: true
+            debug: false
         }),
     }, {
         development: false,
         production: true,
         config: new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
             screwIE8: true,
             mangle: {
                 except: []
@@ -61,7 +62,7 @@ module.exports = [
                 cascade: true,
                 negate_iife: true,
                 pure_getters: false,
-                drop_console: true,
+                drop_console: false,
                 warnings: true
             }
         }),
