@@ -57,7 +57,7 @@
       "js": {
         "main": "<%= destination %>/js/app.js",
         "embed": [
-          "<%= destination %>/js/embed/embed.js"
+          "<%= destination %>/js/embed.js"
         ]
       },
       "css": {
@@ -177,7 +177,7 @@
       "config": "<%= root %>/env/config/webpack",
       "files": {
         "src": ["./src/js/embed"],
-        "dest": "<%= destination %>/js/embed/[name].js",
+        "dest": "<%= destination %>/js/[name].js",
         "library": ["[name]"]
       }
     }]

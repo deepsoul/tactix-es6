@@ -9,7 +9,7 @@ module.exports = [
         config: {
             module: require('@danielbayerlein/hapi-webpack-middleware'),
             options: {
-                webpack: Object.assign(require(process.cwd() + '/env/config/webpack'), serverConfig.webpack),
+                webpack: Object.assign(require(process.cwd() + '/env/config/webpack')('app'), serverConfig.webpack),
                 webpackDev: require(process.cwd() + '/env/config/hapi/server/dev'),
                 webpackHot: require(process.cwd() + '/env/config/hapi/server/hot')
             }
