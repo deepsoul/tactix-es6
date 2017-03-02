@@ -33,14 +33,14 @@ function initController(node) {
     if (!node.init) {
         node.init = true;
         var targetNode = null;
-        var targetSelector = node.dataset.target;
+        var targetSelector = node.dataset.target || node.getAttribute('data-target');
         if (targetSelector) {
             targetNode = document.querySelector(targetSelector);
             if (matches(targetNode, '.controller[data-controller]')) {
                 initController(targetNode);
             }
         }
-        
+
         var controllerClass = packages.find(function(controller) {
             return controller.name === node.getAttribute('data-controller');
         });
