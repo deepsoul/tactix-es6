@@ -16,14 +16,14 @@ module.exports = [
         }
     }, {
         development: true,
-        production: true,
+        production: false,
         config: {
             module: require('agency-server/lib/hapi/route/debug'),
             options: {}
         }
     }, {
         development: true,
-        production: true,
+        production: false,
         config: {
             module: require('agency-server/lib/hapi/route/auth/session'),
             options: {
@@ -47,7 +47,7 @@ module.exports = [
         }
     }, {
         development: true,
-        production: true,
+        production: false,
         config: {
             module: require('agency-server/lib/hapi/route/proxy'),
             options: {}

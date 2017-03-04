@@ -5,7 +5,7 @@ var OptimizeJsPlugin = require('optimize-js-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var NPMInstallPlugin = require('npm-install-webpack-plugin');
 
-module.exports = function(dest) {
+module.exports = function(name) {
     return [
         {
             development: true,
@@ -80,9 +80,9 @@ module.exports = function(dest) {
             config: new BundleAnalyzerPlugin({
                 analyzerMode: 'static',
                 openAnalyzer: false,
-                reportFilename: dest + '.report.html',
+                reportFilename: name + '.report.html',
                 generateStatsFile: true,
-                statsFilename: dest + '.stats.json',
+                statsFilename: name + '.stats.json',
                 logLevel: 'info'
             })
         }, {
