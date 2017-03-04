@@ -1,6 +1,6 @@
 "use strict";
 
-var serverConfig = require('../local.json')[process.env.NODE_ENV];
+var serverConfig = require('../server.json')[process.env.NODE_ENV];
 
 module.exports = [
     {
