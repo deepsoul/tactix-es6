@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html class="no-js partial loading" data-partial="layouts/default" lang="{{default.language}}">
 <head>
-  {{#if options.server.livereload}}
+  {{#if options.watch.status}}
   <script type="text/javascript">
       if('WebSocket' in window || 'MozWebSocket' in window) {
         var host = (location.host || 'localhost').split(':')[0];
-        document.write('<script src="//' + host + ':{{options.server.livereload.port}}/livereload.js?snipver=1"></' + 'script>');
+        document.write('<script src="//' + host + ':{{options.watch.config.port}}/livereload.js?snipver=1"></' + 'script>');
       }
   </script>
   {{/if}}
@@ -56,6 +56,6 @@
     {{{mixin "common/breakpoint"}}}
   {{/if}}
 
-  <script type="text/javascript" src="{{{relativeToRoot}}}{{relative options.server.dest options.scripts.js.main}}" async defer></script>
+  <script type="text/javascript" src="{{{relativeToRoot}}}{{options.scripts.js.main}}" async defer></script>
 </body>
 </html>

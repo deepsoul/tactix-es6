@@ -55,7 +55,7 @@
     },
     "scripts": {
       "js": {
-        "main": "<%= destination %>/js/app.js",
+        "main": "js/app.js",
         "embed": [
           "<%= destination %>/js/embed.js"
         ]
@@ -164,6 +164,9 @@
         "dest": "<%= destination %>/w3c"
       }
     }]
+  },
+  "watch": {
+    "config": "<%= root %>/env/config/watch"
   },
   "webpack": {
     "subtasks": [{
