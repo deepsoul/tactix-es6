@@ -4,12 +4,12 @@
   "description": "agency - frontend boilerplate",
   "main": "none",
   "scripts": {
-    "heroku": "NODE_ENV=production && node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --server=agency-server",
+    "heroku": "NODE_ENV=production node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --server=agency-server",
     "build": "node node_modules/gulp/bin/gulp build --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --env=build",
-    "dev": "NODE_ENV=development && node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --server=agency-server",
-    "dev-ip": "NODE_ENV=development && node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --server=agency-server --ip=true",
-    "prod": "NODE_ENV=production && node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --server=agency-server",
-    "server": "NODE_ENV=development && node node_modules/gulp/bin/gulp default --serverConfig=./env/config/local.json --server=agency-server",
+    "dev": "NODE_ENV=development node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --server=agency-server",
+    "dev-ip": "NODE_ENV=development node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --server=agency-server --ip=true",
+    "prod": "NODE_ENV=production node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --server=agency-server",
+    "server": "NODE_ENV=development node node_modules/gulp/bin/gulp default --serverConfig=./env/config/local.json --server=agency-server",
     "test": "npm run build",
     "template": "yo agency-boilerplate:hbs-template",
     "create-package": "yo agency-boilerplate:package"
