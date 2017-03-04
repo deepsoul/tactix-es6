@@ -6,9 +6,9 @@
   "scripts": {
     "heroku": "NODE_ENV=production node node_modules/gulp/bin/gulp run --serverConfig=./env/config/server.json --gulpFileMap=./env/config/gulp-file-map.json --server=agency-server",
     "build": "node node_modules/gulp/bin/gulp build --serverConfig=./env/config/server.json --gulpFileMap=./env/config/gulp-file-map.json --env=build",
-    "dev": "NODE_ENV=development node node_modules/gulp/bin/gulp run --serverConfig=./env/config/server.json --gulpFileMap=./env/config/gulp-file-map.json --server=agency-server",
-    "dev-ip": "NODE_ENV=development node node_modules/gulp/bin/gulp run --serverConfig=./env/config/server.json --gulpFileMap=./env/config/gulp-file-map.json --server=agency-server --ip=true",
-    "prod": "NODE_ENV=production node node_modules/gulp/bin/gulp run --serverConfig=./env/config/server.json --gulpFileMap=./env/config/gulp-file-map.json --server=agency-server",
+    "dev": "NODE_ENV=development node node_modules/gulp/bin/gulp run --serverConfig=/env/config/server --gulpFileMap=./env/config/gulp-file-map.json --server=agency-server",
+    "dev-ip": "NODE_ENV=development node node_modules/gulp/bin/gulp run --serverConfig=/env/config/server --gulpFileMap=./env/config/gulp-file-map.json --server=agency-server --ip=true",
+    "prod": "NODE_ENV=production node node_modules/gulp/bin/gulp run --serverConfig=/env/config/server --gulpFileMap=./env/config/gulp-file-map.json --server=agency-server",
     "server": "NODE_ENV=development node node_modules/gulp/bin/gulp default --serverConfig=./env/config/server.json --server=agency-server",
     "test": "npm run build",
     "template": "yo agency-boilerplate:hbs-template",

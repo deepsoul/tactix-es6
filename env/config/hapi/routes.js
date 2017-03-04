@@ -1,6 +1,5 @@
 "use strict";
 
-var serverConfig = require('../server.json')[process.env.NODE_ENV];
 
 module.exports = [
     {
@@ -9,7 +8,17 @@ module.exports = [
         config: {
             module: require('@danielbayerlein/hapi-webpack-middleware'),
             options: {
-                webpack: Object.assign(require(process.cwd() + '/env/config/webpack')('app'), serverConfig.webpack),
+                webpack: Object.assign(require(process.cwd() + '/env/config/webpack')('app'), {
+                    entry: {
+                        app: ['./src/js/main','webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true']
+                    },
+                    output: {
+                      path: '/dev/js',
+                      filename: '[name].js',
+                      publicPath: '/dev/js',
+                      library: ['[name]']
+                    }
+                }),
                 webpackDev: require(process.cwd() + '/env/config/hapi/server/dev'),
                 webpackHot: require(process.cwd() + '/env/config/hapi/server/hot')
             }
