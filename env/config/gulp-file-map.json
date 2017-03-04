@@ -68,6 +68,7 @@
     "subtasks": [{
       "name": "pages",
       "layout": "layouts/default",
+      "config": "<%= root %>/env/config/handlebars",
       "files": {
         "src": ["./src/tmpl/**/*.hbs", "!./src/tmpl/partials/**/*.hbs"],
         "dest": "<%= destination %>"
@@ -79,6 +80,7 @@
     }, {
       "name": "docs",
       "layout": "layouts/documentation",
+      "config": "<%= root %>/env/config/handlebars",
       "files": {
         "src": ["./src/tmpl/partials/**/*.hbs", "!./src/tmpl/partials/common/**/*.hbs", "!./src/tmpl/partials/layouts/**/*.hbs"],
         "dest": "<%= destination %>",
