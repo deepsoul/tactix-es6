@@ -156,6 +156,15 @@
       }
     }]
   },
+  "validate": {
+    "subtasks": [{
+      "name": "default",
+      "files": {
+        "src": ["<%= destination %>/**/*.html"],
+        "dest": "<%= destination %>/w3c"
+      }
+    }]
+  },
   "webpack": {
     "subtasks": [{
       "name": "app",

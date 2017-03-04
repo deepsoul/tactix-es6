@@ -40,7 +40,7 @@
     {{{mixin "common/head/fonts" fonts=globals.fonts}}}
   {{/if}}
 
-  <link rel="preload" href="{{relativeToRoot}}{{options.scripts.css.main}}" as="style" onload="this.rel='stylesheet'" media="screen">
+  <link rel="preload" href="{{relativeToRoot}}{{options.scripts.css.main}}" as="style" onload="this.rel='stylesheet';" media="screen">
   <noscript><link rel="stylesheet" href="{{relativeToRoot}}{{options.scripts.css.main}}"></noscript>
   <script type="text/javascript">
       {{#each options.scripts.js.embed}}

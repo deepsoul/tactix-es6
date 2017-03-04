@@ -4,8 +4,8 @@ var webpack = require('webpack');
 var OptimizeJsPlugin = require('optimize-js-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+
 module.exports = function(dest) {
-    console.log();
     return [
         {
             development: true,
