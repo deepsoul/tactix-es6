@@ -3,7 +3,7 @@
 var webpack = require('webpack');
 var OptimizeJsPlugin = require('optimize-js-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
+var NPMInstallPlugin = require('npm-install-webpack-plugin');
 
 module.exports = function(dest) {
     return [
@@ -84,6 +84,17 @@ module.exports = function(dest) {
                 generateStatsFile: true,
                 statsFilename: dest + '.stats.json',
                 logLevel: 'info'
+            })
+        }, {
+            development: true,
+            production: false,
+            config: new NPMInstallPlugin({
+                // Use --save or --save-dev
+                dev: false,
+                // Install missing peerDependencies
+                peerDependencies: true,
+                // Reduce amount of console logging
+                quiet: false,
             })
         }, {
             development: true,
