@@ -15,12 +15,12 @@ module.exports = function(dest) {
         },
         resolve: {
             modules: [
-                path.resolve(process.cwd(), './src/js'),
+                path.resolve(process.cwd(), '/src/js'),
                 'node_modules'
             ],
             alias: {
-                "jquery": "jquery/src/core.js",
-                "modernizr$": process.cwd() + '/env/config/modernizr.js'
+                'jquery': 'jquery/src/core.js',
+                'modernizr$': process.cwd() + '/env/config/modernizr.js'
             }
         }
     };

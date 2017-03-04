@@ -8,7 +8,7 @@ module.exports = [
         config: {
             module: require('@danielbayerlein/hapi-webpack-middleware'),
             options: {
-                webpack: Object.assign(require(process.cwd() + '/env/config/webpack')('app'), {
+                webpack: Object.assign(require('../webpack')('app'), {
                     entry: {
                         app: ['./src/js/main','webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true']
                     },
@@ -19,8 +19,8 @@ module.exports = [
                       library: ['[name]']
                     }
                 }),
-                webpackDev: require(process.cwd() + '/env/config/hapi/server/dev'),
-                webpackHot: require(process.cwd() + '/env/config/hapi/server/hot')
+                webpackDev: require('./server/dev'),
+                webpackHot: require('./server/hot')
             }
         }
     }, {
@@ -36,8 +36,8 @@ module.exports = [
         config: {
             module: require('agency-server/lib/hapi/route/auth/session'),
             options: {
-              appId: "1649448378651481",
-              appSecret: "f6ef2995e1483b161d013c49e86c0273"
+              appId: '1649448378651481',
+              appSecret: 'f6ef2995e1483b161d013c49e86c0273'
             }
         }
     }, {
@@ -49,7 +49,7 @@ module.exports = [
               config: {
                 state: {
                   parse: false,
-                  failAction: "ignore"
+                  failAction: 'ignore'
                 }
               }
             }

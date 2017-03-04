@@ -8,7 +8,7 @@ module.exports = [
             test: /\.js$/,
             enforce: 'pre',
             exclude: /node_modules/,
-            loader: "jshint-loader"
+            loader: 'jshint-loader'
         }
     }, {
         development: true,
@@ -32,12 +32,12 @@ module.exports = [
             test: /\.hbs$/,
             use: [
                 {
-                    loader: "handlebars-loader",
+                    loader: 'handlebars-loader',
                     options: {
                         helperDirs: [
 
                         ],
-                        runtime: "handlebars/runtime",
+                        runtime: 'handlebars/runtime',
                         partialDirs: [
                             process.cwd() + '/src/tmpl/partials'
                         ],
@@ -53,12 +53,12 @@ module.exports = [
             test: /\.(p)?css$/,
             use: [
                 {
-                    loader: "style-loader"
+                    loader: 'style-loader'
                 }, {
-                    loader: "css-loader"
+                    loader: 'css-loader'
                 }, {
-                    loader: "postcss-loader",
-                    options: require(process.cwd() + '/env/config/postcss.js')
+                    loader: 'postcss-loader',
+                    options: require('../postcss.js')
                 }
             ]
         }
@@ -69,7 +69,7 @@ module.exports = [
             test: /\.(png|jpg|gif|svg|ttf|woff|eot)$/,
             use: [
                 {
-                    loader: "url-loader",
+                    loader: 'url-loader',
                     options: {
                         limit: 100000
                     }

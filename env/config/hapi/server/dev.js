@@ -21,10 +21,10 @@ module.exports = {
     },
     // watch options (only lazy: false)
 
-    index: "dev/index.html",
+    index: 'dev/index.html',
     // the index path for web server
 
-    headers: { "X-Custom-Header": "yes" },
+    headers: { 'X-Custom-Header': 'yes' },
     // custom headers
 
     stats: {
