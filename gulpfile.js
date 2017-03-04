@@ -10,7 +10,7 @@ require('agency-server');
 gulp.task('default', ['watch', 'server']);
 
 gulp.task('run', function(callback) {
-    if(!options.env || options.env === 'development') {
+    if(process.env.NODE_ENV === 'development') {
         runSequence('prebuild', 'default', callback);
     } else {
         runSequence('build', 'server', callback);
