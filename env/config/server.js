@@ -15,13 +15,6 @@ module.exports = {
                 routes: require('./hapi/routes')
             }
 
-        },        
-        livereload: {
-            development: true,
-            production: false,
-            config: {
-                port: 8053
-            }
         }
     }
 };
