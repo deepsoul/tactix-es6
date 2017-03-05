@@ -9,7 +9,7 @@ module.exports = {
         host: 'localhost',
         port: 8050,
         secret: 'UNSAFE: CHANGE ME',
-        routes: require('./hapi/routes')
+        routes: require('./routes')
     },
 
     servers: []

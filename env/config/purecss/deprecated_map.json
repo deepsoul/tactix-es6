@@ -1,0 +1,43 @@
+{
+  "prefix": "grid",
+  "columnHasPrefix": true,
+  "columns": 12,
+  "columnPrefix": "col",
+  "breakpoints": {
+    "default": {
+      "gutterWidth": "0.9375rem",
+      "wrapper": {
+        "overflow": "hidden"
+      }
+    },
+    "xs": {
+      "width": "30rem",
+      "wrapper": {
+        "margin": "auto",
+        "max-width": "30rem"
+      }
+    },
+    "sm": {
+      "width": "48rem",
+      "wrapper": {
+        "max-width": "48rem"
+      }
+    },
+    "md": {
+      "width": "62rem",
+      "wrapper": {
+        "max-width": "62rem"
+      }
+    },
+    "lg": {
+      "width": "75rem",
+      "wrapper": {
+        "max-width": "75rem"
+      }
+    }
+  },
+  "files": {
+    "dest": "./generated/pcss/",
+    "src": ["base", "grids-core"]
+  }
+}

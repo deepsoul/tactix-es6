@@ -1,0 +1,14 @@
+{
+  "name": "zip",
+  "task": "agency-environment/lib/tasks/zip-compress",
+  "config": {
+    "subtasks": [{
+      "name": "default",
+      "excludes": [],
+      "files": {
+        "src": ["<%= destination %>"],
+        "dest": "<%= destination %>"
+      }
+    }]
+  }
+}

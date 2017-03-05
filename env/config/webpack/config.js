@@ -9,9 +9,9 @@ var devtool = {
 module.exports = function(dest) {
     return {
         devtool: devtool[process.env.NODE_ENV],
-        plugins: require('./webpack/plugins')(dest).reduce(reduceList, []),
+        plugins: require('./plugins')(dest).reduce(reduceList, []),
         module: {
-            rules: require('./webpack/loaders').reduce(reduceList, [])
+            rules: require('./loaders').reduce(reduceList, [])
         },
         resolve: {
             modules: [
@@ -20,7 +20,7 @@ module.exports = function(dest) {
             ],
             alias: {
                 'jquery': 'jquery/src/core.js',
-                'modernizr$': process.cwd() + '/env/config/modernizr.js'
+                'modernizr$': process.cwd() + '/env/config/modernizr/config.js'
             }
         }
     };

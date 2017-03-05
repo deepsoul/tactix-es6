@@ -8,7 +8,7 @@ module.exports = [
         config: {
             module: require('@danielbayerlein/hapi-webpack-middleware'),
             options: {
-                webpack: Object.assign(require('../webpack')('app'), {
+                webpack: Object.assign(require('../webpack/config')('app'), {
                     entry: {
                         app: ['./src/js/main','webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true']
                     },

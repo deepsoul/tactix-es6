@@ -58,7 +58,7 @@ module.exports = [
                     loader: 'css-loader'
                 }, {
                     loader: 'postcss-loader',
-                    options: require('../postcss.js')
+                    options: require('../postcss/config.js')
                 }
             ]
         }
