@@ -2,35 +2,35 @@
   "name": "handlebars",
   "task": "agency-environment/lib/tasks/handlebars",
   "config": {
-    "assets": "<%= destination %>/assets/",
-    "layouts": {
-      "files": {
-        "src": "./src/tmpl/partials/layouts/**/*.hbs"
+    "options": {
+      "assets": "<%= destination %>/assets/",
+      "layouts": {
+        "files": {
+          "src": "./src/tmpl/partials/layouts/**/*.hbs"
+        },
+        "options": {
+          "base": "./src/tmpl/partials"
+        }
       },
-      "options": {
-        "base": "./src/tmpl/partials"
-      }
-    },
-    "partials": {
-      "files": {
-        "src": ["./src/tmpl/partials/**/*.hbs"]
+      "partials": {
+        "files": {
+          "src": ["./src/tmpl/partials/**/*.hbs"]
+        },
+        "options": {
+          "base": "./src/tmpl/partials"
+        }
       },
-      "options": {
-        "base": "./src/tmpl/partials"
+      "globals": {
+        "files": {
+          "cwd": "./src/data/",
+          "src": ["./globals/**/*.{json,yaml}"]
+        }
       }
     },
-    "globals": {
-      "files": {
-        "cwd": "./src/data/",
-        "src": ["./globals/**/*.{json,yaml}"]
-      }
-    },
-    "scripts": {
+    "resources": {
       "js": {
         "main": "js/app.js",
-        "embed": [
-          "<%= destination %>/js/embed.js"
-        ]
+        "embed": "<%= destination %>/js/embed.js"
       },
       "css": {
         "main": "css/style.css",
