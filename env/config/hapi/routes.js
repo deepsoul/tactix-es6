@@ -27,7 +27,7 @@ module.exports = [
         development: true,
         production: false,
         config: {
-            module: require('agency-server/lib/hapi/route/debug'),
+            module: require('../../routes/debug'),
             options: {}
         }
     }, {
