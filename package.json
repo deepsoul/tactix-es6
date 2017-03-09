@@ -12,8 +12,9 @@
     "server": "node node_modules/gulp/bin/gulp default --serverConfig=./env/config/local.json --env=development --server=agency-server",
     "test": "npm run build",
     "template": "yo agency-boilerplate:hbs-template",
-     "package-template": "yo agency-boilerplate:hbs-package-template",
-    "create-package": "yo agency-boilerplate:package"
+    "template-package" : "yo agency-boilerplate:hbs-package-template",
+    "create-package": "yo agency-boilerplate:package",
+    "image-opt": "yo agency-boilerplate:image-opt"
   },
   "repository": {
     "type": "git",
