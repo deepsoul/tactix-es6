@@ -5,7 +5,7 @@
   "main": "none",
   "scripts": {
     "heroku": "NODE_ENV=production node node_modules/gulp/bin/gulp run --serverConfig=./env/config/server.json --gulpFileMap=./env/config/gulp-file-map.json --server=agency-server",
-    "build": "node node_modules/gulp/bin/gulp build --serverConfig=./env/config/server.json --gulpFileMap=./env/config/gulp-file-map.json --env=build",
+    "build": "NODE_ENV=build node node_modules/gulp/bin/gulp build --serverConfig=/env/config/hapi/config --gulpTaskConfig=/env/config/",
     "dev": "NODE_ENV=development node node_modules/gulp/bin/gulp run --serverConfig=/env/config/hapi/config --gulpTaskConfig=/env/config/ --server=agency-server",
     "dev-ip": "NODE_ENV=development node node_modules/gulp/bin/gulp run --serverConfig=/env/config/hapi/config --gulpTaskConfig=/env/config/ --server=agency-server --ip=true",
     "prod": "NODE_ENV=production node node_modules/gulp/bin/gulp run --serverConfig=/env/config/hapi/config --gulpTaskConfig=/env/config/ --server=agency-server",

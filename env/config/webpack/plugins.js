@@ -10,10 +10,12 @@ module.exports = function(name) {
         {
             development: true,
             production: true,
+            build: true,
             config: new webpack.BannerPlugin('Agency Boilerplate')
         }, {
             development: true,
             production: true,
+            build: true,
             config: new webpack.DefinePlugin({
                 // 'process.env': {
                 //     'NODE_ENV': JSON.stringify('production')
@@ -22,6 +24,7 @@ module.exports = function(name) {
         }, {
             development: true,
             production: true,
+            build: true,
             config: new webpack.ProvidePlugin({
                 '$': 'jquery',
                 'jQuery': 'jquery',
@@ -31,6 +34,7 @@ module.exports = function(name) {
         }, {
             development: true,
             production: true,
+            build: true,
             config: new webpack.LoaderOptionsPlugin({
                 minimize: true,
                 debug: false
@@ -38,6 +42,7 @@ module.exports = function(name) {
         }, {
             development: false,
             production: true,
+            build: true,
             config: new webpack.optimize.UglifyJsPlugin({
                 sourceMap: true,
                 screwIE8: true,
@@ -71,12 +76,14 @@ module.exports = function(name) {
         }, {
             development: false,
             production: true,
+            build: true,
             config: new OptimizeJsPlugin({
                 sourceMap: false
             }),
         }, {
             development: false,
             production: true,
+            build: true,
             config: new BundleAnalyzerPlugin({
                 analyzerMode: 'static',
                 openAnalyzer: false,
@@ -88,6 +95,7 @@ module.exports = function(name) {
         }, {
             development: true,
             production: false,
+            build: false,
             config: new NPMInstallPlugin({
                 // Use --save or --save-dev
                 dev: false,
@@ -99,10 +107,12 @@ module.exports = function(name) {
         }, {
             development: true,
             production: false,
+            build: false,
             config: new webpack.HotModuleReplacementPlugin()
         }, {
             development: true,
             production: false,
+            build: false,
             config: new webpack.NoEmitOnErrorsPlugin()
         }
     ];

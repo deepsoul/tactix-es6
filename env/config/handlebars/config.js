@@ -7,6 +7,7 @@ module.exports = [
     {
         development: false,
         production: true,
+        build: true,
         module: htmlmin({
             collapseInlineTagWhitespace: true,
             collapseWhitespace: true,
@@ -19,6 +20,7 @@ module.exports = [
     }, {
         development: false,
         production: true,
+        build: true,
         module: htmlprettify({
             indent_inner_html: true,
             indent_handlebars: true,

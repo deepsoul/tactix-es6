@@ -4,6 +4,7 @@ module.exports = [
     {
         development: true,
         production: true,
+        build: true,
         config: {
             test: /\.js$/,
             enforce: 'pre',
@@ -13,6 +14,7 @@ module.exports = [
     }, {
         development: true,
         production: true,
+        build: true,
         config: {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
@@ -28,6 +30,7 @@ module.exports = [
     }, {
         development: true,
         production: true,
+        build: true,
         config: {
             test: /\.hbs$/,
             use: [
@@ -49,6 +52,7 @@ module.exports = [
     }, {
         development: true,
         production: true,
+        build: true,
         config: {
             test: /\.(p)?css$/,
             use: [
@@ -65,6 +69,7 @@ module.exports = [
     }, {
         development: true,
         production: true,
+        build: true,
         config: {
             test: /\.(png|jpg|gif|svg|ttf|woff|eot)$/,
             use: [
@@ -79,6 +84,7 @@ module.exports = [
     }, {
         development: true,
         production: true,
+        build: true,
         config: {
             test: /\.modernizr.js$/,
             use: [
