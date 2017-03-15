@@ -12,7 +12,10 @@
     "server": "NODE_ENV=development node node_modules/gulp/bin/gulp default --serverConfig=/env/config/hapi/config --server=agency-server",
     "test": "npm run build",
     "template": "yo agency-boilerplate:hbs-template",
-    "create-package": "yo agency-boilerplate:package"
+    "template-package" : "yo agency-boilerplate:hbs-package-template",
+    "create-package": "yo agency-boilerplate:package",
+    "image-opt": "yo agency-boilerplate:image-opt",
+    "svg-opt": "yo agency-boilerplate:svg-opt"
   },
   "repository": {
     "type": "git",
