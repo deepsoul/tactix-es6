@@ -227,7 +227,7 @@ function abs(scope, result) {
         .setZ((scope.z + (scope.z >> 31)) ^ (scope.z >> 31));
 }
 
-Vector.prototype.angle = function() {
+Vector.prototype.rad = function() {
     return Math.atan2(this.y, this.x);
 };
 

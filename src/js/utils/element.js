@@ -9,5 +9,5 @@ export function updateBounds(node, bounds, viewport) {
     bounds.max
         .setX(box.right + node.clientLeft + viewport.bounds.min.x)
         .setY(box.bottom + node.clientTop + viewport.bounds.min.y);
-
+    return bounds;
 }
