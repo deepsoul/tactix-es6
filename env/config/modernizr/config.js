@@ -8,6 +8,7 @@ module.exports = {
         'prefixedCSS'
     ],
     'feature-detects': [
-        'touchevents'
+        'touchevents',
+        'dom/passiveeventlisteners'
     ]
 };
