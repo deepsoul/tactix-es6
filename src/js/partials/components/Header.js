@@ -2,10 +2,6 @@
 
 import ScrollDirectionObserver from '../../base/scroll/DirectionObserver';
 import anime from 'animejs';
-import Template from '../../base/Template';
-import linkTmpl from '../../../tmpl/partials/elements/link.hbs';
-import test from '../../../pcss/partials/elements.pcss';
-var tmpl = new Template(linkTmpl);
 
 export default ScrollDirectionObserver.extend({
     outOfViewport: false,
@@ -24,8 +20,6 @@ export default ScrollDirectionObserver.extend({
             direction: 'reverse',
             easing: 'easeInOutQuad'
         });
-        console.log(test);
-        console.log(tmpl.toText({}));
     },
 
     onInit: function() {
