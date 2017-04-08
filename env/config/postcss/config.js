@@ -5,10 +5,10 @@ module.exports = {
   plugins: [
       require('postcss-import'),
       require('postcss-url'),
+      require('precss'),
       require('postcss-cssnext')({
         'browsers': ['> 2%', 'last 2 versions', 'IE 11', 'Firefox ESR']
       }),
-      require('precss'),
       require('postcss-calc'),
       require('postcss-clearfix'),
       require('postcss-discard-comments'),

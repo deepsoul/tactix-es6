@@ -69,7 +69,7 @@ module.exports = function(name) {
                     cascade: true,
                     negate_iife: true,
                     pure_getters: false,
-                    drop_console: false,
+                    drop_console: true,
                     warnings: true
                 }
             }),
