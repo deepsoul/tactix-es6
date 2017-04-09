@@ -5,11 +5,11 @@ import parse from 'url-parse';
 (function() {
     $('a.partial[data-partial*="elements/link"]').on('click', function(e) {
         var target = e.currentTarget;
-        var node = target.querySelector('.pressure-waves');
+        var node = target.querySelector('.partial[data-partial="touch-indicator"]');
         if (!node) {
             return;
         }
-        if (!target.classList.contains('js-animate')) {
+        if (!target.classList.contains('js-touch-indicator--animate')) {
             e.preventDefault();
             if(isNewPageUrl(target)) {
                 e.stopPropagation();
@@ -17,18 +17,18 @@ import parse from 'url-parse';
 
             var eventName = 'animationend.' + e.timeStamp;
             node.style.cssText = 'transform: translate3d(' + e.offsetX + 'px, ' + e.offsetY + 'px, 0);';
-            target.classList.add('js-animate');
+            target.classList.add('js-touch-indicator--animate');
 
             $(e.currentTarget).on(eventName, function(e) {
                 $(e.currentTarget).off(eventName);
                 if(isNewPageUrl(target)) {
                     target.click();
                 } else {
-                    target.classList.remove('js-animate');
+                    target.classList.remove('js-touch-indicator--animate');
                 }
             });
         } else {
-            target.classList.remove('js-animate');
+            target.classList.remove('js-touch-indicator--animate');
         }
 
     });

@@ -1,24 +1,42 @@
 ---
 
 ---
-{{#mixin "common/content" this}}
+{{#mixin "commons/content" this}}
   {{#content "main"}}
     {{#with body}}
+
+    <div class="grid-wrapper-fluid">
+
       {{{mixin "components/m3_stage" stage}}}
 
+    </div>
+
       {{!-- {{{mixin "components/section/m4-3_headline-text" intro}}} --}}
+
+    <div class="grid-wrapper">
 
       {{#each teasers}}
         {{{mixin "components/section/m4-2_teaser" this}}}
       {{/each}}
 
+    </div>
+
       {{!-- {{{mixin "components/section/m4-3_headline-text" main}}} --}}
 
-      {{{mixin "components/section/m4-4_interactive-spotlight"}}}
+      <div class="grid-wrapper-fluid">
+
+        {{{mixin "components/section/m4-4_interactive-spotlight"}}}
+
+      </div>
 
       {{!-- {{{mixin "components/section/m4-5_headline-image-text"}}} --}}
 
-      {{{mixin "components/section/m4-3_headline-text"}}}
+      <div class="grid-wrapper">
+
+        {{{mixin "components/section/m4-3_headline-text"}}}
+
+      </div>
+
 
       {{#mixin "layouts/modal" modal}}
         {{#content "content"}}

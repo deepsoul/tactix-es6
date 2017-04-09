@@ -1,21 +1,15 @@
-@import "../../generated/pcss/purecss/custom-media-variables.pcss";
+/* grid */
 
-@import "../../generated/pcss/purecss/base.css";
-@import "../../generated/pcss/purecss/grids-core.css";
-@import "../../generated/pcss/purecss/custom-grid.css";
-@import "../../generated/pcss/purecss/custom-grid-offset.css";
+@import "../../generated/pcss/grid.pcss";
 
-/* optional */
-@import "../../generated/pcss/purecss/custom-grid-gutter.css";
-@import "../../generated/pcss/purecss/custom-wrapper.css";
+/* base */
 
 @import "./base/colors.pcss";
 @import "./base/mixins.pcss";
-
 @import "./fonts.pcss";
-@import "./partials/layouts.pcss";
-@import "./partials/common.pcss";
-@import "./partials/elements/picture.pcss";
+@import "./partials.critical.pcss";
+
+/* defaults */
 
 img[data-preload] {
   display: none;

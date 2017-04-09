@@ -1,0 +1,81 @@
+{
+  "name": "grid",
+  "task": "agency-environment/lib/tasks/grid",
+  "config": {
+    "options": {
+      "dest": "./generated/pcss/grid",
+      "filePrefix": "",
+      "prefix": "grid",
+      "columnPrefix": "grid-col",
+      "columns": [12],
+      "breakpoints": {
+        "default": "20rem",
+        "xs": "30rem",
+        "sm": "48rem",
+        "md": "62rem",
+        "lg": "75rem"
+      },
+      "gutters": {
+        "default": "0.9375rem"
+      }
+    },
+    "subtasks": [{
+        "name": "media-variables",
+        "file": "agency-environment/lib/tasks/grid/media-variables",
+        "config": {
+          "variables": {}
+        }
+      }, {
+        "name": "columns",
+        "file": "agency-environment/lib/tasks/grid/columns"
+      }, {
+        "name": "base",
+        "file": "agency-environment/lib/tasks/grid/base",
+        "config": {
+          "root": "node_modules/purecss/build",
+          "pureFiles": ["base", "grids-core"]
+        }
+      },
+      {
+        "name": "gutter",
+        "file": "agency-environment/lib/tasks/grid/gutter"
+      },
+      {
+        "name": "offset",
+        "file": "agency-environment/lib/tasks/grid/offset"
+      },
+      {
+        "name": "wrapper",
+        "file": "agency-environment/lib/tasks/grid/wrapper",
+        "config": {
+          "breakpoints": {
+            "xs": {
+              "min-width": "$screen-default"
+            },
+            "xs": {
+              "margin-left": "auto",
+              "margin-right": "auto",
+              "max-width": "$screen-xs"
+            },
+            "sm": {
+              "max-width": "$screen-sm"
+            },
+            "md": {
+              "max-width": "$screen-md"
+            },
+            "lg": {
+              "max-width": "$screen-lg"
+            }
+          }
+        }
+      },
+      {
+        "name": "visible-hidden",
+        "file": "agency-environment/lib/tasks/grid/visibleHidden",
+        "config": {
+          "important": false
+        }
+      }
+    ]
+  }
+}

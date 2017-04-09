@@ -7,11 +7,11 @@ list:
     url: "#2"
     title: "Test 2"
 ---
-<header class="partial controller js-slideDown" data-partial="components/m1_header" data-controller="./partials/components/Header">
+<header class="partial controller js-slideDown" data-partial="components/m1_header" data-controller="./partials/components/Header" data-critical="true">
   {{#with list}}
     <nav>
       <ul>
-        {{#each this}} 
+        {{#each this}}
           <li>
             {{{mixin "elements/link" this class="hard-reset"}}}
           </li>

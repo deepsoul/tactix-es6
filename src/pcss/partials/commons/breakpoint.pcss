@@ -1,0 +1,56 @@
+$breakpoint-content: MOBILE PORTRAIT (default);
+$breakpoint-content-xs: MOBILE LANDSCAPE (xs);
+$breakpoint-content-sm: TABLET PORTRAIT (sm);
+$breakpoint-content-md: TABLET LANDSCAPE (md);
+$breakpoint-content-lg: DESKTOP (lg);
+.partial[data-partial="commons/breakpoint"] {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  padding: 10px 20px 7px;
+  border-radius: 5px;
+  z-index: 99999;
+  background: rgba(0, 0, 0, .5);
+  color: white;
+  font-weight: bold;
+  font-family: Helvetica Neue, Helvetica, Arial;
+  &:before {
+    $retina: 2x;
+    content: '$breakpoint-content';
+    @media (--screen-xs) {
+      $content: '$breakpoint-content-xs';
+    }
+    @media (--screen-sm) {
+      content: '$breakpoint-content-sm';
+    }
+    @media (--screen-md) {
+      content: '$breakpoint-content-md';
+    }
+    @media (--screen-lg) {
+      content: '$breakpoint-content-lg';
+    }
+    @media (--screen-lg) {
+      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        content: '$breakpoint-content-lg @$retina';
+      }
+    }
+    @media (--screen-md) {
+      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        content: '$breakpoint-content-md @$retina';
+      }
+    }
+    @media (--screen-sm) {
+      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        content: '$breakpoint-content-sm @$retina';
+      }
+    }
+    @media (--screen-xs) {
+      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        content: '$breakpoint-content-xs @$retina';
+      }
+    }
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      content: '$breakpoint-content @$retina';
+    }
+  }
+}

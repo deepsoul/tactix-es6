@@ -1,0 +1,30 @@
+.partial[data-partial="services/debug/grid"] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*z-index: 100000000000;*/
+  display: none;
+  html.js-grid-helper-visible & {
+    display: block;
+  }
+  pointer-events: none;
+  div.grid-wrapper {
+    height: 100%;
+    div {
+      height: 100%;
+      div {
+        &:after {
+          content: '';
+          position: relative;
+          top: 0;
+          display: block;
+          width: 100%;
+          height: 100%;
+          background: rgba(255, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+}

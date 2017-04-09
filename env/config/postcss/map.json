@@ -12,7 +12,7 @@
       }
     }],
     "watch": [{
-      "src": ["src/pcss/**/*.pcss"]
+      "src": ["src/pcss/**/*.pcss", "!src/pcss/partials.critical.pcss"]
     }]
   }
 }

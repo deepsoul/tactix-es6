@@ -1,4 +1,5 @@
 ---
+touch-indicator: false
 id: #string
 class: #string
 url: "http://www."
@@ -17,4 +18,4 @@ rel: "next"
         target="{{{target}}}"
         data-partial="elements/link"
     {{/block}}
-><span class="pressure-waves"></span>{{#block "status"}}{{{status}}}{{/block}}{{#block "title"}}{{{title}}}{{/block}}</a>
+>{{#if touch-indicator}}{{{mixin "services/touch-indicator" touch-indicator}}}{{/if}}{{#block "status"}}{{{status}}}{{/block}}{{#block "title"}}{{{title}}}{{/block}}</a>
