@@ -12,6 +12,7 @@
       "files": {
         "src": ["./src/js/main.js"],
         "dest": "<%= destination %>/js/[name].js",
+        "publicPath": "js/",
         "library": ["[name]"]
       }
     }, {

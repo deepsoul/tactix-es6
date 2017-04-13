@@ -15,7 +15,7 @@ module.exports = [
                     output: {
                       path: '/dev/js',
                       filename: '[name].js',
-                      publicPath: '/dev/js',
+                      publicPath: '/dev/js/',
                       library: ['[name]']
                     }
                 }),
