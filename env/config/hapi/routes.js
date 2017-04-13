@@ -17,7 +17,7 @@ module.exports = [
                       filename: '[name].js',
                       publicPath: '/dev/js/',
                       library: ['[name]'],
-                      chunkFilename: "[chunkhash].[id].js"
+                      chunkFilename: "app.[chunkhash].js"
                     }
                 }),
                 webpackDev: require('./server/dev'),

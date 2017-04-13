@@ -13,7 +13,8 @@
         "src": ["./src/js/main.js"],
         "dest": "<%= destination %>/js/[name].js",
         "publicPath": "js/",
-        "library": ["[name]"]
+        "library": ["[name]"],
+        "chunkFilename": "app.[chunkhash].js"
       }
     }, {
       "name": "embed",
