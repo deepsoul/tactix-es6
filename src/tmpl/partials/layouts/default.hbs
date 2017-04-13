@@ -53,7 +53,9 @@
   {{#if options.watch.status}}
     {{{mixin "commons/breakpoint"}}}
   {{/if}}
-
+  <script type="text/javascript">
+    window.webpackPublicPath = '/js/';
+  </script>
   <script type="text/javascript" src="{{{relativeToRoot}}}{{options.resources.js.main}}" async defer></script>
 </body>
 </html>

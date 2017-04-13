@@ -1,5 +1,6 @@
 "use strict";
 
+import './webpackPublicPath';
 import 'jquery/../event';
 import 'jquery/../event/trigger';
 import 'jquery/../data';
