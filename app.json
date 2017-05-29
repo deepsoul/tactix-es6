@@ -1,9 +1,0 @@
-{
-  "name":"agency-boilerplate",
-  "description":"",
-  "scripts":{},
-  "env":{
-    "NPM_CONFIG_PRODUCTION":"false"
-  },
-  "addons":[]
-}

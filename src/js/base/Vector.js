@@ -54,7 +54,7 @@ Vector.prototype.resetByRad = function(rad) {
     return this;
 };
 
-Vector.prototype.add = function(vector){    
+Vector.prototype.add = function(vector){
     return add(this, vector.x, vector.y, vector.z, new Vector());
 };
 
@@ -227,7 +227,7 @@ function abs(scope, result) {
         .setZ((scope.z + (scope.z >> 31)) ^ (scope.z >> 31));
 }
 
-Vector.prototype.angle = function() {
+Vector.prototype.rad = function() {
     return Math.atan2(this.y, this.x);
 };
 
@@ -236,4 +236,4 @@ Vector.prototype.radBetween = function(vector) {
     // return Math.atan2(this.y - vector.y, this.x - vector.x);
 };
 
-module.exports = Vector;
+export default Vector;

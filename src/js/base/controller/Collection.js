@@ -1,10 +1,10 @@
 "use strict";
 
-var Controller = require('../Controller');
-var DomModel = require('../DomModel');
-var AmpersandCollection = require('ampersand-collection');
+import Controller from '../Controller';
+import DomModel from '../DomModel';
+import AmpersandCollection from 'ampersand-collection';
 
-module.exports = Controller.extend({
+export default Controller.extend({
 
     modelConstructor: DomModel.extend({
         session: {

@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = global.prefix = (function () {
+global.prefix = (function () {
   var styles = window.getComputedStyle(document.documentElement, ''),
     pre = (Array.prototype.slice
       .call(styles)

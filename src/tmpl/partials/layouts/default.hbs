@@ -1,17 +1,12 @@
 
 <!DOCTYPE html>
-<!--[if lt IE 7]>  <html class="no-js ie ie6 lte9 lte8 lte7 partial loading" data-partial="layouts/default" lang="{{language}}"> <![endif]-->
-<!--[if IE 7]>     <html class="no-js ie ie7 lte9 lte8 lte7 partial loading" data-partial="layouts/default" lang="{{language}}"> <![endif]-->
-<!--[if IE 8]>     <html class="no-js ie ie8 lte9 lte8 partial loading" data-partial="layouts/default" lang="{{language}}"> <![endif]-->
-<!--[if IE 9]>     <html class="no-js ie ie9 lte9 partial loading" data-partial="layouts/default" lang="{{language}}"> <![endif]-->
-<!--[if gt IE 9]>  <html class="no-js ie gt-ie9 partial loading" data-partial="layouts/default" lang="{{language}}"><![endif]-->
-<!--[if !IE]><!--> <html class="no-js partial loading" data-partial="layouts/default" lang="{{default.language}}"><!--<![endif]-->
+<html class="no-js partial loading" data-partial="layouts/default" lang="{{default.language}}">
 <head>
-  {{#if options.server.livereload}}
+  {{#if options.watch.status}}
   <script type="text/javascript">
       if('WebSocket' in window || 'MozWebSocket' in window) {
         var host = (location.host || 'localhost').split(':')[0];
-        document.write('<script src="//' + host + ':{{options.server.livereload.port}}/livereload.js?snipver=1"></' + 'script>');
+        document.write('<script src="//' + host + ':{{options.watch.config.port}}/livereload.js?snipver=1"></' + 'script>');
       }
   </script>
   {{/if}}
@@ -29,7 +24,7 @@
   <meta name="keywords" content="{{keywords}}">
 
   {{#if open-graph}}
-    {{{mixin "common/head/open-graph" open-graph}}}
+    {{{mixin "commons/head/open-graph" open-graph}}}
   {{/if}}
 
   <title>{{title}}</title>
@@ -38,37 +33,29 @@
 
 
   <style type="text/css">
-      {{{raw options.scripts.css.critical}}}
+      {{{raw options.resources.css.critical}}}
   </style>
 
   {{#if globals.fonts}}
-    {{{mixin "common/head/fonts" fonts=globals.fonts}}}
+    {{{mixin "commons/head/fonts" fonts=globals.fonts}}}
   {{/if}}
 
-  <link rel="preload" href="{{relativeToRoot}}{{options.scripts.css.main}}" as="style" onload="this.rel='stylesheet'" media="screen">
-  <noscript><link rel="stylesheet" href="{{relativeToRoot}}{{options.scripts.css.main}}"></noscript>
+  <link rel="preload" href="{{relativeToRoot}}{{options.resources.css.main}}" as="style" onload="this.rel='stylesheet';" media="screen">
+  <noscript><link rel="stylesheet" href="{{relativeToRoot}}{{options.resources.css.main}}"></noscript>
   <script type="text/javascript">
-      {{#each options.scripts.js.embed}}
-          {{raw this}}
-      {{/each}}
+    {{raw options.resources.js.embed}}
   </script>
 </head>
 <body>
 
   {% body %}
 
-  {{#if options.server.websocket}}
-    <script src="http://localhost:8050/socket.io/socket.io.js" type="text/javascript"></script>
+  {{#if options.watch.status}}
+    {{{mixin "commons/breakpoint"}}}
   {{/if}}
-  {{#if options.server.webpack}}
-    {{{mixin "common/breakpoint"}}}
-    <script>
-      var host = (location.host || 'localhost').split(':')[0];
-      document.write('<script type="text/javascript" src="//' + host +':{{options.server.webpack.port}}/{{options.scripts.js.main}}"></' + 'script>');
-    </script>
-  {{else}}
-    <script type="text/javascript" src="{{{relativeToRoot}}}{{relative options.server.dest options.scripts.js.main}}" async defer></script>
-  {{/if}}
-
+  <script type="text/javascript">
+    window.webpackPublicPath = '/js/';
+  </script>
+  <script type="text/javascript" src="{{{relativeToRoot}}}{{options.resources.js.main}}" async defer></script>
 </body>
 </html>

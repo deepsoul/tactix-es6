@@ -1,17 +1,17 @@
 "use strict";
 
-var Controller = require('../Controller');
-var DomModel = require('../DomModel');
-var dataTypeDefinition = require('../dataTypeDefinition');
-var Vector = require('../Vector');
-var Bounds = require('../Bounds');
+import Controller from '../Controller';
+import DomModel from '../DomModel';
+import dataTypeDefinition from '../dataTypeDefinition';
+import Vector from '../Vector';
+import Bounds from '../Bounds';
 
-var element = require('../../utils/element');
-var viewport = require('../../services/viewport');
+import {updateBounds} from '../../utils/element';
+import viewport from '../../services/viewport';
 
 var objectDimension = new Vector();
 
-module.exports = Controller.extend({
+export default Controller.extend({
     operation: 'subtractLocal',
     viewport: viewport,
 
@@ -87,7 +87,7 @@ function onScroll(viewportBounds, direction) {
 }
 
 function onMeasure() {
-    element.updateBounds(this.el, this.bounds, this.viewport);
+    updateBounds(this.el, this.bounds, this.viewport);
 }
 
 function onInit(viewportBounds, direction) {

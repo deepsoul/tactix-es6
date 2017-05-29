@@ -1,13 +1,14 @@
 "use strict";
 
-require('classlist-polyfill');
-require('element-dataset').default();
-require('element-closest');
-require('script-loader!fg-loadcss');
-require('script-loader!fg-loadcss/src/cssrelpreload');
-require('./polyfills/animationFrame');
-require('./polyfills/picture');
-require('./embed/fontfaceObserver');
-require('./embed/prefix');
+import 'classlist-polyfill';
+import dataset from 'element-dataset';
+dataset();
+import 'element-closest';
+import 'script-loader!fg-loadcss';
+import 'script-loader!fg-loadcss/src/cssrelpreload';
+import './polyfills/animationFrame';
+import './polyfills/picture';
+import './embed/fontfaceObserver';
+import './embed/prefix';
 // require('./embed/performance/stats');
 // require('./embed/performance/perfbar');

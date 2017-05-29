@@ -6,7 +6,7 @@ var singleTasks = [];
 var handler;
 var step;
 
-module.exports = global.animationFrame = (function (window) {
+global.animationFrame = (function (window) {
     var lastTime = 0;
     var requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
     var cancelAnimationFrame = window.cancelRequestAnimationFrame || window.webkitCancelRequestAnimationFrame || window.mozCancelRequestAnimationFrame;
@@ -75,10 +75,12 @@ module.exports = global.animationFrame = (function (window) {
         addOnce: function(mutate) {
             // global.requestAnimationFrame(function() {
                 singleTasks.push({mutate: mutate, running: true});
-            // });            
+            // });
         }
     };
 })(global);
+
+export default global.animationFrame;
 
 global.requestAnimationFrame(function loop(time) {
     runSingleTasks(time);

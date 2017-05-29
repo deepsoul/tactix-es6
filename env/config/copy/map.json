@@ -1,0 +1,26 @@
+{
+  "name": "copy",
+  "task": "agency-environment/lib/tasks/copy",
+  "config": {
+    "subtasks": [{
+      "name": "default",
+      "files": {
+        "src": ["src/assets/**/*.{ttf,woff,eot,svg,ico,png,jpg,gif}"],
+        "dest": "<%= destination %>/assets"
+      }
+    }, {
+      "name": "external",
+      "files": {
+        "src": ["src/external/**/*"],
+        "dest": "<%= destination %>/external"
+      }
+    }],
+    "watch": [{
+      "src": ["src/assets/**/*.{ttf,woff,eot,svg,ico,png,jpg,gif}"],
+      "tasks": ["default"]
+    }, {
+      "src": ["src/external/**/*"],
+      "tasks": ["external"]
+    }]
+  }
+}

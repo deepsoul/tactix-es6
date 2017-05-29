@@ -1,7 +1,5 @@
 "use strict";
 
-var options = require('minimist')(process.argv.slice(2));
-
 var gulp = require('gulp');
 var runSequence = require('run-sequence').use(gulp);
 require('agency-environment');
@@ -10,9 +8,9 @@ require('agency-server');
 gulp.task('default', ['watch', 'server']);
 
 gulp.task('run', function(callback) {
-    if(!options.env || options.env === 'development') {
+    if(process.env.NODE_ENV === 'development') {
         runSequence('prebuild', 'default', callback);
-    } else {
+    } else if(process.env.NODE_ENV === 'production') {
         runSequence('build', 'server', callback);
     }
 });

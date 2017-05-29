@@ -1,10 +1,9 @@
 "use strict";
 
-var StateObserver = require('../../base/scroll/StateObserver');
+import StateObserver from '../../base/scroll/StateObserver';
+import anime from 'animejs';
 
-var anime = require('animejs');
-
-module.exports = StateObserver.extend({
+export default StateObserver.extend({
     tween: null,
 
     modelConstructor: StateObserver.prototype.modelConstructor.extend({
@@ -35,7 +34,7 @@ module.exports = StateObserver.extend({
             direction: 'reverse'
         });
 
-        this.model.on('change:triggered', function() {            
+        this.model.on('change:triggered', function() {
             this.tween.play();
         }.bind(this));
 

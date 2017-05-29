@@ -1,18 +1,18 @@
 {
   "name": "agency-boilerplate",
-  "version": "2.5.0",
+  "version": "4.0.0",
   "description": "agency - frontend boilerplate",
   "main": "none",
   "scripts": {
-    "heroku": "node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --env=production --server=agency-server",
-    "build": "node node_modules/gulp/bin/gulp build --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --env=build",
-    "dev": "node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --env=development --server=agency-server",
-    "dev-ip": "node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --env=development --server=agency-server --ip=true",
-    "prod": "node node_modules/gulp/bin/gulp run --serverConfig=./env/config/local.json --configTasks=./env/config/tasks.json --env=production --server=agency-server",
-    "server": "node node_modules/gulp/bin/gulp default --serverConfig=./env/config/local.json --env=development --server=agency-server",
+    "heroku": "NODE_ENV=production node node_modules/gulp/bin/gulp run --serverConfig=./env/config/server.json --gulpFileMap=./env/config/gulp-file-map.json --server=agency-server",
+    "build": "NODE_ENV=build node node_modules/gulp/bin/gulp build --serverConfig=/env/config/hapi/config --gulpTaskConfig=/env/config/",
+    "dev": "NODE_ENV=development node node_modules/gulp/bin/gulp run --serverConfig=/env/config/hapi/config --gulpTaskConfig=/env/config/ --server=agency-server",
+    "dev-ip": "NODE_ENV=development node node_modules/gulp/bin/gulp run --serverConfig=/env/config/hapi/config --gulpTaskConfig=/env/config/ --server=agency-server --ip=true",
+    "prod": "NODE_ENV=production node node_modules/gulp/bin/gulp run --serverConfig=/env/config/hapi/config --gulpTaskConfig=/env/config/ --server=agency-server",
+    "server": "NODE_ENV=development node node_modules/gulp/bin/gulp default --serverConfig=/env/config/hapi/config --server=agency-server",
     "test": "npm run build",
     "template": "yo agency-boilerplate:hbs-template",
-    "template-package" : "yo agency-boilerplate:hbs-package-template",
+    "template-package": "yo agency-boilerplate:hbs-package-template",
     "create-package": "yo agency-boilerplate:package",
     "image-opt": "yo agency-boilerplate:image-opt",
     "svg-opt": "yo agency-boilerplate:svg-opt"
@@ -31,8 +31,8 @@
   },
   "homepage": "https://github.com/StephanGerbeth/agency-boilerplate#readme",
   "devDependencies": {
-    "agency-environment": "git+https://git@github.com/StephanGerbeth/agency-environment.git#v2.1",
-    "agency-server": "git+https://git@github.com/StephanGerbeth/agency-server.git#v1.0",
+    "agency-environment": "git+https://git@github.com/StephanGerbeth/agency-environment.git",
+    "agency-server": "git+https://git@github.com/StephanGerbeth/agency-server.git",
     "fb": "^1.0.2",
     "htmlescape": "^1.1.0",
     "jshint": "^2.8.0",
@@ -55,11 +55,10 @@
     "historyjs": "^1.8.0-b2",
     "jquery": "^3.1.1",
     "lodash": "^4.6.1",
-    "modernizr": "^3.0.0",
+    "modernizr": "^3.4.0",
     "outdated-browser": "^1.0.2",
     "pepjs": "^0.4.0",
     "prevent-overscroll": "^0.1.0",
-    "purecss": "^0.6.0",
-    "script-loader": "^0.7.0"
+    "purecss": "^0.6.0"
   }
 }

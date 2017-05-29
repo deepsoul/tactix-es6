@@ -1,12 +1,12 @@
 "use strict";
 
-var Controller = require('../../base/Controller');
-var DomModel = require('../../base/DomModel');
-var Viewport = require('../../base/Viewport');
-var Vector = require('../../base/Vector');
-require('pepjs');
+import 'pepjs';
+import Controller from '../../base/Controller';
+import DomModel from '../../base/DomModel';
+import Viewport from '../../base/Viewport';
+import Vector from '../../base/Vector';
 
-module.exports = Controller.extend({
+export default Controller.extend({
 
     modelConstructor: DomModel.extend({
         session: {

@@ -1,9 +1,9 @@
 "use strict";
 
-var ScrollDirectionObserver = require('../../base/scroll/DirectionObserver');
-var anime = require('animejs');
+import ScrollDirectionObserver from '../../base/scroll/DirectionObserver';
+import anime from 'animejs';
 
-module.exports = ScrollDirectionObserver.extend({
+export default ScrollDirectionObserver.extend({
     outOfViewport: false,
     handler: null,
     tween: null,
@@ -39,7 +39,7 @@ module.exports = ScrollDirectionObserver.extend({
 });
 
 function updateClass(scope, flag) {
-    if(scope.outOfViewport !== flag) {        
+    if(scope.outOfViewport !== flag) {
         scope.tween.play();
     }
     scope.outOfViewport = flag;

@@ -1,8 +1,8 @@
 "use strict";
 
-var PositionObserver = require('./PositionObserver');
+import PositionObserver from './PositionObserver';
 
-module.exports = PositionObserver.extend({
+export default PositionObserver.extend({
 
     modelConstructor: PositionObserver.prototype.modelConstructor.extend({
         session: {

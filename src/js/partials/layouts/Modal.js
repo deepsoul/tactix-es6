@@ -1,11 +1,11 @@
 "use strict";
 
-var ContentManager = require('../../base/controller/ContentManager');
-var browserHistory = require('../../services/history');
-var preventOverscroll = require('prevent-overscroll');
-var Viewport = require('../../base/Viewport');
+import ContentManager from '../../base/controller/ContentManager';
+import browserHistory from '../../services/history';
+import preventOverscroll from 'prevent-overscroll';
+import Viewport from '../../base/Viewport';
 
-module.exports = ContentManager.extend({
+export default ContentManager.extend({
 
     modelConstructor: ContentManager.prototype.modelConstructor.extend({
         session: {

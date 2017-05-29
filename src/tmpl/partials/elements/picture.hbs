@@ -21,7 +21,7 @@ fallback:
     <source class="{{type}}"{{#if (lookup ../sizes type)}} media="{{lookup ../sizes type}}"{{/if}}{{#if src}} src="{{#unless absolute}}{{{../relativeToRoot}}}{{/unless}}{{src}}"{{/if}}{{#if srcset}} srcset="{{#unless absolute}}{{{../relativeToRoot}}}{{/unless}}{{srcset}}"{{/if}}/>
   {{/each}}
   <!--[if IE 9]></video><![endif]-->
-  <img src="{{#unless absolute}}{{{../relativeToRoot}}}{{/unless}}{{sources.0.srcset}}" alt="{{title}}">
+  <img src="{{#unless absolute}}{{{../relativeToRoot}}}{{/unless}}{{sources.0.srcset}}" alt="{{title}}"/>
   {{#with svg}}
     <template>
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewbox="0 0 752 470" preserveAspectRatio="xMinYMin" width="752" height="470">

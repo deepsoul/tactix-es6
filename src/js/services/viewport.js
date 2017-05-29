@@ -1,3 +1,5 @@
 "use strict";
 
-module.exports = new (require('../base/Viewport'))();
+import Viewport from '../base/Viewport';
+
+export default new Viewport();

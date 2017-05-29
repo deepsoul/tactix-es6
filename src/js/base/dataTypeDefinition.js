@@ -1,13 +1,18 @@
 "use strict";
 
-module.exports = {
+import Vector from './Vector';
+import Bounds from './Bounds';
+import AmpersandCollection from 'ampersand-collection';
+import EnumItem from 'enum/dist/enumItem';
+
+export default {
     dataTypes : {
         function : getDefinition('function', Function),
-        enum: getDefinition('enum', require('enum/dist/enumItem')),
-        Vector: getDefinition('Vector', require('./Vector')),
-        Bounds: getDefinition('Bounds', require('./Bounds')),        
+        enum: getDefinition('enum', EnumItem),
+        Vector: getDefinition('Vector', Vector),
+        Bounds: getDefinition('Bounds', Bounds),
         HTMLElement: getDefinition('HTMLElement', HTMLElement),
-        AmpersandCollection: getDefinition('AmpersandCollection', require('ampersand-collection'))
+        AmpersandCollection: getDefinition('AmpersandCollection', AmpersandCollection)
     }
 };
 

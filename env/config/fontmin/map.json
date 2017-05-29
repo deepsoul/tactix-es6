@@ -1,0 +1,5 @@
+{
+  "name": "fontmin",
+  "task": "agency-environment/lib/tasks/fontmin",
+  "config": null
+}

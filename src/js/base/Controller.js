@@ -1,9 +1,9 @@
 "use strict";
 
-var AmpersandView = require('ampersand-view');
-var dataTypeDefinition = require('./dataTypeDefinition');
-
-module.exports = AmpersandView.extend(dataTypeDefinition, {
+import AmpersandView from 'ampersand-view';
+import dataTypeDefinition from './dataTypeDefinition';
+console.log(dataTypeDefinition);
+export default AmpersandView.extend(dataTypeDefinition, {
 
     initialize: function(options) {
         AmpersandView.prototype.initialize.apply(this, arguments);

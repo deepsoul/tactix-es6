@@ -1,0 +1,11 @@
+{
+  "name": "grid",
+  "task": "agency-environment/lib/tasks/grid",
+  "config": {
+    "subtasks": [{
+      "name": "default",
+      "config": "<%= root %>/env/config/grid/config",
+      "dest": "<%= root %>/generated/pcss/grid"
+    }]
+  }
+}

@@ -1,11 +1,10 @@
 "use strict";
 
-var Controller = require('../../../base/Controller');
-var DomModel = require('../../../base/DomModel');
-var Viewport = require('../../../base/Viewport');
+import Controller from '../../../base/Controller';
+import DomModel from '../../../base/DomModel';
+import Viewport from '../../../base/Viewport';
 
-
-module.exports = Controller.extend({
+export default Controller.extend({
 
     modelConstructor: DomModel.extend({
         session: {

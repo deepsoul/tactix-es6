@@ -1,8 +1,9 @@
 "use strict";
 
-var Vector = require('./Vector');
-var Bounds = require('./Bounds');
-var Enum = require('enum');
+import Vector from './Vector';
+import Bounds from'./Bounds';
+import Enum from 'enum';
+import Modernizr from 'modernizr-loader!modernizr';
 
 var Viewport = function(frameNode, contentNode) {
     this.init = false;
@@ -58,8 +59,8 @@ var Viewport = function(frameNode, contentNode) {
         this.scrollKeyName.y = 'scrollTop';
     }
 
-    global.addEventListener('resize', global.animationFrame.throttle(onMeasure.bind(this), onResize.bind(this)), false);
-    this.frameNode.addEventListener('scroll', global.animationFrame.throttle(onMeasure.bind(this), onScroll.bind(this)), false);
+    global.addEventListener('resize', global.animationFrame.throttle(onMeasure.bind(this), onResize.bind(this)), Modernizr.passiveeventlisteners ? {passive: true} : false);
+    this.frameNode.addEventListener('scroll', global.animationFrame.throttle(onMeasure.bind(this), onScroll.bind(this)), Modernizr.passiveeventlisteners ? {passive: true} : false);
 
     global.picture.ready(onImageLoad.bind(this));
 };
@@ -115,7 +116,7 @@ Viewport.prototype.off = function(name, fn) {
     return this;
 };
 
-module.exports = Viewport;
+export default Viewport;
 
 function onImageLoad() {
     onMeasure.bind(this)({

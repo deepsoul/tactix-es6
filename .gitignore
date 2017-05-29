@@ -37,9 +37,10 @@ build/Release
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 .DS_Store
 node_modules
-node_modules_old
+node_modules*
 /dev
 /build
 /generated
 /production
 /src/js/packages*
+/src/pcss/partials.critical*
