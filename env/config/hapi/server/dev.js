@@ -17,7 +17,8 @@ module.exports = {
 
     watchOptions: {
         aggregateTimeout: 300,
-        poll: true
+        poll: true,
+        ignored: /node_modules/
     },
     // watch options (only lazy: false)
 
